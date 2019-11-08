@@ -1,0 +1,19 @@
+body {
+  background-image: url("../assets/grass_bg.jpg"); }
+
+.container {
+  width: 750px;
+  height: 750px; }
+
+.row {
+  height: 50px;
+  background-image: url("../assets/bg_ground70x70.jpg"); }
+
+.col {
+  width: 50px; }
+
+.edge {
+  background-image: url("../assets/block70x70.jpg");
+  -webkit-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
+  -moz-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
+  box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47); }
