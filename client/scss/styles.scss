@@ -1,6 +1,7 @@
 $bg-ground: url("../assets/bg_ground70x70.jpg");
 $bg-walls: url("../assets/block70x70.png");
 $bg-grass: url("../assets/grass_bg.jpg");
+$bg-ice: url("../assets/bg_ice70x70.png");
 * {
   margin: 0;
   padding: 0;
@@ -28,13 +29,28 @@ body {
   background-repeat: repeat;
 }
 
-#chat {
-  width: 150px;
-  height: 100%;
-}
-
 .wall {
   content: '';
   place-items: center;
   background-image: $bg-walls;
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.ice {
+  content: '';
+  place-items: center;
+  opacity: 0.75;
+  background-image: $bg-ice;
+}
+
+.weakWall {
+
+}
+
+#chat {
+  width: 150px;
+  height: 100%;
+  background: white;
 }

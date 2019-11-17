@@ -9,7 +9,7 @@ $(function () {
             } else if ((i % 2 === 0 && j % 2 === 0)) {
                 $(divElement).addClass('wall').appendTo($("#game"));
             } else {
-                $(divElement).appendTo($("#game"));
+                $(divElement).addClass('ice').appendTo($("#game"));
             }
         }
     }
