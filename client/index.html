@@ -10,37 +10,19 @@
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/styles.css">
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="js/siteBuilder.js"></script>
+    <script src="js/clientSocket.js"></script>
 </head>
 
 <body>
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <a class="navbar-brand" href="#">Bomberman Online</a>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
+    <nav>
     </nav>
     <section id="game">
-        <div class="jumbotron">
-            <p class=lead">
-                <a class="btn btn-primary btn-lg" href="#" role="button" id="sendButton">Send Message</a>
-            </p>
-        </div>
-
+        <div id="gridContainer"></div>
     </section>
 </div>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="js/siteBuilder.js"></script>
-<script src="js/clientSocket.js"></script>
 </body>
 </html>

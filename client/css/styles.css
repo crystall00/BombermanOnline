@@ -1,16 +1,13 @@
 body {
   background-image: url("../assets/grass_bg.jpg"); }
 
-.container {
-  width: 750px;
-  height: 750px; }
+#game {
+  width: 1500px;
+  height: 1500px; }
 
-.row {
-  height: 50px;
-  background-image: url("../assets/bg_ground70x70.jpg"); }
-
-.col {
-  width: 50px; }
+.gridContainer {
+  display: grid;
+  grid-template: repeat(15, 1fr)/repeat(15, 1fr); }
 
 .edge {
   background-image: url("../assets/block70x70.jpg");

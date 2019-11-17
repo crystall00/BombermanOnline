@@ -6,24 +6,18 @@ body {
   background-image: $bg-grass;
 }
 
-.container {
-  width: 750px;
-  height: 750px;
+#game {
+  width: 1500px;
+  height: 1500px;
 }
 
-.row {
-  height: 50px;
-  background-image: $bg-ground;
+.gridContainer {
+  display: grid;
+  grid-template: repeat(15,1fr) / repeat(15,1fr);
 }
-
-.col {
-  width: 50px;
-}
-
 
 .edge {
   background-image: $bg-walls;
-
   -webkit-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
   -moz-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
   box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
