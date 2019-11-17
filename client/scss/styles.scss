@@ -1,24 +1,40 @@
 $bg-ground: url("../assets/bg_ground70x70.jpg");
-$bg-walls: url("../assets/block70x70.jpg");
+$bg-walls: url("../assets/block70x70.png");
 $bg-grass: url("../assets/grass_bg.jpg");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   background-image: $bg-grass;
 }
 
+#container {
+
+}
+
 #game {
-  width: 1500px;
-  height: 1500px;
-}
-
-.gridContainer {
+  width: 1050px;
+  height: 1050px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: grid;
-  grid-template: repeat(15,1fr) / repeat(15,1fr);
+  grid-template: repeat(15,1fr) /repeat(15,1fr);
+  background-image: $bg-ground;
+  background-repeat: repeat;
 }
 
-.edge {
+#chat {
+  width: 150px;
+  height: 100%;
+}
+
+.wall {
+  content: '';
+  place-items: center;
   background-image: $bg-walls;
-  -webkit-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
-  -moz-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
-  box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
 }

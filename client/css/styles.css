@@ -1,16 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
   background-image: url("../assets/grass_bg.jpg"); }
 
 #game {
-  width: 1500px;
-  height: 1500px; }
-
-.gridContainer {
+    width: 1050px;
+    height: 1050px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   display: grid;
-  grid-template: repeat(15, 1fr)/repeat(15, 1fr); }
+    grid-template: repeat(15, 1fr)/repeat(15, 1fr);
+    background-image: url("../assets/bg_ground70x70.jpg");
+    background-repeat: repeat;
+}
 
-.edge {
-  background-image: url("../assets/block70x70.jpg");
-  -webkit-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
-  -moz-box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47);
-  box-shadow: 17px 0px 17px -6px rgba(0, 0, 0, 0.47); }
+#chat {
+    width: 150px;
+    height: 100%;
+}
+
+.wall {
+    content: '';
+    place-items: center;
+    background-image: url("../assets/block70x70.png");
+}
