@@ -3,6 +3,9 @@ $bg-walls: url("../assets/block70x70.png");
 $bg-grass: url("../assets/grass_bg.jpg");
 $bg-ice: url("../assets/bg_ice70x70.png");
 $bg-cat: url("../assets/cat_000.png");
+$bg-gorilla: url("../assets/gorilla_000.png");
+$bg-penguin: url("../assets/penguin_000.png");
+$bg-rabbit: url("../assets/rabbit_000.png");
 
 * {
   margin: 0;
@@ -51,6 +54,24 @@ body {
   content: '';
   place-items: center;
   background-image: $bg-cat;
+}
+
+.gorillaPlayer {
+  content: '';
+  place-items: center;
+  background-image: $bg-gorilla;
+}
+
+.penguinPlayer {
+  content: '';
+  place-items: center;
+  background-image: $bg-penguin;
+}
+
+.rabbitPlayer {
+  content: '';
+  place-items: center;
+  background-image: $bg-rabbit;
 }
 
 #chat {

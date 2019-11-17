@@ -32,6 +32,26 @@ body {
   opacity: 0.75;
   background-image: url("../assets/bg_ice70x70.png"); }
 
+.catPlayer {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/cat_000.png"); }
+
+.gorillaPlayer {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/gorilla_000.png"); }
+
+.penguinPlayer {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/penguin_000.png"); }
+
+.rabbitPlayer {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/rabbit_000.png"); }
+
 #chat {
   width: 150px;
   height: 100%;
