@@ -4,15 +4,47 @@
   box-sizing: border-box; }
 
 body {
-  background-image: url("../assets/grass_bg.jpg"); }
+  background-image: url("../assets/grass_bg.jpg");
+  background-repeat: repeat;
+  text-align: center;
+}
+
+body > main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+nav {
+  background: darkcyan;
+  width: 1400px;
+  margin-bottom: 15px;
+  text-align: center;
+  -webkit-box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+}
+
+nav ul {
+  display: inline-flex;
+  list-style: none;
+  color: white;
+}
+
+nav ul li {
+  width: 120px;
+  margin: 15px;
+  padding: 15px;
+}
+
+#container {
+  display: flex;
+}
 
 #game {
   width: 1050px;
   height: 1050px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   display: grid;
   grid-template: repeat(15, 1fr)/repeat(15, 1fr);
   background-image: url("../assets/bg_ground70x70.jpg");
@@ -22,14 +54,14 @@ body {
   content: '';
   place-items: center;
   background-image: url("../assets/block70x70.png");
-  -webkit-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.75); }
+  -webkit-box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.75);
+}
 
 .ice {
   content: '';
   place-items: center;
-  opacity: 0.75;
   background-image: url("../assets/bg_ice70x70.png"); }
 
 .catPlayer {
@@ -53,6 +85,12 @@ body {
   background-image: url("../assets/rabbit_000.png"); }
 
 #chat {
-  width: 150px;
-  height: 100%;
-  background: white; }
+  content: '';
+  width: 340px;
+  height: 550px;
+  margin-left: 10px;
+  background: darkgrey;
+  -webkit-box-shadow: inset 1px 1px 5px 1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: inset 1px 1px 5px 1px rgba(0, 0, 0, 0.75);
+  box-shadow: inset 1px 1px 5px 1px rgba(0, 0, 0, 0.75);
+}
