@@ -2,6 +2,8 @@ $bg-ground: url("../assets/bg_ground70x70.jpg");
 $bg-walls: url("../assets/block70x70.png");
 $bg-grass: url("../assets/grass_bg.jpg");
 $bg-ice: url("../assets/bg_ice70x70.png");
+$bg-cat: url("../assets/cat_000.png");
+
 * {
   margin: 0;
   padding: 0;
@@ -45,8 +47,10 @@ body {
   background-image: $bg-ice;
 }
 
-.weakWall {
-
+.catPlayer {
+  content: '';
+  place-items: center;
+  background-image: $bg-cat;
 }
 
 #chat {

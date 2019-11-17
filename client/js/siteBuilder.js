@@ -1,4 +1,6 @@
-$(function () {
+$(buildPlayGround);
+
+function buildPlayGround() {
     let gameContainer = $('#game');
     for (let i = 0; i < 15; i++) {
         for (let j = 0; j < 15; j++) {
@@ -8,9 +10,11 @@ $(function () {
                 $(divElement).addClass('wall').appendTo($("#game"));
             } else if ((i % 2 === 0 && j % 2 === 0)) {
                 $(divElement).addClass('wall').appendTo($("#game"));
-            } else {
+            } else if (!((i < 3 || i > 11) && (j < 3 || j > 11))) {
                 $(divElement).addClass('ice').appendTo($("#game"));
+            } else {
+                $(divElement).appendTo($("#game"));
             }
         }
     }
-});
+}
