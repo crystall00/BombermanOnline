@@ -65,10 +65,28 @@ nav ul li {
   background-image: url("../assets/bg/bg_ground50x50.png");
   background-repeat: repeat; }
 
+.block {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/bg/block50x50.png");
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  z-index: 289; }
+
 .wall {
   content: '';
   place-items: center;
   background-image: url("../assets/bg/bg_wood50x50.png");
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  z-index: 289; }
+
+.wallVertical {
+  content: '';
+  place-items: center;
+  background-image: url("../assets/bg/bg_wood_vertical50x50.png");
   -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
   -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);

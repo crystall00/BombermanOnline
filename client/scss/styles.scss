@@ -1,5 +1,7 @@
 $bg-ground: url("../assets/bg/bg_ground50x50.png");
 $bg-walls: url("../assets/bg/bg_wood50x50.png");
+$bg-wallsVertical: url("../assets/bg/bg_wood_vertical50x50.png");
+$bg-block: url("../assets/bg/block50x50.png");
 $bg-grass: url("../assets/bg/grass_bg.jpg");
 $bg-ice: url("../assets/bg/bg_ice48x48.png");
 $bg-cat: url("../assets/player/cat_000_50x50.png");
@@ -86,10 +88,30 @@ nav ul li {
   background-repeat: repeat;
 }
 
+.block {
+  content: '';
+  place-items: center;
+  background-image: $bg-block;
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  z-index: 289;
+}
+
 .wall {
   content: '';
   place-items: center;
   background-image: $bg-walls;
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  z-index: 289;
+}
+
+.wallVertical {
+  content: '';
+  place-items: center;
+  background-image: $bg-wallsVertical;
   -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
   -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
   box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
