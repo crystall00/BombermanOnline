@@ -6,6 +6,7 @@ $bg-cat: url("../assets/player/cat_000_50x50.png");
 $bg-gorilla: url("../assets/player/gorilla_000_50x50.png");
 $bg-penguin: url("../assets/player/penguin_000_50x50.png");
 $bg-rabbit: url("../assets/player/rabbit_000_50x50.png");
+$bg-site: url("../assets/bg/bg2.svg");
 
 :root {
   --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -28,8 +29,8 @@ html {
 }
 
 body {
-  background-image: $bg-grass;
-  background-repeat: repeat;
+  background-image: $bg-site;
+  background-size: cover;
   text-align: center;
   min-width: 1400px;
 }
