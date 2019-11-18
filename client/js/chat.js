@@ -10,11 +10,10 @@ const BOT_MSGS = [
     "I feel sleepy! :("
 ];
 
-// Icons made by Freepik from www.flaticon.com
-const BOT_IMG = "https://image.flaticon.com/icons/svg/327/327779.svg";
-const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
+const BOT_IMG = "assets/player/bot/bot_50x50.png";
+const PERSON_IMG = "assets/player/icons/cat_ico_50x50.png";
 const BOT_NAME = "BOT";
-const PERSON_NAME = "Sajad";
+const PERSON_NAME = "Player 1";
 
 msgerForm.addEventListener("submit", event => {
     event.preventDefault();
@@ -29,7 +28,6 @@ msgerForm.addEventListener("submit", event => {
 });
 
 function appendMessage(name, img, side, text) {
-    //   Simple solution for small apps
     const msgHTML = `
     <div class="msg ${side}-msg">
       <div class="msg-img" style="background-image: url(${img})"></div>
