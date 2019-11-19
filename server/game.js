@@ -1,13 +1,15 @@
-function User(socket) {
+function User(socket, id) {
     this.socket = socket;
-
+    this.id = ++id;
+/*
 // assign a random number to User.
 // Long enough to make duplication chance less.
     this.id = "1" + Math.floor(Math.random() * 1000000000);
+ */
 }
 
-function Room(name) {
-    this.name = name;
+function Room(id) {
+    this.name = 'Room #' + id;
     this.users = [];
 }
 
@@ -15,10 +17,11 @@ Room.prototype.addUser = function (user) {
     this.users.push(user);
     let room = this;
 
-    user.socket.on('disconnect', () => {
+    /*user.socket.on('disconnect', () => {
         console.log(user.id + ' left.');
         room.removeUser(user);
     })
+     */
 };
 
 Room.prototype.removeUser = function (user) {

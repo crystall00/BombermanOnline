@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
+var roomCount = 0;
 
 var User = require('./game').User;
 var Room = require('./game').Room;
