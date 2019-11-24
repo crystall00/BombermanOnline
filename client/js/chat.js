@@ -11,10 +11,19 @@ const BOT_MSGS = [
 ];
 
 const BOT_IMG = "assets/player/bot/bot_50x50.png";
-const PERSON_IMG = "assets/player/icons/cat_ico_50x50.png";
 const BOT_NAME = "BOT";
 const PERSON_NAME = "Player 1";
 
+$(msgerForm).submit(function(event){
+    event.preventDefault();
+    const msgText = msgerInput.value;
+    if (!msgText) return;
+    appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+    msgerInput.value = "";
+
+    botResponse();
+});
+/*
 msgerForm.addEventListener("submit", event => {
     event.preventDefault();
 
@@ -26,7 +35,7 @@ msgerForm.addEventListener("submit", event => {
 
     botResponse();
 });
-
+*/
 function appendMessage(name, img, side, text) {
     const msgHTML = `
     <div class="msg ${side}-msg">

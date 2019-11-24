@@ -1,5 +1,4 @@
 const websocketGame = {};
-
 $(function () {
     websocketGame.socket = io();
 
@@ -8,12 +7,11 @@ $(function () {
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
-        console.log(msg);
         alert(msg);
     });
 
-    $("#sendButton").click(function () {
+  /*  $("#sendButton").click(function () {
         console.log("Button pressed!");
         websocketGame.socket.emit('message', 'hello friends!');
-    })
+    })*/
 });

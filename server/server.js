@@ -8,7 +8,9 @@ var roomCount = 0;
 
 var User = require('./game').User;
 var Room = require('./game').Room;
-var room1 = new Room('game');
+
+var room = new Room('');
+var id = 0;
 
 app.use(express.static(parentDir + '/client'));
 
@@ -19,12 +21,19 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
-    let user = new User(socket);
-    socket.join('game');
-    room1.addUser(user);
+    id++;
+    let user = new User(socket, id);
+    let roomName;
+    if(room.users.length % 4 === 0){
+        roomCount++;
+        roomName = 'Room #' + roomCount;
+        room = new Room(roomName);
+    }
+    socket.join(roomName);
+    room.addUser(user);
     console.log('a user connected');
-    let message = "Welcome " + user.id + " joining the party. Total connection: " + room1.users.length;
-    room1.sendAll(io,message,socket,'game');
+    let message = user.id + " joined the party. Total user count: " + room.users.length;
+    room.sendAll(io,message,socket,roomName);
     console.log(message);
     socket.on('message', function (msg) {
         console.log('Message received!');
