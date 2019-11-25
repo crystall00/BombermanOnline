@@ -2,6 +2,11 @@ const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
 const msgerChat = get(".msger-chat");
 
+function message(from, message) {
+    this.from = from;
+    this.message = message;
+}
+
 const BOT_MSGS = [
     "Hi, how are you?",
     "Ohh... I can't understand what you trying to say. Sorry!",
@@ -18,7 +23,7 @@ $(msgerForm).submit(function(event){
     event.preventDefault();
     const msgText = msgerInput.value;
     if (!msgText) return;
-    websocketGame.socket.emit('chatMessage', msgText);
+    websocketGame.socket.emit('chatMessage', new message(currentUser, msgText));
     //appendMessage(PERSON_NAME, currentUser.avatar, "right", msgText);
     msgerInput.value = "";
 

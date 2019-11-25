@@ -8,7 +8,11 @@ $(function () {
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
-        appendMessage(currentUser.id, currentUser.avatar, "right", msg);
+        if (msg.from.id === currentUser.id) {
+            appendMessage('Player ' + currentUser.id, currentUser.avatar, "right", msg.message);
+        } else {
+            appendMessage('Player ' + msg.from.id, msg.from.avatar, "left", msg.message);
+        }
     });
 
     websocketGame.socket.on('passIdentity', function (identity) {
