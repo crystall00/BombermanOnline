@@ -3,14 +3,13 @@ const GORILLA_IMG = "assets/player/icons/gorilla_ico_50x50.png";
 const PENGUIN_IMG = "assets/player/icons/penguin_ico_50x50.png";
 const RABBIT_IMG = "assets/player/icons/rabbit_ico_50x50.png";
 
-function User(socket, id) {
-    this.socket = socket;
+function User(id) {
     this.id = id;
-    if (id === 1) {
+    if (id % 4 === 1) {
         this.avatar = CAT_IMG;
-    } else if (id === 2) {
+    } else if (id % 4 === 2) {
         this.avatar = GORILLA_IMG;
-    } else if (id === 3) {
+    } else if (id % 4 === 3) {
         this.avatar = PENGUIN_IMG;
     } else{
         this.avatar = RABBIT_IMG;
@@ -30,11 +29,6 @@ function Room(name) {
 
 Room.prototype.addUser = function (user) {
     this.users.push(user);
-    /*user.socket.on('disconnect', () => {
-        console.log(user.id + ' left.');
-        room.removeUser(user);
-    })
-     */
 };
 
 Room.prototype.removeUser = function (user) {
@@ -44,13 +38,6 @@ Room.prototype.removeUser = function (user) {
         }
     }
 };
-/*
-Room.prototype.sendAll = function (message) {
-    for (var i = 0, len = this.users.length; i < len; i++) {
-        this.users[i].socket.send(message);
-    }
-};
-*/
 
 Room.prototype.sendAll = function (io, message, socket, room) {
     //  io.in(room.name).emit('big-announcement', 'the game will start soon');
