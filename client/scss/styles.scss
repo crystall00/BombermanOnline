@@ -14,8 +14,9 @@ $bg-site: url("../assets/bg/bg2.svg");
   --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   --msger-bg: #fff;
   --border: 2px solid #ddd;
-  --left-msg-bg: #ececec;
+  --bot-msg-bg: #ececec;
   --right-msg-bg: #579ffb;
+  --left-msg-bg: #579ffb;
 }
 
 *,
@@ -217,7 +218,8 @@ nav ul li:not(:first-child):before {
   max-width: 250px;
   padding: 15px;
   border-radius: 15px;
-  background: var(--left-msg-bg);
+  text-align: left;
+  background: var(--bot-msg-bg);
 }
 
 .msg-info {
@@ -249,11 +251,16 @@ nav ul li:not(:first-child):before {
   background: var(--right-msg-bg);
   color: #fff;
   border-bottom-right-radius: 0;
-  text-align: left;
 }
 
 .right-msg .msg-img {
   margin: 0 0 0 10px;
+}
+
+.left-msg .msg-bubble {
+  background: var(--left-msg-bg);
+  color: #fff;
+  border-bottom-right-radius: 0;
 }
 
 .msger-inputarea {

@@ -4,6 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
+const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
 
 var User = require('./game').User;
 var Room = require('./game').Room;
@@ -22,6 +23,7 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
+    socket.emit('botMessage', welcomeMessage);
     userId++;
     let user = new User(userId);
     let roomName;
@@ -34,14 +36,12 @@ function onConnect(socket) {
     socket.emit('passIdentity', user);
     socket.join(room);
     room.addUser(user);
-    let message = 'User ' + user.id + ' joined ' + room.name + '. Total user count: ' + room.users.length;
-    room.sendAll(io, message, socket, room);
+    let message = 'Player ' + user.id + ' joined ' + room.name + '. Total user count: ' + room.users.length;
+    let botMessage = 'Player ' + user.id + ' joined the party!';
+    //room.sendAll(io, message, socket, room);
+    //io.sockets.emit('botMessage', message);
+    socket.broadcast.emit('botMessage', botMessage);
     console.log(message);
-    socket.on('message', function (msg) {
-        console.log('Message received!');
-        io.sockets.emit('broadcast', msg + ' from ' + socket.id);
-    });
-
     socket.on('disconnect', function (socket) {
         userId--;
         room.removeUser(user);

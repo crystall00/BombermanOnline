@@ -7,6 +7,11 @@ $(function () {
         console.log("Connected to server");
     });
 
+    websocketGame.socket.on('passIdentity', function (identity) {
+        currentUser = identity;
+        console.log('Identity passed. My ID is: ' + currentUser.id);
+    });
+
     websocketGame.socket.on('broadcast', function (msg) {
         if (msg.from.id === currentUser.id) {
             appendMessage('Player ' + currentUser.id, currentUser.avatar, "right", msg.message);
@@ -15,8 +20,8 @@ $(function () {
         }
     });
 
-    websocketGame.socket.on('passIdentity', function (identity) {
-        currentUser = identity;
-        console.log('Identity passed. My ID is: ' + currentUser.id);
+    websocketGame.socket.on('botMessage', function (msg) {
+        botResponse(msg);
     });
+
 });
