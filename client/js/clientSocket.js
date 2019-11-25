@@ -8,7 +8,7 @@ $(function () {
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
-        alert(msg);
+        appendMessage(currentUser.id, currentUser.avatar, "right", msg);
     });
 
     websocketGame.socket.on('passIdentity', function (identity) {

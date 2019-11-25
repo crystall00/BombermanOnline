@@ -18,24 +18,13 @@ $(msgerForm).submit(function(event){
     event.preventDefault();
     const msgText = msgerInput.value;
     if (!msgText) return;
-    appendMessage(PERSON_NAME, currentUser.avatar, "right", msgText);
+    websocketGame.socket.emit('chatMessage', msgText);
+    //appendMessage(PERSON_NAME, currentUser.avatar, "right", msgText);
     msgerInput.value = "";
 
-    botResponse();
+    //botResponse();
 });
-/*
-msgerForm.addEventListener("submit", event => {
-    event.preventDefault();
 
-    const msgText = msgerInput.value;
-    if (!msgText) return;
-
-    appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
-    msgerInput.value = "";
-
-    botResponse();
-});
-*/
 function appendMessage(name, img, side, text) {
     const msgHTML = `
     <div class="msg ${side}-msg">

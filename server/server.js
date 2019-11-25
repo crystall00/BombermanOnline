@@ -49,6 +49,11 @@ function onConnect(socket) {
         room.sendAll(io, message, socket, room);
         console.log(message);
     });
+
+    socket.on('chatMessage', function (msg) {
+        console.log('Message received! ' + msg);
+        io.sockets.emit('broadcast', msg);
+    });
 }
 
 
