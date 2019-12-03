@@ -5,6 +5,10 @@ const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
 const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
+let positionA;
+let positionB;
+let positionC;
+let positionD;
 
 var User = require('./game').User;
 var Room = require('./game').Room;
@@ -54,6 +58,13 @@ function onConnect(socket) {
         console.log('Message received! ' + msg);
         io.sockets.emit('broadcast', msg);
     });
+
+    socket.on('myPosition', function(msg){
+        console.log("Moved to: ", msg);
+        if(msg.name === 'playerA'){
+            positionA = msg.position;
+        }
+    })
 }
 
 

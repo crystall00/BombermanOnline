@@ -3,6 +3,11 @@ var PlayerB;
 var playerC;
 var playerD;
 
+function player(name, position) {
+    this.name = name;
+    this.position = position;
+}
+
 function resetPlayers() {
     let startPositionA = $("#1_1");
     let startPositionB = $("#1_13");
@@ -12,4 +17,20 @@ function resetPlayers() {
     $(startPositionB).addClass("gorillaPlayer");
     $(startPositionC).addClass("penguinPlayer");
     $(startPositionD).addClass("rabbitPlayer");
+}
+
+function moveDown(){
+
+}
+
+function moveUp(){
+
+}
+
+function moveLeft(){
+
+}
+
+function moveRight(){
+
 }
