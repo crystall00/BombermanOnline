@@ -3,23 +3,26 @@ const GORILLA_IMG = "assets/player/icons/gorilla_ico_50x50.png";
 const PENGUIN_IMG = "assets/player/icons/penguin_ico_50x50.png";
 const RABBIT_IMG = "assets/player/icons/rabbit_ico_50x50.png";
 
-function User(id) {
+function User(id, position, figure) {
     this.id = id;
-    if (id % 4 === 1) {
-        this.avatar = CAT_IMG;
-    } else if (id % 4 === 2) {
-        this.avatar = GORILLA_IMG;
-    } else if (id % 4 === 3) {
-        this.avatar = PENGUIN_IMG;
-    } else{
-        this.avatar = RABBIT_IMG;
+    this.position = position;
+    this.figure = figure;
+    switch (figure) {
+        case "cat":
+            this.imgPath = CAT_IMG;
+            break;
+        case "gorilla":
+            this.imgPath = GORILLA_IMG;
+            break;
+        case "penguin":
+            this.imgPath = PENGUIN_IMG;
+            break;
+        case "rabbit":
+            this.imgPath = RABBIT_IMG;
+            break;
+        default:
+            break;
     }
-
-    /*
-    // assign a random number to User.
-    // Long enough to make duplication chance less.
-        this.id = "1" + Math.floor(Math.random() * 1000000000);
-     */
 }
 
 function Room(name) {

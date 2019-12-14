@@ -17,7 +17,6 @@ var room = new Room('waiting room');
 var userId = 0;
 var roomCount = 0;
 
-
 app.use(express.static(parentDir + '/client'));
 
 http.listen(3002, function () {
@@ -45,11 +44,12 @@ function onConnect(socket) {
             playerPosition = {x: 1, y: 13};
             playerFigure = "penguin";
             break;
-        case 4:
+        case 0:
             playerPosition = {x: 13, y: 13};
             playerFigure = "rabbit";
             break;
         default:
+            break;
     }
     let user = new User(userId, playerPosition, playerFigure);
     let roomName;

@@ -18,8 +18,6 @@ $(msgerForm).submit(function(event){
     websocketGame.socket.emit('chatMessage', new message(currentUser, msgText));
     console.log("Send message: " + msgText);
     msgerInput.value = "";
-
-    //botResponse();
 });
 
 function appendMessage(name, img, side, text) {
@@ -56,8 +54,4 @@ function formatDate(date) {
     const m = "0" + date.getMinutes();
 
     return `${h.slice(-2)}:${m.slice(-2)}`;
-}
-
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
 }
