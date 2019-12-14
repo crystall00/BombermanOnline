@@ -74,7 +74,9 @@ $(document).on('keydown', function (e) {
         //move left
         case 37:
             if (canMove(currentUser.position, "left")) {
-                $(myFigure).stop().animate({left: "-=50px"}, {
+                $(myFigure).css('transition', '500ms');
+                $(myFigure).css('transform', 'translate(-50px, 0px)');
+                /*$(myFigure).stop().animate({left: "-=50px"}, {
                     start: function () {
                         currentUser.position.x--;
                     },
@@ -83,7 +85,7 @@ $(document).on('keydown', function (e) {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({left: "0px"});
                     }
-                });
+                });*/
                 break;
             } else {
                 break;
