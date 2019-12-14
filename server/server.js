@@ -27,23 +27,42 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
-    socket.emit('botMessage', welcomeMessage);
+    let playerPosition;
+    let playerFigure;
     userId++;
-    let user = new User(userId);
+    socket.emit('botMessage', welcomeMessage);
+
+    switch (userId % 4) {
+        case 1:
+            playerPosition = {x: 1, y: 1};
+            playerFigure = "cat";
+            break;
+        case 2:
+            playerPosition = {x: 13, y: 1};
+            playerFigure = "gorilla";
+            break;
+        case 3:
+            playerPosition = {x: 1, y: 13};
+            playerFigure = "penguin";
+            break;
+        case 4:
+            playerPosition = {x: 13, y: 13};
+            playerFigure = "rabbit";
+            break;
+        default:
+    }
+    let user = new User(userId, playerPosition, playerFigure);
     let roomName;
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
         room = new Room(roomName);
     }
-    console.log('Joining ' + room.name);
     socket.emit('passIdentity', user);
-    socket.join(room);
+    socket.join(room.name);
     room.addUser(user);
     let message = 'Player ' + user.id + ' joined ' + room.name + '. Total user count: ' + room.users.length;
     let botMessage = 'Player ' + user.id + ' joined the party!';
-    //room.sendAll(io, message, socket, room);
-    //io.sockets.emit('botMessage', message);
     socket.broadcast.emit('botMessage', botMessage);
     console.log(message);
     socket.on('disconnect', function (socket) {
@@ -55,7 +74,7 @@ function onConnect(socket) {
     });
 
     socket.on('chatMessage', function (msg) {
-        console.log('Message received! ' + msg);
+        console.log('Player #' + msg.from.id + ' sent a message. Message: ' + '"' + msg.message + '"');
         io.sockets.emit('broadcast', msg);
     });
 

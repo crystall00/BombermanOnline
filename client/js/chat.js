@@ -7,14 +7,6 @@ function message(from, message) {
     this.message = message;
 }
 
-const BOT_MSGS = [
-    "Hi, how are you?",
-    "Ohh... I can't understand what you trying to say. Sorry!",
-    "I like to play games... But I don't know how to play!",
-    "Sorry if my answers are not relevant. :))",
-    "I feel sleepy! :("
-];
-
 const BOT_IMG = "assets/player/bot/bot_50x50.png";
 const BOT_NAME = "BOT";
 const PERSON_NAME = "Player 1";
@@ -24,6 +16,7 @@ $(msgerForm).submit(function(event){
     const msgText = msgerInput.value;
     if (!msgText) return;
     websocketGame.socket.emit('chatMessage', new message(currentUser, msgText));
+    console.log("Send message: " + msgText);
     msgerInput.value = "";
 
     //botResponse();

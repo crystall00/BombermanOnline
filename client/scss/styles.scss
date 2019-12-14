@@ -129,12 +129,18 @@ nav ul li:not(:first-child):before {
   content: '';
   place-items: center;
   background-image: $bg-ice;
+  z-index: 10;
 }
 
 .catPlayer {
   content: '';
   place-items: center;
   background-image: $bg-cat;
+}
+
+#cat {
+  position: relative;
+  display: block;
 }
 
 .gorillaPlayer {
