@@ -1,3 +1,6 @@
+var audioElement = document.createElement('audio');
+audioElement.setAttribute('src', '../assets/soundEffects/EXPLOSION Bang Rumbling Long Deep 02.ogg');
+
 var catImg = document.createElement("img");
 $(catImg).attr("id", "cat");
 $(catImg).attr("src", "../assets/player/cat_000_50x50.png");
@@ -13,6 +16,9 @@ $(penguinImg).attr("src", "../assets/player/penguin_000_50x50.png");
 var rabbitImg = document.createElement("img");
 $(rabbitImg).attr("id", "rabbit");
 $(rabbitImg).attr("src", "../assets/player/rabbit_000_50x50.png");
+
+var bombImg = document.createElement("img");
+$(bombImg).attr("src", "../assets/bomb_000_45x45.png");
 
 
 function resetPlayers() {
@@ -38,6 +44,11 @@ function waitForElement() {
     if (typeof currentUser !== "undefined") {
         myFigure = $("#" + currentUser.figure);
         console.log("I am: " + JSON.stringify(currentUser));
+        var backgroundMusic = document.createElement('audio');
+        backgroundMusic.setAttribute('src', '../assets/soundEffects/POL-mutant-jackrabbit-long.wav');
+        backgroundMusic.currentTime = 0;
+        backgroundMusic.loop = true;
+        backgroundMusic.play();
     } else {
         setTimeout(waitForElement, 250);
     }
@@ -51,22 +62,26 @@ function canMove(position, direction) {
         case "right":
             x++;
             toField = $("#" + y + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical"));
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "down":
             y++;
             toField = $("#" + y + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical"));
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "left":
             x--;
             toField = $("#" + y + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical"));
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "up":
             y--;
             toField = $("#" + y + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical"));
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         default:
             break;
     }
+}
+
+function destroy(position) {
+
 }
 
 $(document).on('keydown', function (e) {
@@ -74,9 +89,7 @@ $(document).on('keydown', function (e) {
         //move left
         case 37:
             if (canMove(currentUser.position, "left")) {
-                $(myFigure).css('transition', '500ms');
-                $(myFigure).css('transform', 'translate(-50px, 0px)');
-                /*$(myFigure).stop().animate({left: "-=50px"}, {
+                $(myFigure).stop().animate({left: "-=50px"}, {
                     start: function () {
                         currentUser.position.x--;
                     },
@@ -85,7 +98,7 @@ $(document).on('keydown', function (e) {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({left: "0px"});
                     }
-                });*/
+                });
                 break;
             } else {
                 break;
@@ -144,6 +157,31 @@ $(document).on('keydown', function (e) {
             } else {
                 break;
             }
+        case 32:
+            var bomb = $("#" + currentUser.position.y + "_" + currentUser.position.x);
+            $(bomb).stop().animate(
+                {opacity: 1}, {
+                    duration: 3000,
+                    start: function () {
+                        $(bomb).addClass("bomb");
+                        $(bomb).animate({opacity: 0}, {
+                            start: function () {
+                                $(bomb).addClass("explosion");
+                            },
+                            duration: 1000,
+                            step: function () {
+                                audioElement.play();
+                            },
+                            complete: function () {
+                                $(bomb).removeClass("bomb");
+                                $(bomb).removeClass("explosion");
+                                $(bomb).removeAttr("style");
+                            }
+                        })
+                    }
+                }
+            );
+            break;
     }
 });
 
