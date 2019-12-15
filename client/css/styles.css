@@ -110,63 +110,55 @@ nav ul li:not(:first-child):before {
   content: '';
   place-items: center;
   background-image: url("../assets/bg/vulcano_stone_48x48.png");
-  z-index: 10;
-}
+  z-index: 10; }
 
 .bomb {
   position: relative;
   content: '';
   place-items: center;
-  background-image: url("../assets/bomb_000_45x45.png"); }
+  background-image: url("../assets/bombEffects/bomb_000_45x45.png"); }
 
 .explosion {
   place-items: center;
-  background-image: url("../assets/explosion_000_50x50.png");
+  background-image: url("../assets/bombEffects/explosion_000_50x50.png");
   z-index: 300; }
 
 .strideLeft {
   place-items: center;
-  background-image: url("../assets/strideLeft_50x50.png");
+  background-image: url("../assets/bombEffects/strideLeft_50x50.png");
   z-index: 300; }
 
 .strideRight {
   place-items: center;
-  background-image: url("../assets/strideRight_50x50.png");
-  z-index: 300;
-}
+  background-image: url("../assets/bombEffects/strideRight_50x50.png");
+  z-index: 300; }
 
 .strideUp {
   place-items: center;
-  background-image: url("../assets/strideUp_50x50.png");
-  z-index: 300;
-}
+  background-image: url("../assets/bombEffects/strideUp_50x50.png");
+  z-index: 300; }
 
 .strideDown {
   place-items: center;
-  background-image: url("../assets/strideDown_50x50.png");
-  z-index: 300;
-}
+  background-image: url("../assets/bombEffects/strideDown_50x50.png");
+  z-index: 300; }
 
 .strideTail {
   place-items: center;
-  background-image: url("../assets/strideCenter_50x50.png");
-}
+  background-image: url("../assets/bombEffects/strideCenter_50x50.png"); }
 
 #cat {
   position: relative;
   display: block;
-  z-index: 301;
-}
+  z-index: 301; }
 
 #gorilla {
   position: relative;
-  display: block;
-}
+  display: block; }
 
 #penguin {
   position: relative;
-  display: block;
-}
+  display: block; }
 
 #rabbit {
   position: relative;
