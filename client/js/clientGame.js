@@ -107,17 +107,21 @@ function explode(bombX, bombY) {
     let topField = $("#" + (bombY - 1) + "_" + bombX);
     let bottomField = $("#" + (bombY + 1) + "_" + bombX);
 
-    if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block") || $(leftField).hasClass("bomb"))) {
+    if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block"))) {
         $(leftField).addClass("strideLeft").stop().animate(
             {opacity: 0},
             {
                 start: function () {
-                    gotHit()
+                    if ($(leftField).hasClass("bomb")) {
+                        $(leftField).stop();
+                        detonate(leftField, (bombX - 1), bombY);
+                    }
+                    gotHit();
                 },
                 progress: function () {
-                    gotHit()
+                    gotHit();
                 },
-                duration: 2000,
+                duration: 1000,
                 complete: function () {
                     if (!currentUser.alive) {
                         $("#" + currentUser.figure).remove();
@@ -127,17 +131,21 @@ function explode(bombX, bombY) {
             }
         )
     }
-    if (!($(rightField).hasClass("wall") || $(rightField).hasClass("wallVertical") || $(rightField).hasClass("block") || $(rightField).hasClass("bomb"))) {
+    if (!($(rightField).hasClass("wall") || $(rightField).hasClass("wallVertical") || $(rightField).hasClass("block"))) {
         $(rightField).addClass("strideRight").stop().animate(
             {opacity: 0},
             {
                 start: function () {
-                    gotHit()
+                    if ($(rightField).hasClass("bomb")) {
+                        $(rightField).stop();
+                        detonate(rightField, (bombX + 1), bombY);
+                    }
+                    gotHit();
                 },
                 progress: function () {
                     gotHit()
                 },
-                duration: 2000,
+                duration: 1000,
                 complete: function () {
                     if (!currentUser.alive) {
                         $("#" + currentUser.figure).remove();
@@ -147,17 +155,21 @@ function explode(bombX, bombY) {
             }
         )
     }
-    if (!($(topField).hasClass("wall") || $(topField).hasClass("wallVertical") || $(topField).hasClass("block") || $(topField).hasClass("bomb"))) {
+    if (!($(topField).hasClass("wall") || $(topField).hasClass("wallVertical") || $(topField).hasClass("block"))) {
         $(topField).addClass("strideUp").stop().animate(
             {opacity: 0},
             {
                 start: function () {
-                    gotHit()
+                    if ($(topField).hasClass("bomb")) {
+                        $(topField).stop();
+                        detonate(topField, bombX, (bombY - 1));
+                    }
+                    gotHit();
                 },
                 progress: function () {
                     gotHit()
                 },
-                duration: 2000,
+                duration: 1000,
                 complete: function () {
                     if (!currentUser.alive) {
                         $("#" + currentUser.figure).remove();
@@ -172,12 +184,16 @@ function explode(bombX, bombY) {
             {opacity: 0},
             {
                 start: function () {
-                    gotHit()
+                    if ($(bottomField).hasClass("bomb")) {
+                        $(bottomField).stop();
+                        detonate(bottomField, bombX, (bombY + 1));
+                    }
+                    gotHit();
                 },
                 progress: function () {
                     gotHit()
                 },
-                duration: 2000,
+                duration: 1000,
                 complete: function () {
                     if (!currentUser.alive) {
                         $("#" + currentUser.figure).remove();
@@ -190,55 +206,37 @@ function explode(bombX, bombY) {
 }
 
 function gotHit() {
-    let position = $("#" + currentUser.position.y + "_" + currentUser.position.x);
-    if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
-        if (currentUser.alive)
+    if (currentUser.alive) {
+        let position = $("#" + currentUser.position.y + "_" + currentUser.position.x);
+        if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
             crySound.play();
-        currentUser.alive = false;
-        $("#" + currentUser.figure).animate(
-            {display: "none"},
-            {
-                start: function () {
-                    switch ($(this).attr('id')) {
-                        case "cat":
-                            $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
-                            break;
-                        case "gorilla":
-                            $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
-                            break;
-                        case "penguin":
-                            $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
-                            break;
-                        case "rabbit":
-                            $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
-                            break;
-                        default:
-                            break;
-                    }
-                },
-                duration: 2000
-            }
-        );
-        return true;
-    } else {
-        return false;
+            currentUser.alive = false;
+            $("#" + currentUser.figure).animate(
+                {display: "none"},
+                {
+                    start: function () {
+                        switch ($(this).attr('id')) {
+                            case "cat":
+                                $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
+                                break;
+                            case "gorilla":
+                                $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
+                                break;
+                            case "penguin":
+                                $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
+                                break;
+                            case "rabbit":
+                                $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
+                                break;
+                            default:
+                                break;
+                        }
+                    },
+                    duration: 1000
+                }
+            );
+        }
     }
-
-    /*
-    var figure;
-    console.log($(left).attr('id'));
-    if ($('#'+ $(left).attr('id')).find('#'+ $(catImg).attr('id')).length) {
-       console.log('cat got hit!');
-       $(catImg).stop().animate({opacity:0},{
-           start: function(){
-             currentUser.alive = false;
-           },
-           duration: 2000,
-           complete: function(){
-               $(catImg).removeClass();
-           }
-       })
-    }*/
 }
 
 $(document).on('keydown', function (e) {
@@ -324,36 +322,54 @@ $(document).on('keydown', function (e) {
 
             if (!$(bomb).hasClass("bomb")) {
                 dropSound.play();
-                $(bomb).addClass("bomb").stop().animate(
-                    {display: "none"},
-                    {
-                        start: function () {
-                            clockSound.play();
-                        },
-                        duration: 4000,
-                        complete: function () {
-                            explosionSound.play();
-                            $(this).removeClass("bomb").addClass("strideTail").animate(
-                                {opacity: 0},
-                                {
-                                    start: function () {
-                                        explode(bombX, bombY);
-                                    },
-                                    duration: 2000,
-                                    complete: function () {
-                                        $(this).removeClass("strideTail").removeAttr("style");
-                                    }
-                                }
-                            )
-                            //$(bottomField).removeAttr("style");
-                        }
-                    }
-                )
+                layBomb(bomb, bombX, bombY);
             }
             break;
     }
 });
 
+function layBomb(bomb, bombX, bombY) {
+    $(bomb).addClass("bomb").stop().animate(
+        {display: "none"},
+        {
+            start: function () {
+                clockSound.play();
+            },
+            duration: 4000,
+            complete: function () {
+                explosionSound.play();
+                $(this).removeClass("bomb").addClass("strideTail").animate(
+                    {opacity: 0},
+                    {
+                        start: function () {
+                            explode(bombX, bombY);
+                        },
+                        duration: 1000,
+                        complete: function () {
+                            $(this).removeClass("strideTail").removeAttr("style");
+                        }
+                    }
+                )
+            }
+        }
+    )
+}
+
+function detonate(bomb, bombX, bombY) {
+    explosionSound.play();
+    $(bomb).removeClass("bomb").addClass("strideTail").animate(
+        {opacity: 0},
+        {
+            start: function () {
+                explode(bombX, bombY);
+            },
+            duration: 1000,
+            complete: function () {
+                $(this).removeClass().removeAttr("style");
+            }
+        }
+    )
+}
 
 
 
