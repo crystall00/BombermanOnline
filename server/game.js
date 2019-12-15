@@ -3,10 +3,11 @@ const GORILLA_IMG = "assets/player/icons/gorilla_ico_50x50.png";
 const PENGUIN_IMG = "assets/player/icons/penguin_ico_50x50.png";
 const RABBIT_IMG = "assets/player/icons/rabbit_ico_50x50.png";
 
-function User(id, position, figure) {
+function User(id, position, figure, alive) {
     this.id = id;
     this.position = position;
     this.figure = figure;
+    this.alive = alive;
     switch (figure) {
         case "cat":
             this.imgPath = CAT_IMG;

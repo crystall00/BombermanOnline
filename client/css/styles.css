@@ -99,12 +99,22 @@ nav ul li:not(:first-child):before {
   z-index: 289; }
 
 .ice {
+  position: relative;
   content: '';
   place-items: center;
   background-image: url("../assets/bg/bg_ice48x48.png");
   z-index: 10; }
 
+.vulcano {
+  position: relative;
+  content: '';
+  place-items: center;
+  background-image: url("../assets/bg/vulcano_stone_48x48.png");
+  z-index: 10;
+}
+
 .bomb {
+  position: relative;
   content: '';
   place-items: center;
   background-image: url("../assets/bomb_000_45x45.png"); }
@@ -143,6 +153,22 @@ nav ul li:not(:first-child):before {
 }
 
 #cat {
+  position: relative;
+  display: block;
+  z-index: 301;
+}
+
+#gorilla {
+  position: relative;
+  display: block;
+}
+
+#penguin {
+  position: relative;
+  display: block;
+}
+
+#rabbit {
   position: relative;
   display: block; }
 

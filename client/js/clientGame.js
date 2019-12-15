@@ -1,5 +1,11 @@
-var audioElement = document.createElement('audio');
-audioElement.setAttribute('src', '../assets/soundEffects/EXPLOSION Bang Rumbling Long Deep 02.ogg');
+var explosionSound = document.createElement('audio');
+explosionSound.setAttribute('src', '../assets/soundEffects/EXPLOSION Bang Rumbling Long Deep 02.ogg');
+var clockSound = document.createElement('audio');
+clockSound.setAttribute('src', '../assets/soundEffects/clock.mp3');
+var dropSound = document.createElement('audio');
+dropSound.setAttribute('src', '../assets/soundEffects/BONG Clunk Hit 02.ogg');
+var crySound = document.createElement('audio');
+crySound.setAttribute('src', '../assets/soundEffects/VOCAL CUTE Call Angry 01.ogg');
 
 var catImg = document.createElement("img");
 $(catImg).attr("id", "cat");
@@ -49,6 +55,10 @@ function waitForElement() {
 }
 
 function canMove(position, direction) {
+    if (!currentUser.alive) {
+        console.log("you are dead :/");
+        return false;
+    }
     var x = position.x;
     var y = position.y;
     var toField;
@@ -91,47 +101,144 @@ $(document).ready(function () { // When the DOM is Ready, then bind the click
     });
 });
 
-function destroy(bombX, bombY) {
-    var left = $("#" + bombY + "_" + (bombX - 1));
-    var right = $("#" + bombY + "_" + (bombX + 1));
-    var up = $("#" + (bombY - 1) + "_" + bombX);
-    var down = $("#" + (bombY + 1) + "_" + bombX);
-    if (left.hasClass("ice")) {
-        left.animate({opacity: 0}, {
-            duration: 500,
-            complete: function () {
-                $(this).removeClass("ice");
-                $(this).removeAttr("style");
+function explode(bombX, bombY) {
+    let leftField = $("#" + bombY + "_" + (bombX - 1));
+    let rightField = $("#" + bombY + "_" + (bombX + 1));
+    let topField = $("#" + (bombY - 1) + "_" + bombX);
+    let bottomField = $("#" + (bombY + 1) + "_" + bombX);
+
+    if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block") || $(leftField).hasClass("bomb"))) {
+        $(leftField).addClass("strideLeft").stop().animate(
+            {opacity: 0},
+            {
+                start: function () {
+                    gotHit()
+                },
+                progress: function () {
+                    gotHit()
+                },
+                duration: 2000,
+                complete: function () {
+                    if (!currentUser.alive) {
+                        $("#" + currentUser.figure).remove();
+                    }
+                    $(this).removeClass().removeAttr("style");
+                }
             }
-        })
+        )
     }
-    if (right.hasClass("ice")) {
-        right.animate({opacity: 0}, {
-            duration: 500,
-            complete: function () {
-                $(this).removeClass("ice");
-                $(this).removeAttr("style");
+    if (!($(rightField).hasClass("wall") || $(rightField).hasClass("wallVertical") || $(rightField).hasClass("block") || $(rightField).hasClass("bomb"))) {
+        $(rightField).addClass("strideRight").stop().animate(
+            {opacity: 0},
+            {
+                start: function () {
+                    gotHit()
+                },
+                progress: function () {
+                    gotHit()
+                },
+                duration: 2000,
+                complete: function () {
+                    if (!currentUser.alive) {
+                        $("#" + currentUser.figure).remove();
+                    }
+                    $(this).removeClass().removeAttr("style");
+                }
             }
-        })
+        )
     }
-    if (up.hasClass("ice")) {
-        up.animate({opacity: 0}, {
-            duration: 500,
-            complete: function () {
-                $(this).removeClass("ice");
-                $(this).removeAttr("style");
+    if (!($(topField).hasClass("wall") || $(topField).hasClass("wallVertical") || $(topField).hasClass("block") || $(topField).hasClass("bomb"))) {
+        $(topField).addClass("strideUp").stop().animate(
+            {opacity: 0},
+            {
+                start: function () {
+                    gotHit()
+                },
+                progress: function () {
+                    gotHit()
+                },
+                duration: 2000,
+                complete: function () {
+                    if (!currentUser.alive) {
+                        $("#" + currentUser.figure).remove();
+                    }
+                    $(this).removeClass().removeAttr("style");
+                }
             }
-        })
+        )
     }
-    if (down.hasClass("ice")) {
-        down.animate({opacity: 0}, {
-            duration: 500,
-            complete: function () {
-                $(this).removeClass("ice");
-                $(this).removeAttr("style");
+    if (!($(bottomField).hasClass("wall") || $(bottomField).hasClass("wallVertical") || $(bottomField).hasClass("block") || $(bottomField).hasClass("bomb"))) {
+        $(bottomField).addClass("strideDown").stop().animate(
+            {opacity: 0},
+            {
+                start: function () {
+                    gotHit()
+                },
+                progress: function () {
+                    gotHit()
+                },
+                duration: 2000,
+                complete: function () {
+                    if (!currentUser.alive) {
+                        $("#" + currentUser.figure).remove();
+                    }
+                    $(this).removeClass().removeAttr("style");
+                }
             }
-        })
+        )
     }
+}
+
+function gotHit() {
+    let position = $("#" + currentUser.position.y + "_" + currentUser.position.x);
+    if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
+        if (currentUser.alive)
+            crySound.play();
+        currentUser.alive = false;
+        $("#" + currentUser.figure).animate(
+            {display: "none"},
+            {
+                start: function () {
+                    switch ($(this).attr('id')) {
+                        case "cat":
+                            $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
+                            break;
+                        case "gorilla":
+                            $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
+                            break;
+                        case "penguin":
+                            $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
+                            break;
+                        case "rabbit":
+                            $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
+                            break;
+                        default:
+                            break;
+                    }
+                },
+                duration: 2000
+            }
+        );
+        return true;
+    } else {
+        return false;
+    }
+
+    /*
+    var figure;
+    console.log($(left).attr('id'));
+    if ($('#'+ $(left).attr('id')).find('#'+ $(catImg).attr('id')).length) {
+       console.log('cat got hit!');
+       $(catImg).stop().animate({opacity:0},{
+           start: function(){
+             currentUser.alive = false;
+           },
+           duration: 2000,
+           complete: function(){
+               $(catImg).removeClass();
+           }
+       })
+    }*/
 }
 
 $(document).on('keydown', function (e) {
@@ -208,60 +315,41 @@ $(document).on('keydown', function (e) {
                 break;
             }
         case 32:
-            var bombX = currentUser.position.x;
-            var bombY = currentUser.position.y;
-            var bomb = $("#" + bombY + "_" + bombX);
-            var leftField;
-            var rightField;
-            var topField;
-            var bottomField;
-            $(bomb).stop().animate(
-                {opacity: 1}, {
-                    duration: 3000,
-                    start: function () {
-                        $(bomb).addClass("bomb");
-                        $(bomb).animate({opacity: 0}, {
-                            start: function () {
-                                destroy(bombX, bombY);
-                                var leftId = "#" + bombY + "_" + (bombX - 1);
-                                leftField = $(leftId);
-                                var rightId = "#" + bombY + "_" + (bombX + 1);
-                                rightField = $(rightId);
-                                var topId = "#" + (bombY - 1) + "_" + bombX;
-                                topField = $(topId);
-                                var bottomId = "#" + (bombY + 1) + "_" + bombX;
-                                bottomField = $(bottomId);
-                                $(bomb).addClass("strideTail");
-                                if (!((leftField).hasClass("wall") || $(leftField).hasClass("block") || $(leftField).hasClass("wallVertical")))
-                                    $(leftField).addClass("strideLeft");
-                                if (!((rightField).hasClass("wall") || $(rightField).hasClass("block") || $(rightField).hasClass("wallVertical")))
-                                    $(rightField).addClass("strideRight");
-                                if (!((topField).hasClass("wall") || $(topField).hasClass("block") || $(topField).hasClass("wallVertical")))
-                                    $(topField).addClass("strideUp");
-                                if (!((bottomField).hasClass("wall") || $(bottomField).hasClass("block") || $(bottomField).hasClass("wallVertical")))
-                                    $(bottomField).addClass("strideDown");
-                                $(bomb).removeClass("bomb");
-                            },
-                            duration: 2000,
-                            step: function () {
-                                audioElement.play();
-                            },
-                            complete: function () {
-                                $(bomb).removeClass("strideTail");
-                                $(leftField).removeClass("strideLeft");
-                                $(rightField).removeClass("strideRight");
-                                $(topField).removeClass("strideUp");
-                                $(bottomField).removeClass("strideDown");
-                                $(bomb).removeAttr("style");
-                                $(leftField).removeAttr("style");
-                                $(rightField).removeAttr("style");
-                                $(topField).removeAttr("style");
-                                $(bottomField).removeAttr("style");
-                            }
-                        })
+            if (!currentUser.alive) {
+                return false;
+            }
+            let bombX = currentUser.position.x;
+            let bombY = currentUser.position.y;
+            let bomb = $("#" + bombY + "_" + bombX);
+
+            if (!$(bomb).hasClass("bomb")) {
+                dropSound.play();
+                $(bomb).addClass("bomb").stop().animate(
+                    {display: "none"},
+                    {
+                        start: function () {
+                            clockSound.play();
+                        },
+                        duration: 4000,
+                        complete: function () {
+                            explosionSound.play();
+                            $(this).removeClass("bomb").addClass("strideTail").animate(
+                                {opacity: 0},
+                                {
+                                    start: function () {
+                                        explode(bombX, bombY);
+                                    },
+                                    duration: 2000,
+                                    complete: function () {
+                                        $(this).removeClass("strideTail").removeAttr("style");
+                                    }
+                                }
+                            )
+                            //$(bottomField).removeAttr("style");
+                        }
                     }
-                }
-            );
+                )
+            }
             break;
     }
 });

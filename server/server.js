@@ -51,7 +51,7 @@ function onConnect(socket) {
         default:
             break;
     }
-    let user = new User(userId, playerPosition, playerFigure);
+    let user = new User(userId, playerPosition, playerFigure, true);
     let roomName;
     if (room.users.length % 4 === 0) {
         roomCount++;
