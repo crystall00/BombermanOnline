@@ -232,10 +232,14 @@ $(document).on('keydown', function (e) {
                                 var bottomId = "#" + (bombY + 1) + "_" + bombX;
                                 bottomField = $(bottomId);
                                 $(bomb).addClass("strideTail");
-                                $(leftField).addClass("strideLeft");
-                                $(rightField).addClass("strideRight");
-                                $(topField).addClass("strideUp");
-                                $(bottomField).addClass("strideDown");
+                                if (!((leftField).hasClass("wall") || $(leftField).hasClass("block") || $(leftField).hasClass("wallVertical")))
+                                    $(leftField).addClass("strideLeft");
+                                if (!((rightField).hasClass("wall") || $(rightField).hasClass("block") || $(rightField).hasClass("wallVertical")))
+                                    $(rightField).addClass("strideRight");
+                                if (!((topField).hasClass("wall") || $(topField).hasClass("block") || $(topField).hasClass("wallVertical")))
+                                    $(topField).addClass("strideUp");
+                                if (!((bottomField).hasClass("wall") || $(bottomField).hasClass("block") || $(bottomField).hasClass("wallVertical")))
+                                    $(bottomField).addClass("strideDown");
                                 $(bomb).removeClass("bomb");
                             },
                             duration: 2000,
