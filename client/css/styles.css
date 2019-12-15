@@ -114,14 +114,33 @@ nav ul li:not(:first-child):before {
   background-image: url("../assets/explosion_000_50x50.png");
   z-index: 300; }
 
-.stride {
+.strideLeft {
   place-items: center;
-  background-image: url("../assets/stride_50x89.png");
+  background-image: url("../assets/strideLeft_50x50.png");
   z-index: 300; }
+
+.strideRight {
+  place-items: center;
+  background-image: url("../assets/strideRight_50x50.png");
+  z-index: 300;
+}
+
+.strideUp {
+  place-items: center;
+  background-image: url("../assets/strideUp_50x50.png");
+  z-index: 300;
+}
+
+.strideDown {
+  place-items: center;
+  background-image: url("../assets/strideDown_50x50.png");
+  z-index: 300;
+}
 
 .strideTail {
   place-items: center;
-  background-image: url("../assets/strideTail_50x50.png"); }
+  background-image: url("../assets/strideCenter_50x50.png");
+}
 
 #cat {
   position: relative;

@@ -91,8 +91,47 @@ $(document).ready(function () { // When the DOM is Ready, then bind the click
     });
 });
 
-function destroy(position) {
-
+function destroy(bombX, bombY) {
+    var left = $("#" + bombY + "_" + (bombX - 1));
+    var right = $("#" + bombY + "_" + (bombX + 1));
+    var up = $("#" + (bombY - 1) + "_" + bombX);
+    var down = $("#" + (bombY + 1) + "_" + bombX);
+    if (left.hasClass("ice")) {
+        left.animate({opacity: 0}, {
+            duration: 500,
+            complete: function () {
+                $(this).removeClass("ice");
+                $(this).removeAttr("style");
+            }
+        })
+    }
+    if (right.hasClass("ice")) {
+        right.animate({opacity: 0}, {
+            duration: 500,
+            complete: function () {
+                $(this).removeClass("ice");
+                $(this).removeAttr("style");
+            }
+        })
+    }
+    if (up.hasClass("ice")) {
+        up.animate({opacity: 0}, {
+            duration: 500,
+            complete: function () {
+                $(this).removeClass("ice");
+                $(this).removeAttr("style");
+            }
+        })
+    }
+    if (down.hasClass("ice")) {
+        down.animate({opacity: 0}, {
+            duration: 500,
+            complete: function () {
+                $(this).removeClass("ice");
+                $(this).removeAttr("style");
+            }
+        })
+    }
 }
 
 $(document).on('keydown', function (e) {
@@ -173,6 +212,9 @@ $(document).on('keydown', function (e) {
             var bombY = currentUser.position.y;
             var bomb = $("#" + bombY + "_" + bombX);
             var leftField;
+            var rightField;
+            var topField;
+            var bottomField;
             $(bomb).stop().animate(
                 {opacity: 1}, {
                     duration: 3000,
@@ -180,30 +222,37 @@ $(document).on('keydown', function (e) {
                         $(bomb).addClass("bomb");
                         $(bomb).animate({opacity: 0}, {
                             start: function () {
-                                $(bomb).addClass("explosion");
-                                $(bomb).addClass("strideTail");
+                                destroy(bombX, bombY);
                                 var leftId = "#" + bombY + "_" + (bombX - 1);
                                 leftField = $(leftId);
-                                $(leftField).animate({opacity: 0}, {
-                                    duration: 2000,
-                                    start: function () {
-                                        $(this).addClass("stride");
-                                    },
-                                    complete: function () {
-                                        $(this).removeClass("stride");
-                                        $(this).removeAttr("style");
-                                    }
-                                })
+                                var rightId = "#" + bombY + "_" + (bombX + 1);
+                                rightField = $(rightId);
+                                var topId = "#" + (bombY - 1) + "_" + bombX;
+                                topField = $(topId);
+                                var bottomId = "#" + (bombY + 1) + "_" + bombX;
+                                bottomField = $(bottomId);
+                                $(bomb).addClass("strideTail");
+                                $(leftField).addClass("strideLeft");
+                                $(rightField).addClass("strideRight");
+                                $(topField).addClass("strideUp");
+                                $(bottomField).addClass("strideDown");
+                                $(bomb).removeClass("bomb");
                             },
                             duration: 2000,
                             step: function () {
                                 audioElement.play();
                             },
                             complete: function () {
-                                $(bomb).removeClass("bomb");
-                                $(bomb).removeClass("explosion");
                                 $(bomb).removeClass("strideTail");
+                                $(leftField).removeClass("strideLeft");
+                                $(rightField).removeClass("strideRight");
+                                $(topField).removeClass("strideUp");
+                                $(bottomField).removeClass("strideDown");
                                 $(bomb).removeAttr("style");
+                                $(leftField).removeAttr("style");
+                                $(rightField).removeAttr("style");
+                                $(topField).removeAttr("style");
+                                $(bottomField).removeAttr("style");
                             }
                         })
                     }
