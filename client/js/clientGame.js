@@ -241,10 +241,10 @@ function gotHit() {
 
 $(document).on('keydown', function (e) {
     switch (e.which) {
-        //move left
+        //         //move left
         case 37:
             if (canMove(currentUser.position, "left")) {
-                $(myFigure).stop().animate({left: "-=50px"}, {
+                $(myFigure).animate({left: "-=50px"}, {
                     start: function () {
                         currentUser.position.x--;
                     },
@@ -252,6 +252,7 @@ $(document).on('keydown', function (e) {
                     complete: function () {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({left: "0px"});
+                        $(this).clearQueue();
                     }
                 });
                 break;
@@ -262,7 +263,7 @@ $(document).on('keydown', function (e) {
         //move up
         case 38:
             if (canMove(currentUser.position, "up")) {
-                $(myFigure).stop().animate({top: "-=50px"}, {
+                $(myFigure).animate({top: "-=50px"}, {
                     start: function () {
                         currentUser.position.y--;
                     },
@@ -270,6 +271,7 @@ $(document).on('keydown', function (e) {
                     complete: function () {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({top: "0px"});
+                        $(this).clearQueue();
                     }
                 });
                 break;
@@ -280,7 +282,7 @@ $(document).on('keydown', function (e) {
         //move right
         case 39:
             if (canMove(currentUser.position, "right")) {
-                $(myFigure).stop().animate({left: "+=50px"}, {
+                $(myFigure).animate({left: "+=50px"}, {
                     start: function () {
                         currentUser.position.x++;
                     },
@@ -288,6 +290,7 @@ $(document).on('keydown', function (e) {
                     complete: function () {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({left: "0px"});
+                        $(this).clearQueue();
                     }
                 });
                 break;
@@ -298,7 +301,7 @@ $(document).on('keydown', function (e) {
         //move down
         case 40:
             if (canMove(currentUser.position, "down")) {
-                $(myFigure).stop().animate({top: "+=50px"}, {
+                $(myFigure).animate({top: "+=50px"}, {
                     start: function () {
                         currentUser.position.y++;
                     },
@@ -306,6 +309,7 @@ $(document).on('keydown', function (e) {
                     complete: function () {
                         $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
                         $(this).css({top: "0px"});
+                        $(this).clearQueue();
                     }
                 });
                 break;
