@@ -43,12 +43,6 @@ $(waitForElement());
 function waitForElement() {
     if (typeof currentUser !== "undefined") {
         myFigure = $("#" + currentUser.figure);
-        console.log("I am: " + JSON.stringify(currentUser));
-        var backgroundMusic = document.createElement('audio');
-        backgroundMusic.setAttribute('src', '../assets/soundEffects/POL-mutant-jackrabbit-long.wav');
-        backgroundMusic.currentTime = 0;
-        backgroundMusic.loop = true;
-        backgroundMusic.play();
     } else {
         setTimeout(waitForElement, 250);
     }
@@ -79,6 +73,23 @@ function canMove(position, direction) {
             break;
     }
 }
+
+$(document).ready(function () { // When the DOM is Ready, then bind the click
+    $("#playMusic").click(function () {
+        var backgroundMusic = document.createElement('audio');
+        backgroundMusic.setAttribute('src', '../assets/soundEffects/POL-mutant-jackrabbit-long.wav');
+        backgroundMusic.currentTime = 0;
+        backgroundMusic.loop = true;
+        if (backgroundMusic.paused === true) {
+            console.log("Was paused, playing music now!");
+            backgroundMusic.play();
+        } else {
+            console.log("Was playing music, pausing now!");
+            backgroundMusic.pause();
+        }
+
+    });
+});
 
 function destroy(position) {
 
@@ -158,7 +169,10 @@ $(document).on('keydown', function (e) {
                 break;
             }
         case 32:
-            var bomb = $("#" + currentUser.position.y + "_" + currentUser.position.x);
+            var bombX = currentUser.position.x;
+            var bombY = currentUser.position.y;
+            var bomb = $("#" + bombY + "_" + bombX);
+            var leftField;
             $(bomb).stop().animate(
                 {opacity: 1}, {
                     duration: 3000,
@@ -167,14 +181,28 @@ $(document).on('keydown', function (e) {
                         $(bomb).animate({opacity: 0}, {
                             start: function () {
                                 $(bomb).addClass("explosion");
+                                $(bomb).addClass("strideTail");
+                                var leftId = "#" + bombY + "_" + (bombX - 1);
+                                leftField = $(leftId);
+                                $(leftField).animate({opacity: 0}, {
+                                    duration: 2000,
+                                    start: function () {
+                                        $(this).addClass("stride");
+                                    },
+                                    complete: function () {
+                                        $(this).removeClass("stride");
+                                        $(this).removeAttr("style");
+                                    }
+                                })
                             },
-                            duration: 1000,
+                            duration: 2000,
                             step: function () {
                                 audioElement.play();
                             },
                             complete: function () {
                                 $(bomb).removeClass("bomb");
                                 $(bomb).removeClass("explosion");
+                                $(bomb).removeClass("strideTail");
                                 $(bomb).removeAttr("style");
                             }
                         })
