@@ -6,6 +6,7 @@ var dropSound = document.createElement('audio');
 dropSound.setAttribute('src', '../assets/soundEffects/BONG Clunk Hit 02.ogg');
 var crySound = document.createElement('audio');
 crySound.setAttribute('src', '../assets/soundEffects/VOCAL CUTE Call Angry 01.ogg');
+var backgroundMusic = document.createElement('audio');
 
 var catImg = document.createElement("img");
 $(catImg).attr("id", "cat");
@@ -86,18 +87,17 @@ function canMove(position, direction) {
 
 $(document).ready(function () { // When the DOM is Ready, then bind the click
     $("#playMusic").click(function () {
-        var backgroundMusic = document.createElement('audio');
-        backgroundMusic.setAttribute('src', '../assets/soundEffects/POL-mutant-jackrabbit-long.wav');
-        backgroundMusic.currentTime = 0;
-        backgroundMusic.loop = true;
         if (backgroundMusic.paused === true) {
-            console.log("Was paused, playing music now!");
+            $(this).css('background-image', 'url("../assets/icons/sound_on_32x32.png")');
+            backgroundMusic.setAttribute('src', '../assets/soundEffects/POL-mutant-jackrabbit-long.wav');
             backgroundMusic.play();
+            backgroundMusic.loop = true;
         } else {
-            console.log("Was playing music, pausing now!");
+            $(this).css('background-image', 'url("../assets/icons/sound_off_32x32.png")');
+            backgroundMusic.setAttribute('src', '');
             backgroundMusic.pause();
+            backgroundMusic.currentTime = 0;
         }
-
     });
 });
 
