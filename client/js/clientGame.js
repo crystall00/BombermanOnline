@@ -179,7 +179,7 @@ function explode(bombX, bombY) {
             }
         )
     }
-    if (!($(bottomField).hasClass("wall") || $(bottomField).hasClass("wallVertical") || $(bottomField).hasClass("block") || $(bottomField).hasClass("bomb"))) {
+    if (!($(bottomField).hasClass("wall") || $(bottomField).hasClass("wallVertical") || $(bottomField).hasClass("block"))) {
         $(bottomField).addClass("strideDown").stop().animate(
             {opacity: 0},
             {
@@ -241,7 +241,7 @@ function gotHit() {
 
 $(document).on('keydown', function (e) {
     switch (e.which) {
-        //         //move left
+        //move left
         case 37:
             if (canMove(currentUser.position, "left")) {
                 $(myFigure).animate({left: "-=50px"}, {
