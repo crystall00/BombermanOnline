@@ -28,6 +28,7 @@ var bombImg = document.createElement("img");
 $(bombImg).attr("src", "../assets/bomb_000_45x45.png");
 
 
+
 function resetPlayers() {
     let startPositionA = $("#1_1");
     let startPositionB = $("#1_13");
@@ -244,17 +245,8 @@ $(document).on('keydown', function (e) {
         //move left
         case 37:
             if (canMove(currentUser.position, "left")) {
-                $(myFigure).animate({left: "-=50px"}, {
-                    start: function () {
-                        currentUser.position.x--;
-                    },
-                    duration: "fast",
-                    complete: function () {
-                        $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
-                        $(this).css({left: "0px"});
-                        $(this).clearQueue();
-                    }
-                });
+                moveRequest("left");
+                //move($(myFigure),"left");
                 break;
             } else {
                 break;
@@ -263,17 +255,8 @@ $(document).on('keydown', function (e) {
         //move up
         case 38:
             if (canMove(currentUser.position, "up")) {
-                $(myFigure).animate({top: "-=50px"}, {
-                    start: function () {
-                        currentUser.position.y--;
-                    },
-                    duration: "fast",
-                    complete: function () {
-                        $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
-                        $(this).css({top: "0px"});
-                        $(this).clearQueue();
-                    }
-                });
+                moveRequest("up");
+                //move($(myFigure),"up");
                 break;
             } else {
                 break;
@@ -282,17 +265,8 @@ $(document).on('keydown', function (e) {
         //move right
         case 39:
             if (canMove(currentUser.position, "right")) {
-                $(myFigure).animate({left: "+=50px"}, {
-                    start: function () {
-                        currentUser.position.x++;
-                    },
-                    duration: "fast",
-                    complete: function () {
-                        $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
-                        $(this).css({left: "0px"});
-                        $(this).clearQueue();
-                    }
-                });
+                moveRequest("right");
+                //move($(myFigure),"right");
                 break;
             } else {
                 break;
@@ -301,17 +275,8 @@ $(document).on('keydown', function (e) {
         //move down
         case 40:
             if (canMove(currentUser.position, "down")) {
-                $(myFigure).animate({top: "+=50px"}, {
-                    start: function () {
-                        currentUser.position.y++;
-                    },
-                    duration: "fast",
-                    complete: function () {
-                        $(this).appendTo($("#" + currentUser.position.y + "_" + currentUser.position.x));
-                        $(this).css({top: "0px"});
-                        $(this).clearQueue();
-                    }
-                });
+                moveRequest("down");
+                //move($(myFigure),"down");
                 break;
             } else {
                 break;
@@ -331,6 +296,72 @@ $(document).on('keydown', function (e) {
             break;
     }
 });
+
+function updatePosition(figure) {
+
+}
+
+function move(user, direction) {
+    let figure = "#" + user.figure;
+    console.log("Moving...");
+    switch (direction) {
+        case "left":
+            $(figure).animate({left: "-=50px"}, {
+                start: function () {
+                    user.position.x--;
+                },
+                duration: "fast",
+                complete: function () {
+                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).css({left: "0px"});
+                    $(this).clearQueue();
+                }
+            });
+            break;
+        case "right":
+            $(figure).animate({left: "+=50px"}, {
+                start: function () {
+                    user.position.x++;
+                },
+                duration: "fast",
+                complete: function () {
+                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).css({left: "0px"});
+                    $(this).clearQueue();
+                }
+            });
+            break;
+        case "up":
+            $(figure).animate({top: "-=50px"}, {
+                start: function () {
+                    user.position.y--;
+                },
+                duration: "fast",
+                complete: function () {
+                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).css({top: "0px"});
+                    $(this).clearQueue();
+                }
+            });
+            break;
+        case "down":
+            $(figure).animate({top: "+=50px"}, {
+                start: function () {
+                    user.position.y++;
+                },
+                duration: "fast",
+                complete: function () {
+                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).css({top: "0px"});
+                    $(this).clearQueue();
+                }
+            });
+            break;
+        default:
+
+
+    }
+}
 
 function layBomb(bomb, bombX, bombY) {
     $(bomb).addClass("bomb").stop().animate(

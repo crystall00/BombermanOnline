@@ -26,4 +26,13 @@ $(function () {
     websocketGame.socket.on('botMessage', function (msg) {
         botResponse(msg);
     });
+
+    websocketGame.socket.on('updatePosition', function (msg) {
+        console.log("Updating position... " + msg.from.figure + " moving " + msg.message);
+        move(msg.from, msg.message);
+    });
 });
+
+function moveRequest(direction) {
+    websocketGame.socket.emit('clientPosition', new Message(currentUser, direction));
+}

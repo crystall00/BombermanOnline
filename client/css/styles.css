@@ -29,6 +29,12 @@ body > main {
   align-items: center;
   justify-content: center; }
 
+#navContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center; }
+
 nav {
   width: 1100px;
   background: darkcyan;
@@ -163,15 +169,20 @@ li:hover {
 
 #gorilla {
   position: relative;
-  display: block; }
+  display: block;
+  transform: rotateX(-20deg) rotateY(180deg);
+  z-index: 301; }
 
 #penguin {
   position: relative;
-  display: block; }
+  display: block;
+  z-index: 301; }
 
 #rabbit {
   position: relative;
-  display: block; }
+  display: block;
+  transform: rotateX(-20deg) rotateY(180deg);
+  z-index: 301; }
 
 .chat {
   display: flex;

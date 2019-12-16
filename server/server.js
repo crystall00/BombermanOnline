@@ -5,13 +5,10 @@ const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
 const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
-let positionA;
-let positionB;
-let positionC;
-let positionD;
 
 var User = require('./game').User;
 var Room = require('./game').Room;
+var rooms = [];
 
 var room = new Room('waiting room');
 var userId = 0;
@@ -28,6 +25,7 @@ io.on('connect', onConnect);
 function onConnect(socket) {
     let playerPosition;
     let playerFigure;
+    let roomName;
     userId++;
     socket.emit('botMessage', welcomeMessage);
 
@@ -51,25 +49,34 @@ function onConnect(socket) {
         default:
             break;
     }
-    let user = new User(userId, playerPosition, playerFigure, true);
-    let roomName;
+    let user = new User(socket.id, userId, "Player " + userId, playerPosition, playerFigure, true);
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
         room = new Room(roomName);
     }
-    socket.emit('passIdentity', user);
-    socket.join(room.name);
-    room.addUser(user);
-    let message = 'Player ' + user.id + ' joined ' + room.name + '. Total user count: ' + room.users.length;
-    let botMessage = 'Player ' + user.id + ' joined the party!';
-    socket.broadcast.emit('botMessage', botMessage);
-    console.log(message);
+    socket.join(room.name, () => {
+        room.addUser(user);
+        rooms = Object.keys(socket.rooms);
+        user.room = rooms[1];
+        socket.emit('passIdentity', user);
+
+        let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
+        let botMessage = user.name + ' joined the party!';
+
+        socket.to(user.room).emit('botMessage', botMessage);
+        console.log(message);
+    });
+
     socket.on('disconnect', function (socket) {
+        var roster = io.sockets.clients('chatroom1');
         userId--;
-        room.removeUser(user);
+        if (room.users.length === 0) {
+            roomCount--;
+        }
         let message = 'User ' + user.id + ' left ' + room.name + '. Total user count: ' + room.users.length;
-        room.sendAll(io, message, socket, room);
+        io.in(room.name).emit('botMessage', message);
+        //socket.to(user.room).emit('botMessage', message);
         console.log(message);
     });
 
@@ -78,13 +85,10 @@ function onConnect(socket) {
         io.sockets.emit('broadcast', msg);
     });
 
-    socket.on('myPosition', function(msg){
-        console.log("Moved to: ", msg);
-        if(msg.name === 'playerA'){
-            positionA = msg.position;
-        }
-    })
+    socket.on('clientPosition', function (msg) {
+        console.log(msg.from.figure + " wants to move " + msg.message);
+        io.in(room.name).emit('updatePosition', 'the game will start soon');
+        io.sockets.emit('updatePosition', msg);
+    });
 }
-
-
 

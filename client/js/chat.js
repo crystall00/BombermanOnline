@@ -2,7 +2,7 @@ const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
 const msgerChat = get(".msger-chat");
 
-function message(from, message) {
+function Message(from, message) {
     this.from = from;
     this.message = message;
 }
@@ -15,7 +15,7 @@ $(msgerForm).submit(function(event){
     event.preventDefault();
     const msgText = msgerInput.value;
     if (!msgText) return;
-    websocketGame.socket.emit('chatMessage', new message(currentUser, msgText));
+    websocketGame.socket.emit('chatMessage', new Message(currentUser, msgText));
     console.log("Send message: " + msgText);
     msgerInput.value = "";
 });
