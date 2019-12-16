@@ -33,6 +33,7 @@ function Room(name) {
     this.users = [];
 }
 
+
 Room.prototype.addUser = function (user) {
     this.users.push(user);
 };
@@ -45,10 +46,31 @@ Room.prototype.removeUser = function (user) {
     }
 };
 
-Room.prototype.sendAll = function (io, message, socket, room) {
-    //  io.in(room.name).emit('big-announcement', 'the game will start soon');
-    io.to(room.name).emit(message);
+function RoomList() {
+    this.rooms = [];
+}
+
+RoomList.prototype.addRoom = function (room) {
+    this.rooms.push(room);
+};
+
+RoomList.prototype.removeRoom = function (room) {
+    for (var i = this.rooms.length; i >= 0; i--) {
+        if (this.rooms[i] === room) {
+            this.rooms.splice(i, 1);
+        }
+    }
+};
+
+RoomList.prototype.getRoom = function (roomName) {
+    let room = this.rooms.find(function (element) {
+        console.log("The Element name is: " + element.name);
+        console.log("The searched name is: " + roomName);
+        return element.name === roomName;
+    });
+    return room;
 };
 
 module.exports.User = User;
 module.exports.Room = Room;
+module.exports.RoomList = RoomList;

@@ -8,10 +8,10 @@ const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat 
 
 var User = require('./game').User;
 var Room = require('./game').Room;
-var rooms = [];
+var RoomList = require('./game').RoomList;
 
 var room = new Room('waiting room');
-var userId = 0;
+var userCount = 0;
 var roomCount = 0;
 
 app.use(express.static(parentDir + '/client'));
@@ -23,13 +23,14 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
+    let roomList = new RoomList();
     let playerPosition;
     let playerFigure;
     let roomName;
-    userId++;
+    userCount++;
     socket.emit('botMessage', welcomeMessage);
 
-    switch (userId % 4) {
+    switch (userCount % 4) {
         case 1:
             playerPosition = {x: 1, y: 1};
             playerFigure = "cat";
@@ -49,15 +50,17 @@ function onConnect(socket) {
         default:
             break;
     }
-    let user = new User(socket.id, userId, "Player " + userId, playerPosition, playerFigure, true);
+    let user = new User(socket.id, userCount, "Player " + userCount, playerPosition, playerFigure, true);
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
         room = new Room(roomName);
+        roomList.addRoom(room);
+        console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[0].name);
     }
     socket.join(room.name, () => {
         room.addUser(user);
-        rooms = Object.keys(socket.rooms);
+        let rooms = Object.keys(socket.rooms);
         user.room = rooms[1];
         socket.emit('passIdentity', user);
 
@@ -68,15 +71,30 @@ function onConnect(socket) {
         console.log(message);
     });
 
-    socket.on('disconnect', function (socket) {
-        var roster = io.sockets.clients('chatroom1');
-        userId--;
+    socket.on('disconnecting', function (socket) {
+        let self = this;
+        let rooms = Object.keys(self.rooms);
+        let roomName = rooms[1];
+
+        let room = roomList.rooms.find(function (element) {
+            return element.name === roomName;
+        });
+
+        console.log("Leaving " + roomName);
+        let user = room.users.find(function (element) {
+            return element.socketId === self.id;
+        });
+
+        room.removeUser(user);
+        userCount--;
+
         if (room.users.length === 0) {
+            roomList.removeRoom(room);
             roomCount--;
         }
-        let message = 'User ' + user.id + ' left ' + room.name + '. Total user count: ' + room.users.length;
+
+        let message = 'User ' + user.name + ' left ' + room.name + '. Total user count: ' + room.users.length;
         io.in(room.name).emit('botMessage', message);
-        //socket.to(user.room).emit('botMessage', message);
         console.log(message);
     });
 
