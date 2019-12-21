@@ -63,12 +63,9 @@ RoomList.prototype.removeRoom = function (room) {
 };
 
 RoomList.prototype.getRoom = function (roomName) {
-    let room = this.rooms.find(function (element) {
-        console.log("The Element name is: " + element.name);
-        console.log("The searched name is: " + roomName);
+    return this.rooms.find(function (element) {
         return element.name === roomName;
     });
-    return room;
 };
 
 module.exports.User = User;

@@ -10,6 +10,7 @@ var User = require('./game').User;
 var Room = require('./game').Room;
 var RoomList = require('./game').RoomList;
 
+let roomList = new RoomList();
 var room = new Room('waiting room');
 var userCount = 0;
 var roomCount = 0;
@@ -23,7 +24,6 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
-    let roomList = new RoomList();
     let playerPosition;
     let playerFigure;
     let roomName;
@@ -56,7 +56,7 @@ function onConnect(socket) {
         roomName = 'Room #' + roomCount;
         room = new Room(roomName);
         roomList.addRoom(room);
-        console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[0].name);
+        console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[roomCount - 1].name);
     }
     socket.join(room.name, () => {
         room.addUser(user);
@@ -76,24 +76,12 @@ function onConnect(socket) {
         let rooms = Object.keys(self.rooms);
         let roomName = rooms[1];
 
-        console.log("Looking for room name: " + rooms[1] + roomList.rooms.length + "There is a Room called: " + roomList.rooms[0].name);
+        let room = roomList.getRoom(roomName);
 
-        let room = roomList.rooms.find(function (element) {
-            return element.name === roomName;
-        });
-
-        console.log("Looking for socket-id: " + self.id.trim());
-        console.log("Currently following socket-ids available: ");
-
-        for(var i = 0; i < room.users.length; i++){
-            console.log("Socket-id: " + room.users[i]);
-        }
-
-        console.log("Leaving " + roomName);
         let user = room.users.find(function (element) {
             return element.socketId === self.id.trim();
         });
-
+        console.log(user.name + " left " + room.name);
         room.removeUser(user);
         userCount--;
 
@@ -102,7 +90,7 @@ function onConnect(socket) {
             roomCount--;
         }
 
-        let message = 'User ' + user.name + ' left ' + room.name + '. Total user count: ' + room.users.length;
+        let message = 'User ' + user.name + ' left ' + room.name + 'Total user count: ' + room.users.length;
         io.in(room.name).emit('botMessage', message);
         console.log(message);
     });
