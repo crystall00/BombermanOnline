@@ -50,7 +50,7 @@ function onConnect(socket) {
         default:
             break;
     }
-    let user = new User(socket.id, userCount, "Player " + userCount, playerPosition, playerFigure, true);
+    let user = new User(socket.id.trim(), userCount, "Player " + userCount, playerPosition, playerFigure, true);
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
@@ -76,13 +76,22 @@ function onConnect(socket) {
         let rooms = Object.keys(self.rooms);
         let roomName = rooms[1];
 
+        console.log("Looking for room name: " + rooms[1] + roomList.rooms.length + "There is a Room called: " + roomList.rooms[0].name);
+
         let room = roomList.rooms.find(function (element) {
             return element.name === roomName;
         });
 
+        console.log("Looking for socket-id: " + self.id.trim());
+        console.log("Currently following socket-ids available: ");
+
+        for(var i = 0; i < room.users.length; i++){
+            console.log("Socket-id: " + room.users[i]);
+        }
+
         console.log("Leaving " + roomName);
         let user = room.users.find(function (element) {
-            return element.socketId === self.id;
+            return element.socketId === self.id.trim();
         });
 
         room.removeUser(user);
