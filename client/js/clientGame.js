@@ -49,37 +49,33 @@ var myFigure;
 $(waitForElement());
 
 function waitForElement() {
-    if (typeof currentUser !== "undefined") {
-        myFigure = $("#" + currentUser.figure);
+    if (typeof myself !== "undefined") {
+        myFigure = $("#" + myself.figure);
     } else {
         setTimeout(waitForElement, 250);
     }
 }
 
-function canMove(position, direction) {
-    if (!currentUser.alive) {
+function canMove(me, direction) {
+    if (!me.alive) {
         console.log("you are dead :/");
         return false;
     }
-    var x = position.x;
-    var y = position.y;
-    var toField;
+    let x = me.position.x;
+    let y = me.position.y;
+    let toField;
     switch (direction) {
         case "right":
-            x++;
-            toField = $("#" + y + "_" + x);
+            toField = $("#" + y + "_" + (x + 1));
             return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "down":
-            y++;
-            toField = $("#" + y + "_" + x);
+            toField = $("#" + (y + 1) + "_" + x);
             return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "left":
-            x--;
-            toField = $("#" + y + "_" + x);
+            toField = $("#" + y + "_" + (x - 1));
             return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         case "up":
-            y--;
-            toField = $("#" + y + "_" + x);
+            toField = $("#" + (y - 1) + "_" + x);
             return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
         default:
             break;
@@ -124,8 +120,8 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!currentUser.alive) {
-                        $("#" + currentUser.figure).remove();
+                    if (!myself.alive) {
+                        $("#" + myself.figure).remove();
                     }
                     $(this).removeClass().removeAttr("style");
                 }
@@ -148,8 +144,8 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!currentUser.alive) {
-                        $("#" + currentUser.figure).remove();
+                    if (!myself.alive) {
+                        $("#" + myself.figure).remove();
                     }
                     $(this).removeClass().removeAttr("style");
                 }
@@ -172,8 +168,8 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!currentUser.alive) {
-                        $("#" + currentUser.figure).remove();
+                    if (!myself.alive) {
+                        $("#" + myself.figure).remove();
                     }
                     $(this).removeClass().removeAttr("style");
                 }
@@ -196,8 +192,8 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!currentUser.alive) {
-                        $("#" + currentUser.figure).remove();
+                    if (!myself.alive) {
+                        $("#" + myself.figure).remove();
                     }
                     $(this).removeClass().removeAttr("style");
                 }
@@ -207,12 +203,12 @@ function explode(bombX, bombY) {
 }
 
 function gotHit() {
-    if (currentUser.alive) {
-        let position = $("#" + currentUser.position.y + "_" + currentUser.position.x);
+    if (myself.alive) {
+        let position = $("#" + myself.position.y + "_" + myself.position.x);
         if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
             crySound.play();
-            currentUser.alive = false;
-            $("#" + currentUser.figure).animate(
+            myself.alive = false;
+            $("#" + myself.figure).animate(
                 {display: "none"},
                 {
                     start: function () {
@@ -244,9 +240,9 @@ $(document).on('keydown', function (e) {
     switch (e.which) {
         //move left
         case 37:
-            if (canMove(currentUser.position, "left")) {
-                moveRequest("left");
-                //move($(myFigure),"left");
+            if (canMove(myself, "left")) {
+                myself.position.x--;
+                requestNewPosition(myself, "left");
                 break;
             } else {
                 break;
@@ -254,9 +250,9 @@ $(document).on('keydown', function (e) {
 
         //move up
         case 38:
-            if (canMove(currentUser.position, "up")) {
-                moveRequest("up");
-                //move($(myFigure),"up");
+            if (canMove(myself, "up")) {
+                myself.position.y--;
+                requestNewPosition(myself, "up");
                 break;
             } else {
                 break;
@@ -264,9 +260,9 @@ $(document).on('keydown', function (e) {
 
         //move right
         case 39:
-            if (canMove(currentUser.position, "right")) {
-                moveRequest("right");
-                //move($(myFigure),"right");
+            if (canMove(myself, "right")) {
+                myself.position.x++;
+                requestNewPosition(myself, "right");
                 break;
             } else {
                 break;
@@ -274,24 +270,24 @@ $(document).on('keydown', function (e) {
 
         //move down
         case 40:
-            if (canMove(currentUser.position, "down")) {
-                moveRequest("down");
-                //move($(myFigure),"down");
+            if (canMove(myself, "down")) {
+                myself.position.y++;
+                requestNewPosition(myself, "down");
                 break;
             } else {
                 break;
             }
         case 32:
-            if (!currentUser.alive) {
+            if (!myself.alive) {
                 return false;
             }
-            let bombX = currentUser.position.x;
-            let bombY = currentUser.position.y;
-            let bomb = $("#" + bombY + "_" + bombX);
 
-            if (!$(bomb).hasClass("bomb")) {
-                dropSound.play();
-                layBomb(bomb, bombX, bombY);
+            let currentField = $("#" + myself.position.y + "_" + myself.position.x);
+
+            if (!$(currentField).hasClass("bomb")) {
+                //dropSound.play();
+                requestBombDrop(myself);
+                //layBomb(bomb, bombX, bombY);
             }
             break;
     }
@@ -301,18 +297,14 @@ function updatePosition(figure) {
 
 }
 
-function move(user, direction) {
-    let figure = "#" + user.figure;
-    console.log("Moving...");
+function move(player, direction) {
+    let figure = $("#" + player.figure);
     switch (direction) {
         case "left":
             $(figure).animate({left: "-=50px"}, {
-                start: function () {
-                    user.position.x--;
-                },
                 duration: "fast",
                 complete: function () {
-                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
                     $(this).clearQueue();
                 }
@@ -320,12 +312,9 @@ function move(user, direction) {
             break;
         case "right":
             $(figure).animate({left: "+=50px"}, {
-                start: function () {
-                    user.position.x++;
-                },
                 duration: "fast",
                 complete: function () {
-                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
                     $(this).clearQueue();
                 }
@@ -333,12 +322,9 @@ function move(user, direction) {
             break;
         case "up":
             $(figure).animate({top: "-=50px"}, {
-                start: function () {
-                    user.position.y--;
-                },
                 duration: "fast",
                 complete: function () {
-                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
                     $(this).clearQueue();
                 }
@@ -346,12 +332,9 @@ function move(user, direction) {
             break;
         case "down":
             $(figure).animate({top: "+=50px"}, {
-                start: function () {
-                    user.position.y++;
-                },
                 duration: "fast",
                 complete: function () {
-                    $(this).appendTo($("#" + user.position.y + "_" + user.position.x));
+                    $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
                     $(this).clearQueue();
                 }
@@ -363,8 +346,10 @@ function move(user, direction) {
     }
 }
 
-function layBomb(bomb, bombX, bombY) {
-    $(bomb).addClass("bomb").stop().animate(
+function layBomb(position) {
+    dropSound.play();
+    let field = $("#" + position.y + "_" + position.x);
+    $(field).addClass("bomb").stop().animate(
         {display: "none"},
         {
             start: function () {
@@ -377,7 +362,7 @@ function layBomb(bomb, bombX, bombY) {
                     {opacity: 0},
                     {
                         start: function () {
-                            explode(bombX, bombY);
+                            explode(position.x, position.y);
                         },
                         duration: 1000,
                         complete: function () {

@@ -1,5 +1,5 @@
 const websocketGame = {};
-var currentUser;
+var myself;
 
 $(function () {
     websocketGame.socket = io();
@@ -9,15 +9,15 @@ $(function () {
     });
 
     websocketGame.socket.on('passIdentity', function (identity) {
-        currentUser = identity;
-        console.log('Identity passed. My ID is: ' + currentUser.id);
-        console.log('My Figure is: ' + currentUser.figure);
-        console.log('My position is: ' + JSON.stringify(currentUser.position));
+        myself = identity;
+        console.log('Identity passed. My ID is: ' + myself.id);
+        console.log('My Figure is: ' + myself.figure);
+        console.log('My position is: ' + JSON.stringify(myself.position));
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
-        if (msg.from.id === currentUser.id) {
-            appendMessage('Player ' + currentUser.id, currentUser.imgPath, "right", msg.message);
+        if (msg.from.id === myself.id) {
+            appendMessage('Player ' + myself.id, myself.imgPath, "right", msg.message);
         } else {
             appendMessage('Player ' + msg.from.id, msg.from.imgPath, "left", msg.message);
         }
@@ -27,12 +27,21 @@ $(function () {
         botResponse(msg);
     });
 
-    websocketGame.socket.on('updatePosition', function (msg) {
+    websocketGame.socket.on('confirmPosition', function (msg) {
         console.log("Updating position... " + msg.from.figure + " moving " + msg.message);
         move(msg.from, msg.message);
     });
+
+    websocketGame.socket.on('confirmBombDrop', function (msg) {
+        console.log("Bomb drop by " + msg.from.figure);
+        layBomb(msg.from.position);
+    });
 });
 
-function moveRequest(direction) {
-    websocketGame.socket.emit('clientPosition', new Message(currentUser, direction));
+function requestNewPosition(me, direction) {
+    websocketGame.socket.emit('requestPosition', new Message(me, direction));
+}
+
+function requestBombDrop(me) {
+    websocketGame.socket.emit('requestBombDrop', new Message(me, ""));
 }

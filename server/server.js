@@ -60,6 +60,7 @@ function onConnect(socket) {
     }
     socket.join(room.name, () => {
         room.addUser(user);
+        user.addtoRoom(room.name);
         let rooms = Object.keys(socket.rooms);
         user.room = rooms[1];
         socket.emit('passIdentity', user);
@@ -100,10 +101,15 @@ function onConnect(socket) {
         io.sockets.emit('broadcast', msg);
     });
 
-    socket.on('clientPosition', function (msg) {
+    socket.on('requestPosition', function (msg) {
         console.log(msg.from.figure + " wants to move " + msg.message);
-        io.in(room.name).emit('updatePosition', 'the game will start soon');
-        io.sockets.emit('updatePosition', msg);
+        io.in(msg.from.room).emit('confirmPosition', msg);
     });
+
+    socket.on('requestBombDrop', function (msg) {
+        console.log(msg.from.figure + "Dropping bomb at " + msg.from.position.x + "/" + msg.from.position.y);
+        io.in(msg.from.room).emit('confirmBombDrop', msg);
+    });
+
 }
 

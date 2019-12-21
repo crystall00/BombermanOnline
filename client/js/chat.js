@@ -15,7 +15,7 @@ $(msgerForm).submit(function(event){
     event.preventDefault();
     const msgText = msgerInput.value;
     if (!msgText) return;
-    websocketGame.socket.emit('chatMessage', new Message(currentUser, msgText));
+    websocketGame.socket.emit('chatMessage', new Message(myself, msgText));
     console.log("Send message: " + msgText);
     msgerInput.value = "";
 });

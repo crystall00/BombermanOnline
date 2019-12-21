@@ -3,7 +3,7 @@ const GORILLA_IMG = "assets/player/icons/gorilla_ico_50x50.png";
 const PENGUIN_IMG = "assets/player/icons/penguin_ico_50x50.png";
 const RABBIT_IMG = "assets/player/icons/rabbit_ico_50x50.png";
 
-function User(socketId, id, name, position, figure, alive) {
+function User(socketId, id, name, position, figure, alive, room) {
     this.socketId = socketId;
     this.id = id;
     this.name = name;
@@ -27,6 +27,10 @@ function User(socketId, id, name, position, figure, alive) {
             break;
     }
 }
+
+User.prototype.addtoRoom = function (room) {
+    this.room = room;
+};
 
 function Room(name) {
     this.name = name;
