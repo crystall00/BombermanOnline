@@ -136,6 +136,9 @@ function explode(bombX, bombY) {
             {opacity: 0},
             {
                 start: function () {
+                    if ($(rightField).hasClass("ice")) {
+                        fieldUpdate(bombY, (bombX + 1));
+                    }
                     if ($(rightField).hasClass("bomb")) {
                         $(rightField).stop();
                         detonate(rightField, (bombX + 1), bombY);
@@ -160,6 +163,9 @@ function explode(bombX, bombY) {
             {opacity: 0},
             {
                 start: function () {
+                    if ($(topField).hasClass("ice")) {
+                        fieldUpdate((bombY - 1), bombX);
+                    }
                     if ($(topField).hasClass("bomb")) {
                         $(topField).stop();
                         detonate(topField, bombX, (bombY - 1));
@@ -184,6 +190,9 @@ function explode(bombX, bombY) {
             {opacity: 0},
             {
                 start: function () {
+                    if ($(bottomField).hasClass("ice")) {
+                        fieldUpdate((bombY + 1), bombX);
+                    }
                     if ($(bottomField).hasClass("bomb")) {
                         $(bottomField).stop();
                         detonate(bottomField, bombX, (bombY + 1));

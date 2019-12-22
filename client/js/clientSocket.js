@@ -34,8 +34,29 @@ $(function () {
     });
 
     websocketGame.socket.on('confirmBombDrop', function (msg) {
-        console.log("bomb being layed################################");
         layBomb(msg.from.position);
+    });
+
+    websocketGame.socket.on('updatePlayerPositions', function (msg) {
+        for (let i = 0; i < msg.users.length; i++) {
+            let position = msg.users[i].position;
+            switch (msg.users[i].figure) {
+                case "cat":
+                    $("#cat").appendTo($("#" + position.y + "_" + position.x));
+                    break;
+                case "gorilla":
+                    $("#gorilla").appendTo($("#" + position.y + "_" + position.x));
+                    break;
+                case "penguin":
+                    $("#penguin").appendTo($("#" + position.y + "_" + position.x));
+                    break;
+                case "rabbit":
+                    $("#rabbit").appendTo($("#" + position.y + "_" + position.x));
+                    break;
+                default:
+                    break;
+            }
+        }
     });
 });
 

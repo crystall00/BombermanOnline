@@ -55,16 +55,14 @@ function onConnect(socket) {
         roomCount++;
         roomName = 'Room #' + roomCount;
         room = new Room(roomName);
-        console.log("initializing room: Width: " + room.field.length);
         roomList.addRoom(room);
-        console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[roomCount - 1].name);
     }
     socket.join(room.name, () => {
         room.addUser(user);
         let rooms = Object.keys(socket.rooms);
         user.assignToRoom(room.name);
         socket.emit('passIdentity', user);
-
+        socket.emit('updatePlayerPositions', room);
         let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
         let botMessage = user.name + ' joined the party!';
 
@@ -101,7 +99,6 @@ function onConnect(socket) {
         let rooms = Object.keys(self.rooms);
         let roomName = rooms[1];
         let room = roomList.getRoom(roomName);
-        //console.log(JSON.stringify(room));
         io.in(msg.from.room).emit('loadField', room.field);
     });
 
@@ -112,6 +109,30 @@ function onConnect(socket) {
 
     socket.on('requestPosition', function (msg) {
         console.log(msg.from.figure + " wants to move " + msg.message);
+        let self = this;
+        let rooms = Object.keys(self.rooms);
+        let roomName = rooms[1];
+        let room = roomList.getRoom(roomName);
+        let user = room.users.find(function (element) {
+            return element.socketId === self.id.trim();
+        });
+
+        switch (msg.message) {
+            case "left":
+                user.position.x--;
+                break;
+            case "right":
+                user.position.x++;
+                break;
+            case "up":
+                user.position.y--;
+                break;
+            case "down":
+                user.position.y++;
+                break;
+            default:
+                break;
+        }
         io.in(msg.from.room).emit('confirmPosition', msg);
     });
 
