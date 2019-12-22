@@ -28,7 +28,6 @@ var bombImg = document.createElement("img");
 $(bombImg).attr("src", "../assets/bomb_000_45x45.png");
 
 
-
 function resetPlayers() {
     let startPositionA = $("#1_1");
     let startPositionB = $("#1_13");
@@ -255,60 +254,72 @@ function playerHit(player) {
     );
 }
 
+var counter = 1;
+
 $(document).on('keydown', function (e) {
-    switch (e.which) {
-        //move left
-        case 37:
-            if (canMove(myself, "left")) {
-                myself.position.x--;
-                requestNewPosition(myself, "left");
-                break;
-            } else {
-                break;
-            }
+    if (counter > 0) {
+        switch (e.which) {
+            //move left
+            case 37:
+                if (canMove(myself, "left")) {
+                    counter--;
+                    myself.position.x--;
+                    requestNewPosition(myself, "left");
+                    break;
+                } else {
+                    break;
+                }
 
-        //move up
-        case 38:
-            if (canMove(myself, "up")) {
-                myself.position.y--;
-                requestNewPosition(myself, "up");
-                break;
-            } else {
-                break;
-            }
+            //move up
+            case 38:
+                if (canMove(myself, "up")) {
+                    counter--;
+                    myself.position.y--;
+                    requestNewPosition(myself, "up");
+                    break;
+                } else {
+                    break;
+                }
 
-        //move right
-        case 39:
-            if (canMove(myself, "right")) {
-                myself.position.x++;
-                requestNewPosition(myself, "right");
-                break;
-            } else {
-                break;
-            }
+            //move right
+            case 39:
+                if (canMove(myself, "right")) {
+                    counter--;
+                    myself.position.x++;
+                    requestNewPosition(myself, "right");
+                    break;
+                } else {
+                    break;
+                }
 
-        //move down
-        case 40:
-            if (canMove(myself, "down")) {
-                myself.position.y++;
-                requestNewPosition(myself, "down");
+            //move down
+            case 40:
+                if (canMove(myself, "down")) {
+                    counter--;
+                    myself.position.y++;
+                    requestNewPosition(myself, "down");
+                    break;
+                } else {
+                    break;
+                }
+            default:
                 break;
-            } else {
-                break;
-            }
-        case 32:
-            if (!myself.alive) {
-                return false;
-            }
+        }
+    } else {
+        console.log("counter is 0 :/");
+    }
+    if (e.which === 32) {
+        if (!myself.alive) {
+            return false;
+        }
 
-            let currentField = $("#" + myself.position.y + "_" + myself.position.x);
+        let currentField = $("#" + myself.position.y + "_" + myself.position.x);
 
-            if (!$(currentField).hasClass("bomb")) {
-                //dropSound.play();
-                requestBombDrop(myself);
-                //layBomb(bomb, bombX, bombY);
-            }
-            break;
+        if (!$(currentField).hasClass("bomb")) {
+            //dropSound.play();
+            requestBombDrop(myself);
+            //layBomb(bomb, bombX, bombY);
+        }
     }
 });
 
@@ -327,6 +338,8 @@ function move(player, direction) {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
                     $(this).clearQueue();
+                    counter++;
+                    console.log(counter);
                 }
             });
             break;
@@ -337,6 +350,7 @@ function move(player, direction) {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
                     $(this).clearQueue();
+                    counter++;
                 }
             });
             break;
@@ -347,6 +361,7 @@ function move(player, direction) {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
                     $(this).clearQueue();
+                    counter++;
                 }
             });
             break;
@@ -357,6 +372,7 @@ function move(player, direction) {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
                     $(this).clearQueue();
+                    counter++;
                 }
             });
             break;
