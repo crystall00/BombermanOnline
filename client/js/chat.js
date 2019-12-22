@@ -7,6 +7,12 @@ function Message(from, message) {
     this.message = message;
 }
 
+function Position(from, X, Y) {
+    this.from = from;
+    this.X = X;
+    this.Y = Y;
+}
+
 const BOT_IMG = "assets/player/bot/bot_50x50.png";
 const BOT_NAME = "BOT";
 const PERSON_NAME = "Player 1";

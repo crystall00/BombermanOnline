@@ -63,3 +63,7 @@ function loadField(field) {
         }
     }
 }
+
+function fieldUpdate(X, Y) {
+    websocketGame.socket.emit('fieldUpdate', new Position(myself, X, Y));
+}

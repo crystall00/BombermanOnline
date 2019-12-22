@@ -119,5 +119,13 @@ function onConnect(socket) {
         console.log(msg.from.figure + "Dropping bomb at " + msg.from.position.x + "/" + msg.from.position.y);
         io.in(msg.from.room).emit('confirmBombDrop', msg);
     });
+
+    socket.on('fieldUpdate', function (msg) {
+        let self = this;
+        let rooms = Object.keys(self.rooms);
+        let roomName = rooms[1];
+        let room = roomList.getRoom(roomName);
+        room.field[msg.X][msg.Y] = 0;
+    });
 }
 

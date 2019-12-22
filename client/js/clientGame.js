@@ -109,6 +109,9 @@ function explode(bombX, bombY) {
             {opacity: 0},
             {
                 start: function () {
+                    if ($(leftField).hasClass("ice")) {
+                        fieldUpdate(bombY, bombX - 1);
+                    }
                     if ($(leftField).hasClass("bomb")) {
                         $(leftField).stop();
                         detonate(leftField, (bombX - 1), bombY);
