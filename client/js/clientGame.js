@@ -27,6 +27,33 @@ $(rabbitImg).attr("src", "../assets/player/rabbit_000_50x50.png");
 var bombImg = document.createElement("img");
 $(bombImg).attr("src", "../assets/bomb_000_45x45.png");
 
+var timerID;
+
+var interval = {
+    // to keep a reference to all the intervals
+    intervals: new Set(),
+
+    // create another interval
+    make(...args) {
+        var newInterval = setInterval(...args);
+        this.intervals.add(newInterval);
+        return newInterval;
+    },
+
+    // clear a single interval
+    clear(id) {
+        this.intervals.delete(id);
+        return clearInterval(id);
+    },
+
+    // clear all intervals
+    clearAll() {
+        for (var id of this.intervals) {
+            this.clear(id);
+        }
+    }
+};
+
 
 function resetPlayers() {
     let startPositionA = $("#1_1");
@@ -116,9 +143,10 @@ function explode(bombX, bombY) {
                         detonate(leftField, (bombX - 1), bombY);
                     }
                     gotHit();
-                },
-                progress: function () {
-                    gotHit();
+                    interval.make(function () {
+                        console.log("was here");
+                        gotHit();
+                    }, 350);
                 },
                 duration: 1000,
                 complete: function () {
@@ -126,6 +154,7 @@ function explode(bombX, bombY) {
                         $("#" + myself.figure).remove();
                     }
                     $(this).removeClass().removeAttr("style");
+                    interval.clearAll();
                 }
             }
         )
@@ -142,10 +171,6 @@ function explode(bombX, bombY) {
                         $(rightField).stop();
                         detonate(rightField, (bombX + 1), bombY);
                     }
-                    gotHit();
-                },
-                progress: function () {
-                    gotHit()
                 },
                 duration: 1000,
                 complete: function () {
@@ -169,10 +194,6 @@ function explode(bombX, bombY) {
                         $(topField).stop();
                         detonate(topField, bombX, (bombY - 1));
                     }
-                    gotHit();
-                },
-                progress: function () {
-                    gotHit()
                 },
                 duration: 1000,
                 complete: function () {
@@ -196,13 +217,6 @@ function explode(bombX, bombY) {
                         $(bottomField).stop();
                         detonate(bottomField, bombX, (bombY + 1));
                     }
-                    gotHit();
-                },
-                progress: function () {
-                    setTimeout(function () {
-                        gotHit();
-                        console.log("Checkin if got hit");
-                    }, 100);
                 },
                 duration: 1000,
                 complete: function () {
@@ -322,10 +336,6 @@ $(document).on('keydown', function (e) {
         }
     }
 });
-
-function updatePosition(figure) {
-
-}
 
 function move(player, direction) {
     let figure = $("#" + player.figure);
