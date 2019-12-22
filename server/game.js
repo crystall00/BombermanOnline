@@ -32,34 +32,40 @@ User.prototype.assignToRoom = function (room) {
     this.room = room;
 };
 
-function Room(name, field) {
+function Room(name) {
     this.name = name;
     this.users = [];
-    this.field = field;
+    let someField = new PlayingField();
+    //console.log("######################## JSON 1" + JSON.stringify(someField));
+    someField.create2DimField();
+    //console.log("######################## JSON 2" + JSON.stringify(someField));
+    someField.initialize();
+    //console.log("######################## JSON 3" + JSON.stringify(someField));
+    this.field = someField.field;
 }
 
 function PlayingField() {
-    this.field = [13, 13];
+
 }
 
 PlayingField.prototype.create2DimField = function () {
-    this.field = new Array(13);
-    for (let i = 0; i < 13; i++) {
-        this.field[i] = new Array(13);
+    this.field = new Array(15);
+    for (let i = 0; i < this.field.length; i++) {
+        this.field[i] = new Array(15);
     }
-    initialize(this.field);
 };
 
-function initialize(field) {
-    for (let i = 0; i < field.length; i++) {
-        for (let j = 0; j < field[0].length; j++) {
-            if (!((((i - 1) % 2 === 0 && (j - 1) % 2 === 0)) || (i < 2 || i > 10) && (j < 2 || j > 10))) {
-                field[i][j] = 1;
-                console.log(field[i][j]);
+PlayingField.prototype.initialize = function () {
+    for (let i = 1; i < this.field.length; i++) {
+        for (let j = 1; j < this.field[0].length; j++) {
+            if (!((i === 0 || i === 14) || ((j === 0 || j === 14) && (i !== 0 || i !== 14)) || ((i % 2 === 0 && j % 2 === 0)) || ((i < 3 || i > 11) && (j < 3 || j > 11)))) {
+                this.field[i][j] = 1;
+            } else {
+                this.field[i][j] = 0;
             }
         }
     }
-}
+};
 
 
 Room.prototype.addUser = function (user) {
@@ -67,7 +73,7 @@ Room.prototype.addUser = function (user) {
 };
 
 Room.prototype.removeUser = function (user) {
-    for (var i = this.users.length; i >= 0; i--) {
+    for (let i = this.users.length; i >= 0; i--) {
         if (this.users[i] === user) {
             this.users.splice(i, 1);
         }
@@ -99,4 +105,3 @@ RoomList.prototype.getRoom = function (roomName) {
 module.exports.User = User;
 module.exports.Room = Room;
 module.exports.RoomList = RoomList;
-module.exports.PlayingField = PlayingField;

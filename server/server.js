@@ -6,18 +6,14 @@ const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
 const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
 
-var PlayingField = require('./game').PlayingField;
 var User = require('./game').User;
 var Room = require('./game').Room;
 var RoomList = require('./game').RoomList;
 
-var playingField = new PlayingField().create2DimField();
 var roomList = new RoomList();
-var room = new Room("", playingField);
+var room = new Room("");
 var userCount = 0;
 var roomCount = 0;
-
-console.log(JSON.stringify(room));
 
 app.use(express.static(parentDir + '/client'));
 
@@ -58,7 +54,7 @@ function onConnect(socket) {
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
-        room = new Room(roomName, playingField);
+        room = new Room(roomName);
         console.log("initializing room: Width: " + room.field.length);
         roomList.addRoom(room);
         console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[roomCount - 1].name);
@@ -105,6 +101,7 @@ function onConnect(socket) {
         let rooms = Object.keys(self.rooms);
         let roomName = rooms[1];
         let room = roomList.getRoom(roomName);
+        //console.log(JSON.stringify(room));
         io.in(msg.from.room).emit('loadField', room.field);
     });
 
@@ -122,6 +119,5 @@ function onConnect(socket) {
         console.log(msg.from.figure + "Dropping bomb at " + msg.from.position.x + "/" + msg.from.position.y);
         io.in(msg.from.room).emit('confirmBombDrop', msg);
     });
-
 }
 

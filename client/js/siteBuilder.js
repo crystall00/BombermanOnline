@@ -12,9 +12,7 @@ function resetGame() {
                 $(divElement).addClass('wallVertical').appendTo($("#game"));
             } else if ((i % 2 === 0 && j % 2 === 0)) {
                 $(divElement).addClass('block').appendTo($("#game"));
-            } /*else if (!((i < 3 || i > 11) && (j < 3 || j > 11))) {
-                $(divElement).addClass('ice').appendTo($("#game"));
-            }*/ else {
+            } else {
                 $(divElement).appendTo($("#game"));
             }
         }

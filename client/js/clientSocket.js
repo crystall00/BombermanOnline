@@ -22,7 +22,7 @@ $(function () {
     });
 
     websocketGame.socket.on('loadField', function (msg) {
-        loadField(msg.field);
+        loadField(msg);
     });
 
     websocketGame.socket.on('botMessage', function (msg) {
@@ -52,10 +52,13 @@ function requestField() {
 }
 
 function loadField(field) {
+    console.log(JSON.stringify(field));
     for (let i = 0; i < field.length; i++) {
         for (let j = 0; j < field[0].length; j++) {
             if (field[i][j] === 1) {
-                $("#" + i + "_" + j).addClass('ice').appendTo($("#game"));
+                let searchID = "#" + i + "_" + j;
+                console.log("adding ice to: " + searchID);
+                $(searchID).addClass('ice');
             }
         }
     }
