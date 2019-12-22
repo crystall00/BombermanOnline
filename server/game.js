@@ -28,13 +28,37 @@ function User(socketId, id, name, position, figure, alive, room) {
     }
 }
 
-User.prototype.addtoRoom = function (room) {
+User.prototype.assignToRoom = function (room) {
     this.room = room;
 };
 
-function Room(name) {
+function Room(name, field) {
     this.name = name;
     this.users = [];
+    this.field = field;
+}
+
+function PlayingField() {
+    this.field = [13, 13];
+}
+
+PlayingField.prototype.create2DimField = function () {
+    this.field = new Array(13);
+    for (let i = 0; i < 13; i++) {
+        this.field[i] = new Array(13);
+    }
+    initialize(this.field);
+};
+
+function initialize(field) {
+    for (let i = 0; i < field.length; i++) {
+        for (let j = 0; j < field[0].length; j++) {
+            if (!((((i - 1) % 2 === 0 && (j - 1) % 2 === 0)) || (i < 2 || i > 10) && (j < 2 || j > 10))) {
+                field[i][j] = 1;
+                console.log(field[i][j]);
+            }
+        }
+    }
 }
 
 
@@ -75,3 +99,4 @@ RoomList.prototype.getRoom = function (roomName) {
 module.exports.User = User;
 module.exports.Room = Room;
 module.exports.RoomList = RoomList;
+module.exports.PlayingField = PlayingField;

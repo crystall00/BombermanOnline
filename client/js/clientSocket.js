@@ -5,14 +5,12 @@ $(function () {
     websocketGame.socket = io();
 
     websocketGame.socket.on('connect', () => {
-        console.log("Connected to server");
+        console.log("connected to server");
     });
 
     websocketGame.socket.on('passIdentity', function (identity) {
         myself = identity;
-        console.log('Identity passed. My ID is: ' + myself.id);
-        console.log('My Figure is: ' + myself.figure);
-        console.log('My position is: ' + JSON.stringify(myself.position));
+        requestField();
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
@@ -23,17 +21,20 @@ $(function () {
         }
     });
 
+    websocketGame.socket.on('loadField', function (msg) {
+        loadField(msg.field);
+    });
+
     websocketGame.socket.on('botMessage', function (msg) {
         botResponse(msg);
     });
 
     websocketGame.socket.on('confirmPosition', function (msg) {
-        console.log("Updating position... " + msg.from.figure + " moving " + msg.message);
         move(msg.from, msg.message);
     });
 
     websocketGame.socket.on('confirmBombDrop', function (msg) {
-        console.log("Bomb drop by " + msg.from.figure);
+        console.log("bomb being layed################################");
         layBomb(msg.from.position);
     });
 });
@@ -44,4 +45,18 @@ function requestNewPosition(me, direction) {
 
 function requestBombDrop(me) {
     websocketGame.socket.emit('requestBombDrop', new Message(me, ""));
+}
+
+function requestField() {
+    websocketGame.socket.emit('requestField', new Message(myself, ""));
+}
+
+function loadField(field) {
+    for (let i = 0; i < field.length; i++) {
+        for (let j = 0; j < field[0].length; j++) {
+            if (field[i][j] === 1) {
+                $("#" + i + "_" + j).addClass('ice').appendTo($("#game"));
+            }
+        }
+    }
 }

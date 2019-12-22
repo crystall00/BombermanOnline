@@ -6,14 +6,18 @@ const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
 const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
 
+var PlayingField = require('./game').PlayingField;
 var User = require('./game').User;
 var Room = require('./game').Room;
 var RoomList = require('./game').RoomList;
 
-let roomList = new RoomList();
-var room = new Room('waiting room');
+var playingField = new PlayingField().create2DimField();
+var roomList = new RoomList();
+var room = new Room("", playingField);
 var userCount = 0;
 var roomCount = 0;
+
+console.log(JSON.stringify(room));
 
 app.use(express.static(parentDir + '/client'));
 
@@ -54,15 +58,15 @@ function onConnect(socket) {
     if (room.users.length % 4 === 0) {
         roomCount++;
         roomName = 'Room #' + roomCount;
-        room = new Room(roomName);
+        room = new Room(roomName, playingField);
+        console.log("initializing room: Width: " + room.field.length);
         roomList.addRoom(room);
         console.log("Added room to Room List. Rooms: " + roomList.rooms.length + "Room called: " + roomList.rooms[roomCount - 1].name);
     }
     socket.join(room.name, () => {
         room.addUser(user);
-        user.addtoRoom(room.name);
         let rooms = Object.keys(socket.rooms);
-        user.room = rooms[1];
+        user.assignToRoom(room.name);
         socket.emit('passIdentity', user);
 
         let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
@@ -94,6 +98,14 @@ function onConnect(socket) {
         let message = 'User ' + user.name + ' left ' + room.name + 'Total user count: ' + room.users.length;
         io.in(room.name).emit('botMessage', message);
         console.log(message);
+    });
+
+    socket.on('requestField', function (msg) {
+        let self = this;
+        let rooms = Object.keys(self.rooms);
+        let roomName = rooms[1];
+        let room = roomList.getRoom(roomName);
+        io.in(msg.from.room).emit('loadField', room.field);
     });
 
     socket.on('chatMessage', function (msg) {

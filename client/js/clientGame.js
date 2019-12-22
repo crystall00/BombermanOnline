@@ -188,7 +188,10 @@ function explode(bombX, bombY) {
                     gotHit();
                 },
                 progress: function () {
-                    gotHit()
+                    setTimeout(function () {
+                        gotHit();
+                        console.log("Checkin if got hit");
+                    }, 100);
                 },
                 duration: 1000,
                 complete: function () {
@@ -208,32 +211,36 @@ function gotHit() {
         if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
             crySound.play();
             myself.alive = false;
-            $("#" + myself.figure).animate(
-                {display: "none"},
-                {
-                    start: function () {
-                        switch ($(this).attr('id')) {
-                            case "cat":
-                                $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
-                                break;
-                            case "gorilla":
-                                $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
-                                break;
-                            case "penguin":
-                                $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
-                                break;
-                            case "rabbit":
-                                $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
-                                break;
-                            default:
-                                break;
-                        }
-                    },
-                    duration: 1000
-                }
-            );
         }
     }
+}
+
+
+function playerHit(player) {
+    $("#" + myself.figure).animate(
+        {display: "none"},
+        {
+            start: function () {
+                switch ($(this).attr('id')) {
+                    case "cat":
+                        $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
+                        break;
+                    case "gorilla":
+                        $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
+                        break;
+                    case "penguin":
+                        $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
+                        break;
+                    case "rabbit":
+                        $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
+                        break;
+                    default:
+                        break;
+                }
+            },
+            duration: 1000
+        }
+    );
 }
 
 $(document).on('keydown', function (e) {
@@ -302,6 +309,7 @@ function move(player, direction) {
     switch (direction) {
         case "left":
             $(figure).animate({left: "-=50px"}, {
+                queue: false,
                 duration: "fast",
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
