@@ -8,24 +8,24 @@ var crySound = document.createElement('audio');
 crySound.setAttribute('src', '../assets/soundEffects/VOCAL CUTE Call Angry 01.ogg');
 var backgroundMusic = document.createElement('audio');
 
-var catImg = document.createElement("img");
+var catImg = document.createElement("div");
 $(catImg).attr("id", "cat");
-$(catImg).attr("src", "../assets/player/cat_000_50x50.png");
+//$(catImg).attr("src", "../assets/player/cat_000_50x50.png");
 
-var gorillaImg = document.createElement("img");
+var gorillaImg = document.createElement("div");
 $(gorillaImg).attr("id", "gorilla");
-$(gorillaImg).attr("src", "../assets/player/gorilla_000_50x50.png");
+//$(gorillaImg).attr("src", "../assets/player/gorilla_000_50x50.png");
 
-var penguinImg = document.createElement("img");
+var penguinImg = document.createElement("div");
 $(penguinImg).attr("id", "penguin");
-$(penguinImg).attr("src", "../assets/player/penguin_000_50x50.png");
+//$(penguinImg).attr("src", "../assets/player/penguin_000_50x50.png");
 
-var rabbitImg = document.createElement("img");
+var rabbitImg = document.createElement("div");
 $(rabbitImg).attr("id", "rabbit");
-$(rabbitImg).attr("src", "../assets/player/rabbit_000_50x50.png");
+//$(rabbitImg).attr("src", "../assets/player/rabbit_000_50x50.png");
 
 var bombImg = document.createElement("img");
-$(bombImg).attr("src", "../assets/bomb_000_45x45.png");
+//$(bombImg).attr("src", "../assets/bomb_000_45x45.png");
 
 var timerID;
 
@@ -109,6 +109,12 @@ function canMove(me, direction) {
 }
 
 $(document).ready(function () { // When the DOM is Ready, then bind the click
+
+    interval.make(function () {
+        gotHit();
+    }, 250);
+
+
     $("#playMusic").click(function () {
         if (backgroundMusic.paused === true) {
             $(this).css('background-image', 'url("../assets/icons/sound_on_32x32.png")');
@@ -129,42 +135,55 @@ function explode(bombX, bombY) {
     let rightField = $("#" + bombY + "_" + (bombX + 1));
     let topField = $("#" + (bombY - 1) + "_" + bombX);
     let bottomField = $("#" + (bombY + 1) + "_" + bombX);
+    let leftFieldSub = $("#" + bombY + "_" + (bombX - 1) + "_sub");
+    let rightFieldSub = $("#" + bombY + "_" + (bombX + 1) + "_sub");
+    let topFieldSub = $("#" + (bombY - 1) + "_" + bombX + "_sub");
+    let bottomFieldSub = $("#" + (bombY + 1) + "_" + bombX + "_sub");
 
     if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block"))) {
-        $(leftField).addClass("strideLeft").stop().animate(
+        $(leftFieldSub).addClass("strideLeft").animate(
             {opacity: 0},
             {
                 start: function () {
                     if ($(leftField).hasClass("ice")) {
+                        $(leftField).animate(
+                            {opacity: 0},
+                            {
+                                duration: 1000,
+                                complete: function () {
+                                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                                }
+                            }
+                        );
                         fieldUpdate(bombY, bombX - 1);
                     }
                     if ($(leftField).hasClass("bomb")) {
                         $(leftField).stop();
                         detonate(leftField, (bombX - 1), bombY);
                     }
-                    gotHit();
-                    interval.make(function () {
-                        console.log("was here");
-                        gotHit();
-                    }, 500);
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!myself.alive) {
-                        $("#" + myself.figure).remove();
-                    }
-                    $(this).removeClass().removeAttr("style");
-                    interval.clearAll();
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
     }
     if (!($(rightField).hasClass("wall") || $(rightField).hasClass("wallVertical") || $(rightField).hasClass("block"))) {
-        $(rightField).addClass("strideRight").stop().animate(
+        $(rightFieldSub).addClass("strideRight").animate(
             {opacity: 0},
             {
                 start: function () {
                     if ($(rightField).hasClass("ice")) {
+                        $(rightField).animate(
+                            {opacity: 0},
+                            {
+                                duration: 1000,
+                                complete: function () {
+                                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                                }
+                            }
+                        );
                         fieldUpdate(bombY, (bombX + 1));
                     }
                     if ($(rightField).hasClass("bomb")) {
@@ -174,20 +193,26 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!myself.alive) {
-                        $("#" + myself.figure).remove();
-                    }
-                    $(this).removeClass().removeAttr("style");
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
     }
     if (!($(topField).hasClass("wall") || $(topField).hasClass("wallVertical") || $(topField).hasClass("block"))) {
-        $(topField).addClass("strideUp").stop().animate(
+        $(topFieldSub).addClass("strideUp").stop().animate(
             {opacity: 0},
             {
                 start: function () {
                     if ($(topField).hasClass("ice")) {
+                        $(topField).animate(
+                            {opacity: 0},
+                            {
+                                duration: 1000,
+                                complete: function () {
+                                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                                }
+                            }
+                        );
                         fieldUpdate((bombY - 1), bombX);
                     }
                     if ($(topField).hasClass("bomb")) {
@@ -197,20 +222,26 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!myself.alive) {
-                        $("#" + myself.figure).remove();
-                    }
-                    $(this).removeClass().removeAttr("style");
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
     }
     if (!($(bottomField).hasClass("wall") || $(bottomField).hasClass("wallVertical") || $(bottomField).hasClass("block"))) {
-        $(bottomField).addClass("strideDown").stop().animate(
+        $(bottomFieldSub).addClass("strideDown").animate(
             {opacity: 0},
             {
                 start: function () {
                     if ($(bottomField).hasClass("ice")) {
+                        $(bottomField).animate(
+                            {opacity: 0},
+                            {
+                                duration: 1000,
+                                complete: function () {
+                                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                                }
+                            }
+                        );
                         fieldUpdate((bombY + 1), bombX);
                     }
                     if ($(bottomField).hasClass("bomb")) {
@@ -220,10 +251,7 @@ function explode(bombX, bombY) {
                 },
                 duration: 1000,
                 complete: function () {
-                    if (!myself.alive) {
-                        $("#" + myself.figure).remove();
-                    }
-                    $(this).removeClass().removeAttr("style");
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
@@ -236,6 +264,7 @@ function gotHit() {
         if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
             crySound.play();
             myself.alive = false;
+            playerLost();
         }
     }
 }
@@ -395,7 +424,8 @@ function move(player, direction) {
 function layBomb(position) {
     dropSound.play();
     let field = $("#" + position.y + "_" + position.x);
-    $(field).addClass("bomb").stop().animate(
+    let fieldSub = $("#" + position.y + "_" + position.x + "_sub");
+    $(field).addClass("bomb").animate(
         {display: "none"},
         {
             start: function () {
@@ -404,15 +434,17 @@ function layBomb(position) {
             duration: 4000,
             complete: function () {
                 explosionSound.play();
-                $(this).removeClass("bomb").addClass("strideTail").animate(
+                $(this).removeClass("bomb").animate(
                     {opacity: 0},
                     {
                         start: function () {
+                            $(fieldSub).addClass("strideTail");
                             explode(position.x, position.y);
                         },
                         duration: 1000,
                         complete: function () {
-                            $(this).removeClass("strideTail").removeAttr("style");
+                            $(fieldSub).removeClass("strideTail").removeAttr("style").removeAttr("style");
+                            $(this).removeAttr("style").removeAttr("style")
                         }
                     }
                 )
@@ -423,7 +455,8 @@ function layBomb(position) {
 
 function detonate(bomb, bombX, bombY) {
     explosionSound.play();
-    $(bomb).removeClass("bomb").addClass("strideTail").animate(
+    $(bomb).removeClass("bomb");
+    $("#" + bombY + "_" + bombX + "_sub").addClass("strideTail").animate(
         {opacity: 0},
         {
             start: function () {
@@ -431,14 +464,23 @@ function detonate(bomb, bombX, bombY) {
             },
             duration: 1000,
             complete: function () {
-                $(this).removeClass().removeAttr("style");
+                $(this).removeClass().removeAttr("class").removeAttr("style");
             }
         }
     )
 }
 
 
-
-
-
+function loadField(field) {
+    console.log(JSON.stringify(field));
+    for (let i = 0; i < field.length; i++) {
+        for (let j = 0; j < field[0].length; j++) {
+            if (field[i][j] === 1) {
+                let searchID = "#" + i + "_" + j;
+                console.log("adding ice to: " + searchID);
+                $(searchID).addClass('ice');
+            }
+        }
+    }
+}
 

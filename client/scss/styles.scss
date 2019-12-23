@@ -4,6 +4,10 @@ $bg-wallsVertical: url("../assets/bg/bg_wood_vertical50x50.png");
 $bg-block: url("../assets/bg/block50x50.png");
 $bg-grass: url("../assets/bg/grass_bg.jpg");
 $bg-ice: url("../assets/bg/bg_ice48x48.png");
+$bg-cat: url("../assets/player/cat_000_50x50.png");
+$bg-gorilla: url("../assets/player/gorilla_000_50x50.png");
+$bg-penguin: url("../assets/player/penguin_000_50x50.png");
+$bg-rabbit: url("../assets/player/rabbit_000_50x50.png");
 $bg-vulcano: url("../assets/bg/vulcano_stone_48x48.png");
 $bg-bomb: url("../assets/bombEffects/bomb_000_45x45.png");
 $bg-explosion: url("../assets/bombEffects/explosion_000_50x50.png");
@@ -36,6 +40,24 @@ $music-off: url("../assets/icons/sound_off_32x32.png");
 html {
   box-sizing: border-box;
   overflow-y: hidden;
+}
+
+#game > div {
+  position: relative;
+  content: '';
+  place-items: center;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+}
+
+#game > div > div {
+  position: absolute;
+  content: '';
+  place-items: center;
+  z-index: 350;
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -206,28 +228,38 @@ li:hover {
 }
 
 #cat {
-  position: relative;
+  content: '';
+  place-items: center;
+  background-image: $bg-cat;
+  position: absolute;
   display: block;
   z-index: 301;
 }
 
 #gorilla {
-  position: relative;
+  content: '';
+  place-items: center;
+  background-image: $bg-gorilla;
+  position: absolute;
   display: block;
-  transform: rotateX(-20deg) rotateY(180deg);
   z-index: 301;
 }
 
 #penguin {
-  position: relative;
+  content: '';
+  place-items: center;
+  background-image: $bg-penguin;
+  position: absolute;
   display: block;
   z-index: 301;
 }
 
 #rabbit {
-  position: relative;
+  content: '';
+  place-items: center;
+  background-image: $bg-rabbit;
+  position: absolute;
   display: block;
-  transform: rotateX(-20deg) rotateY(180deg);
   z-index: 301;
 }
 

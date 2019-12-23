@@ -62,7 +62,8 @@ function onConnect(socket) {
         let rooms = Object.keys(socket.rooms);
         user.assignToRoom(room.name);
         socket.emit('passIdentity', user);
-        socket.emit('updatePlayerPositions', room);
+        //socket.emit('updatePlayerPositions', room);
+        socket.emit('updatePlayer', room);
         let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
         let botMessage = user.name + ' joined the party!';
 
@@ -148,5 +149,10 @@ function onConnect(socket) {
         let room = roomList.getRoom(roomName);
         room.field[msg.X][msg.Y] = 0;
     });
+    socket.on('updatePlayer', function (player) {
+        console.log(JSON.stringify(player));
+        io.in(player.room).emit('updatePlayer', player);
+    });
+
 }
 

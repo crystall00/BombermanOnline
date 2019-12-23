@@ -37,26 +37,9 @@ $(function () {
         layBomb(msg.from.position);
     });
 
-    websocketGame.socket.on('updatePlayerPositions', function (msg) {
-        for (let i = 0; i < msg.users.length; i++) {
-            let position = msg.users[i].position;
-            switch (msg.users[i].figure) {
-                case "cat":
-                    $("#cat").appendTo($("#" + position.y + "_" + position.x));
-                    break;
-                case "gorilla":
-                    $("#gorilla").appendTo($("#" + position.y + "_" + position.x));
-                    break;
-                case "penguin":
-                    $("#penguin").appendTo($("#" + position.y + "_" + position.x));
-                    break;
-                case "rabbit":
-                    $("#rabbit").appendTo($("#" + position.y + "_" + position.x));
-                    break;
-                default:
-                    break;
-            }
-        }
+    websocketGame.socket.on('updatePlayer', function (player) {
+        console.log(player.figure + " lost! Removing the player from field.");
+        $("#" + player.figure).remove();
     });
 });
 
@@ -72,19 +55,12 @@ function requestField() {
     websocketGame.socket.emit('requestField', new Message(myself, ""));
 }
 
-function loadField(field) {
-    console.log(JSON.stringify(field));
-    for (let i = 0; i < field.length; i++) {
-        for (let j = 0; j < field[0].length; j++) {
-            if (field[i][j] === 1) {
-                let searchID = "#" + i + "_" + j;
-                console.log("adding ice to: " + searchID);
-                $(searchID).addClass('ice');
-            }
-        }
-    }
-}
+
 
 function fieldUpdate(X, Y) {
     websocketGame.socket.emit('fieldUpdate', new Position(myself, X, Y));
+}
+
+function playerLost() {
+    websocketGame.socket.emit('updatePlayer', myself);
 }
