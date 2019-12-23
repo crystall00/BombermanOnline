@@ -146,7 +146,7 @@ function explode(bombX, bombY) {
                     interval.make(function () {
                         console.log("was here");
                         gotHit();
-                    }, 350);
+                    }, 500);
                 },
                 duration: 1000,
                 complete: function () {
