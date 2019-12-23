@@ -181,7 +181,7 @@ li:hover {
 #cat {
   content: '';
   place-items: center;
-  background-image: url("../assets/player/cat_000_50x50.png");
+  background-image: url("../assets/player/cat/cat_000_50x50.png");
   position: absolute;
   display: block;
   z-index: 301; }
@@ -189,7 +189,7 @@ li:hover {
 #gorilla {
   content: '';
   place-items: center;
-  background-image: url("../assets/player/gorilla_000_50x50.png");
+  background-image: url("../assets/player/gorilla/gorilla_000_50x50.png");
   position: absolute;
   display: block;
   z-index: 301; }
@@ -197,7 +197,7 @@ li:hover {
 #penguin {
   content: '';
   place-items: center;
-  background-image: url("../assets/player/penguin_000_50x50.png");
+  background-image: url("../assets/player/penguin/penguin_000_50x50.png");
   position: absolute;
   display: block;
   z-index: 301; }

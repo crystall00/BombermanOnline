@@ -110,26 +110,19 @@ function onConnect(socket) {
 
     socket.on('requestPosition', function (msg) {
         console.log(msg.from.figure + " wants to move " + msg.message);
-        let self = this;
-        let rooms = Object.keys(self.rooms);
-        let roomName = rooms[1];
-        let room = roomList.getRoom(roomName);
-        let user = room.users.find(function (element) {
-            return element.socketId === self.id.trim();
-        });
 
         switch (msg.message) {
             case "left":
-                user.position.x--;
+                msg.from.position.x--;
                 break;
             case "right":
-                user.position.x++;
+                msg.from.position.x++;
                 break;
             case "up":
-                user.position.y--;
+                msg.from.position.y--;
                 break;
             case "down":
-                user.position.y++;
+                msg.from.position.y++;
                 break;
             default:
                 break;

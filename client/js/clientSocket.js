@@ -30,6 +30,8 @@ $(function () {
     });
 
     websocketGame.socket.on('confirmPosition', function (msg) {
+        if (myself.figure === msg.from.figure)
+            myself.position = msg.from.position;
         move(msg.from, msg.message);
     });
 
@@ -39,7 +41,7 @@ $(function () {
 
     websocketGame.socket.on('updatePlayer', function (player) {
         console.log(player.figure + " lost! Removing the player from field.");
-        $("#" + player.figure).remove();
+        loseAnimation(player.figure);
     });
 });
 

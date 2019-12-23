@@ -90,19 +90,24 @@ function canMove(me, direction) {
     let x = me.position.x;
     let y = me.position.y;
     let toField;
+    let toFieldSub;
     switch (direction) {
         case "right":
             toField = $("#" + y + "_" + (x + 1));
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
+            toFieldSub = $("#" + y + "_" + (x + 1) + "_sub");
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toFieldSub).hasClass("bomb"));
         case "down":
             toField = $("#" + (y + 1) + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
+            toFieldSub = $("#" + (y + 1) + "_" + x + "_sub");
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toFieldSub).hasClass("bomb"));
         case "left":
             toField = $("#" + y + "_" + (x - 1));
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
+            toFieldSub = $("#" + y + "_" + (x - 1) + "_sub");
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toFieldSub).hasClass("bomb"));
         case "up":
             toField = $("#" + (y - 1) + "_" + x);
-            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toField).hasClass("bomb"));
+            toFieldSub = $("#" + (y - 1) + "_" + x + "_sub");
+            return !($(toField).hasClass("ice") || $(toField).hasClass("wall") || $(toField).hasClass("block") || $(toField).hasClass("wallVertical") || $(toFieldSub).hasClass("bomb"));
         default:
             break;
     }
@@ -141,7 +146,7 @@ function explode(bombX, bombY) {
     let bottomFieldSub = $("#" + (bombY + 1) + "_" + bombX + "_sub");
 
     if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block"))) {
-        $(leftFieldSub).addClass("strideLeft").animate(
+        $(leftFieldSub).addClass("strideLeft").stop().animate(
             {opacity: 0},
             {
                 start: function () {
@@ -157,9 +162,9 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate(bombY, bombX - 1);
                     }
-                    if ($(leftField).hasClass("bomb")) {
-                        $(leftField).stop();
-                        detonate(leftField, (bombX - 1), bombY);
+                    if ($(this).hasClass("bomb")) {
+                        console.log("Left field has bomb. Stopping animation....");
+                        detonate($(this), (bombX - 1), bombY);
                     }
                 },
                 duration: 1000,
@@ -186,9 +191,9 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate(bombY, (bombX + 1));
                     }
-                    if ($(rightField).hasClass("bomb")) {
-                        $(rightField).stop();
-                        detonate(rightField, (bombX + 1), bombY);
+                    if ($(rightFieldSub).hasClass("bomb")) {
+                        $(rightFieldSub).stop();
+                        detonate(rightFieldSub, (bombX + 1), bombY);
                     }
                 },
                 duration: 1000,
@@ -215,9 +220,9 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY - 1), bombX);
                     }
-                    if ($(topField).hasClass("bomb")) {
-                        $(topField).stop();
-                        detonate(topField, bombX, (bombY - 1));
+                    if ($(topFieldSub).hasClass("bomb")) {
+                        $(topFieldSub).stop();
+                        detonate(topFieldSub, bombX, (bombY - 1));
                     }
                 },
                 duration: 1000,
@@ -244,9 +249,9 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY + 1), bombX);
                     }
-                    if ($(bottomField).hasClass("bomb")) {
-                        $(bottomField).stop();
-                        detonate(bottomField, bombX, (bombY + 1));
+                    if ($(bottomFieldSub).hasClass("bomb")) {
+                        $(bottomFieldSub).stop();
+                        detonate(bottomFieldSub, bombX, (bombY + 1));
                     }
                 },
                 duration: 1000,
@@ -260,9 +265,8 @@ function explode(bombX, bombY) {
 
 function gotHit() {
     if (myself.alive) {
-        let position = $("#" + myself.position.y + "_" + myself.position.x);
+        let position = $("#" + myself.position.y + "_" + myself.position.x + "_sub");
         if ($(position).hasClass("strideLeft") || $(position).hasClass("strideRight") || $(position).hasClass("strideUp") || $(position).hasClass("strideDown") || $(position).hasClass("strideTail")) {
-            crySound.play();
             myself.alive = false;
             playerLost();
         }
@@ -301,57 +305,61 @@ var counter = 1;
 
 $(document).on('keydown', function (e) {
     if (counter > 0) {
-        switch (e.which) {
-            //move left
-            case 37:
-                if (canMove(myself, "left")) {
-                    counter--;
-                    myself.position.x--;
-                    requestNewPosition(myself, "left");
-                    break;
-                } else {
-                    break;
-                }
+        console.log("Start X: " + myself.position.x + " Start Y :" + myself.position.y);
+        if (e.target.nodeName.toLowerCase() !== 'input') {
+            switch (e.which) {
+                //move left
+                case 37:
+                    e.preventDefault();
+                    if (canMove(myself, "left")) {
+                        counter--;
+                        requestNewPosition(myself, "left");
+                        break;
+                    } else {
+                        break;
+                    }
 
-            //move up
-            case 38:
-                if (canMove(myself, "up")) {
-                    counter--;
-                    myself.position.y--;
-                    requestNewPosition(myself, "up");
-                    break;
-                } else {
-                    break;
-                }
+                //move up
+                case 38:
+                    e.preventDefault();
+                    if (canMove(myself, "up")) {
+                        counter--;
+                        requestNewPosition(myself, "up");
+                        break;
+                    } else {
+                        break;
+                    }
 
-            //move right
-            case 39:
-                if (canMove(myself, "right")) {
-                    counter--;
-                    myself.position.x++;
-                    requestNewPosition(myself, "right");
-                    break;
-                } else {
-                    break;
-                }
+                //move right
+                case 39:
+                    e.preventDefault();
+                    if (canMove(myself, "right")) {
+                        counter--;
+                        requestNewPosition(myself, "right");
+                        break;
+                    } else {
+                        break;
+                    }
 
-            //move down
-            case 40:
-                if (canMove(myself, "down")) {
-                    counter--;
-                    myself.position.y++;
-                    requestNewPosition(myself, "down");
+                //move down
+                case 40:
+                    e.preventDefault();
+                    if (canMove(myself, "down")) {
+                        counter--;
+                        requestNewPosition(myself, "down");
+                        break;
+                    } else {
+                        break;
+                    }
+                default:
                     break;
-                } else {
-                    break;
-                }
-            default:
-                break;
+            }
         }
     } else {
         console.log("counter is 0 :/");
     }
-    if (e.which === 32) {
+    if (e.target.nodeName.toLowerCase() !== 'input' && e.which === 32) {
+        e.preventDefault();
         if (!myself.alive) {
             return false;
         }
@@ -376,9 +384,7 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
-                    $(this).clearQueue();
                     counter++;
-                    console.log(counter);
                 }
             });
             break;
@@ -388,7 +394,6 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
-                    $(this).clearQueue();
                     counter++;
                 }
             });
@@ -399,7 +404,6 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
-                    $(this).clearQueue();
                     counter++;
                 }
             });
@@ -410,22 +414,19 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
-                    $(this).clearQueue();
                     counter++;
                 }
             });
             break;
         default:
-
-
+            break;
     }
 }
 
 function layBomb(position) {
     dropSound.play();
-    let field = $("#" + position.y + "_" + position.x);
     let fieldSub = $("#" + position.y + "_" + position.x + "_sub");
-    $(field).addClass("bomb").animate(
+    $(fieldSub).addClass("bomb").stop().animate(
         {display: "none"},
         {
             start: function () {
@@ -434,17 +435,16 @@ function layBomb(position) {
             duration: 4000,
             complete: function () {
                 explosionSound.play();
-                $(this).removeClass("bomb").animate(
+                $(this).removeClass("bomb").stop().animate(
                     {opacity: 0},
                     {
                         start: function () {
-                            $(fieldSub).addClass("strideTail");
+                            $(this).addClass("strideTail");
                             explode(position.x, position.y);
                         },
                         duration: 1000,
                         complete: function () {
-                            $(fieldSub).removeClass("strideTail").removeAttr("style").removeAttr("style");
-                            $(this).removeAttr("style").removeAttr("style")
+                            $(this).removeClass("strideTail").removeAttr("style").removeAttr("style");
                         }
                     }
                 )
@@ -455,8 +455,8 @@ function layBomb(position) {
 
 function detonate(bomb, bombX, bombY) {
     explosionSound.play();
-    $(bomb).removeClass("bomb");
-    $("#" + bombY + "_" + bombX + "_sub").addClass("strideTail").animate(
+    console.log("Removing chain bomb from field: " + $(bomb).id);
+    $("#" + bombY + "_" + bombX + "_sub").addClass("strideTail").stop().animate(
         {opacity: 0},
         {
             start: function () {
@@ -484,3 +484,60 @@ function loadField(field) {
     }
 }
 
+function loseAnimation(figure) {
+    let id;
+    console.log("Starting die animation for: " + figure);
+    $("#" + figure).animate(
+        {opacity: 0},
+        {
+            duration: 5000,
+            start: function () {
+                let i = 0;
+                crySound.play();
+                id = setInterval(function () {
+                    switch (figure) {
+                        case "cat":
+                            if (i < 10) {
+                                $("#" + figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_dead_50x50.png)");
+                                i++;
+                            } else if (i > 9 && i < 12) {
+                                $("#" + figure).css("background-image", "url(../assets/player/cat/cat_0" + i + "_dead_50x50.png)");
+                                i++;
+                            } else {
+                                clearInterval(id);
+                            }
+                            break;
+                        case "gorilla":
+                            if (i < 10) {
+                                $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
+                                i++;
+                            } else {
+                                clearInterval(id);
+                            }
+                            break;
+                        case "penguin":
+                            if (i < 10) {
+                                $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
+                                i++;
+                            } else if (i > 9 && i < 12) {
+                                $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
+                                i++;
+                            } else {
+                                clearInterval(id);
+                            }
+                            break;
+                        case "rabbit":
+                            break;
+                        default:
+                            break;
+                    }
+
+                }, 25)
+            },
+            complete: function () {
+                $(this).remove();
+                clearInterval(id);
+            }
+        }
+    )
+}
