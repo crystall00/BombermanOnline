@@ -162,20 +162,19 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate(bombY, bombX - 1);
                     }
-                    if ($(this).hasClass("bomb")) {
-                        console.log("Left field has bomb. Stopping animation....");
-                        detonate($(this), (bombX - 1), bombY);
+                    if ($(leftFieldSub).hasClass("bomb")) {
+                        detonate($(leftFieldSub), (bombX - 1), bombY);
                     }
                 },
                 duration: 1000,
                 complete: function () {
-                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                    $(leftFieldSub).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
     }
     if (!($(rightField).hasClass("wall") || $(rightField).hasClass("wallVertical") || $(rightField).hasClass("block"))) {
-        $(rightFieldSub).addClass("strideRight").animate(
+        $(rightFieldSub).addClass("strideRight").stop().animate(
             {opacity: 0},
             {
                 start: function () {
@@ -192,13 +191,12 @@ function explode(bombX, bombY) {
                         fieldUpdate(bombY, (bombX + 1));
                     }
                     if ($(rightFieldSub).hasClass("bomb")) {
-                        $(rightFieldSub).stop();
-                        detonate(rightFieldSub, (bombX + 1), bombY);
+                        detonate($(rightFieldSub), (bombX + 1), bombY);
                     }
                 },
                 duration: 1000,
                 complete: function () {
-                    $(this).removeClass().removeAttr("class").removeAttr("style");
+                    $(rightFieldSub).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
@@ -220,9 +218,8 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY - 1), bombX);
                     }
-                    if ($(topFieldSub).hasClass("bomb")) {
-                        $(topFieldSub).stop();
-                        detonate(topFieldSub, bombX, (bombY - 1));
+                    if ($(this).hasClass("bomb")) {
+                        detonate($(this), bombX, (bombY - 1));
                     }
                 },
                 duration: 1000,
@@ -233,7 +230,7 @@ function explode(bombX, bombY) {
         )
     }
     if (!($(bottomField).hasClass("wall") || $(bottomField).hasClass("wallVertical") || $(bottomField).hasClass("block"))) {
-        $(bottomFieldSub).addClass("strideDown").animate(
+        $(bottomFieldSub).addClass("strideDown").stop().animate(
             {opacity: 0},
             {
                 start: function () {
@@ -249,9 +246,8 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY + 1), bombX);
                     }
-                    if ($(bottomFieldSub).hasClass("bomb")) {
-                        $(bottomFieldSub).stop();
-                        detonate(bottomFieldSub, bombX, (bombY + 1));
+                    if ($(this).hasClass("bomb")) {
+                        detonate($(this), bombX, (bombY + 1));
                     }
                 },
                 duration: 1000,
