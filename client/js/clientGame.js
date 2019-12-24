@@ -376,11 +376,54 @@ $(document).on('keydown', function (e) {
 
 function move(player, direction) {
     let figure = $("#" + player.figure);
+    let i = 0;
+    let id;
     switch (direction) {
         case "left":
-            $(figure).animate({left: "-=50px"}, {
-                queue: false,
-                duration: "fast",
+            $(figure).stop().animate({left: "-=50px"}, {
+                duration: 360,
+                start: function () {
+                    $("#" + player.figure).css("transform", "rotateY(180deg)");
+                    let i = 0;
+                    console.log("Starting animation.... for: " + player.figure);
+                    id = setInterval(function () {
+                        switch (player.figure) {
+                            case "cat":
+                                console.log("Cat animation starting now...");
+                                if (i < 10) {
+                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "gorilla":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "penguin":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else if (i > 9 && i < 12) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "rabbit":
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }, 40)
+                },
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
@@ -389,8 +432,50 @@ function move(player, direction) {
             });
             break;
         case "right":
-            $(figure).animate({left: "+=50px"}, {
-                duration: "fast",
+            $(figure).stop().animate({left: "+=50px"}, {
+                duration: 360,
+                start: function () {
+                    $("#" + player.figure).css("transform", "rotateY(0deg)");
+                    let i = 0;
+                    console.log("Starting animation.... for: " + player.figure);
+                    id = setInterval(function () {
+                        switch (player.figure) {
+                            case "cat":
+                                console.log("Cat animation starting now...");
+                                if (i < 10) {
+                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "gorilla":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "penguin":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else if (i > 9 && i < 12) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "rabbit":
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }, 40)
+                },
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
@@ -399,8 +484,49 @@ function move(player, direction) {
             });
             break;
         case "up":
-            $(figure).animate({top: "-=50px"}, {
-                duration: "fast",
+            $(figure).stop().animate({top: "-=50px"}, {
+                duration: 360,
+                start: function () {
+                    let i = 0;
+                    console.log("Starting animation.... for: " + player.figure);
+                    id = setInterval(function () {
+                        switch (player.figure) {
+                            case "cat":
+                                console.log("Cat animation starting now...");
+                                if (i < 10) {
+                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "gorilla":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "penguin":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else if (i > 9 && i < 12) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "rabbit":
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }, 40)
+                },
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
@@ -409,8 +535,49 @@ function move(player, direction) {
             });
             break;
         case "down":
-            $(figure).animate({top: "+=50px"}, {
-                duration: "fast",
+            $(figure).stop().animate({top: "+=50px"}, {
+                duration: 360,
+                start: function () {
+                    let i = 0;
+                    console.log("Starting animation.... for: " + player.figure);
+                    id = setInterval(function () {
+                        switch (player.figure) {
+                            case "cat":
+                                console.log("Cat animation starting now...");
+                                if (i < 10) {
+                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "gorilla":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "penguin":
+                                if (i < 10) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else if (i > 9 && i < 12) {
+                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
+                                    i++;
+                                } else {
+                                    clearInterval(id);
+                                }
+                                break;
+                            case "rabbit":
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }, 40)
+                },
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
