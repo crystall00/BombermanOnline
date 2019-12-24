@@ -205,7 +205,7 @@ li:hover {
 #rabbit {
   content: '';
   place-items: center;
-  background-image: url("../assets/player/rabbit_000_50x50.png");
+  background-image: url("../assets/player/rabbit/rabbit_000_50x50.png");
   position: absolute;
   display: block;
   z-index: 301; }
@@ -332,11 +332,9 @@ li:hover {
 
 /* The Modal (background) */
 .modal {
-  display: none;
-  /* Hidden by default */
   position: fixed;
   /* Stay in place */
-  z-index: 400;
+  z-index: 2000;
   /* Sit on top */
   left: 0;
   top: 0;
@@ -344,22 +342,26 @@ li:hover {
   /* Full width */
   height: 100%;
   /* Full height */
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Black w/ opacity */ }
+  background-color: rgba(0, 0, 0, 0.8);
+  /* Black w/ opacity */
+  place-items: center; }
 
 /* Modal Content/Box */
-.modal-content {
-  color: white;
+#modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  place-items: center;
+  z-index: 2000;
+  color: black;
   font-family: Open Sans;
-  background-color: black;
-  margin: 10% auto;
+  background-image: url("../assets/ui/slice89_89.png");
+  margin: 12% auto;
   /* 15% from the top and centered */
-  opacity: 0.8;
   padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
+  width: 753px;
   /* Could be more or less, depending on screen size */
-  height: 50%; }
+  height: 568px; }
 
 /* The Close Button */
 .close {
@@ -373,3 +375,39 @@ li:hover {
   color: black;
   text-decoration: none;
   cursor: pointer; }
+
+#catCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: url("../assets/player/cat/cat_selection.png"); }
+
+#gorillaCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: url("../assets/player/gorilla/gorilla_selection.png"); }
+
+#penguinCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: url("../assets/player/penguin/penguin_selection.png"); }
+
+#rabbitCharacter {
+  width: 160px;
+  height: 160px;
+  place-items: center;
+  background-image: url("../assets/player/rabbit/rabbit_selection.png"); }
+
+.charOverview {
+  cursor: pointer;
+  border: brown 1px solid;
+  border-radius: 25px;
+  margin: 60px 4px 0 4px;
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35); }

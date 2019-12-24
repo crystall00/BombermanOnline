@@ -43,6 +43,12 @@ $(function () {
         console.log(player.figure + " lost! Removing the player from field.");
         loseAnimation(player.figure);
     });
+
+
+    websocketGame.socket.on('startGame', function (player) {
+        startGame();
+    });
+
 });
 
 function requestNewPosition(me, direction) {
@@ -65,4 +71,8 @@ function fieldUpdate(X, Y) {
 
 function playerLost() {
     websocketGame.socket.emit('updatePlayer', myself);
+}
+
+function sendSelection(figure) {
+    websocketGame.socket.emit('charSelection', figure);
 }

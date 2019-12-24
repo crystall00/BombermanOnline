@@ -29,6 +29,8 @@ var bombImg = document.createElement("img");
 
 var timerID;
 
+var charChosen = false;
+
 var interval = {
     // to keep a reference to all the intervals
     intervals: new Set(),
@@ -114,6 +116,38 @@ function canMove(me, direction) {
 }
 
 $(document).ready(function () { // When the DOM is Ready, then bind the click
+    $("#catCharacter").click(function () {
+        if (!charChosen) {
+            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
+            $(this).css("opacity", "0.5");
+            sendSelection("cat");
+            charChosen = true;
+        }
+    });
+    $("#gorillaCharacter").click(function () {
+        if (!charChosen) {
+            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
+            $(this).css("opacity", "0.5");
+            sendSelection("gorilla");
+            charChosen = true;
+        }
+    });
+    $("#penguinCharacter").click(function () {
+        if (!charChosen) {
+            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
+            $(this).css("opacity", "0.5");
+            sendSelection("penguin");
+            charChosen = true;
+        }
+    });
+    $("#rabbitCharacter").click(function () {
+        if (!charChosen) {
+            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
+            $(this).css("opacity", "0.5");
+            sendSelection("rabbit");
+            charChosen = true;
+        }
+    });
 
     interval.make(function () {
         gotHit();
@@ -711,4 +745,9 @@ function loseAnimation(figure) {
             }
         }
     )
+}
+
+function startGame() {
+    myself.alive = true;
+    $("#myModal").hide();
 }

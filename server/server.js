@@ -16,12 +16,12 @@ var room = new Room("");
 var userCount = 0;
 var roomCount = 0;
 
-//app.use(express.static(parentDir + '/client'));
-
+app.use(express.static(parentDir + '/client'));
+/*
 app.use(express.static(path.join(parentDir, 'client'), {
     maxAge: cacheTime
 }));
-
+*/
 http.listen(3002, function () {
     console.log('listening on *:3002');
 });
@@ -32,48 +32,52 @@ function onConnect(socket) {
     let playerPosition;
     let playerFigure;
     let roomName;
-    userCount++;
-    socket.emit('botMessage', welcomeMessage);
+    //userCount++;
+    //socket.emit('botMessage', welcomeMessage);
 
-    switch (userCount % 4) {
-        case 1:
-            playerPosition = {x: 1, y: 1};
-            playerFigure = "cat";
-            break;
-        case 2:
-            playerPosition = {x: 13, y: 1};
-            playerFigure = "gorilla";
-            break;
-        case 3:
-            playerPosition = {x: 1, y: 13};
-            playerFigure = "penguin";
-            break;
-        case 0:
-            playerPosition = {x: 13, y: 13};
-            playerFigure = "rabbit";
-            break;
-        default:
-            break;
-    }
-    let user = new User(socket.id.trim(), userCount, "Player " + userCount, playerPosition, playerFigure, true);
-    if (room.users.length % 4 === 0) {
-        roomCount++;
-        roomName = 'Room #' + roomCount;
-        room = new Room(roomName);
-        roomList.addRoom(room);
-    }
-    socket.join(room.name, () => {
-        room.addUser(user);
-        let rooms = Object.keys(socket.rooms);
-        user.assignToRoom(room.name);
-        socket.emit('passIdentity', user);
-        //socket.emit('updatePlayerPositions', room);
-        socket.emit('updatePlayer', room);
-        let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
-        let botMessage = user.name + ' joined the party!';
-
-        socket.to(user.room).emit('botMessage', botMessage);
-        console.log(message);
+    socket.on('charSelection', function (figure) {
+        switch (figure) {
+            case "cat":
+                playerPosition = {x: 1, y: 1};
+                playerFigure = "cat";
+                break;
+            case "gorilla":
+                playerPosition = {x: 13, y: 1};
+                playerFigure = "gorilla";
+                break;
+            case "penguin":
+                playerPosition = {x: 1, y: 13};
+                playerFigure = "penguin";
+                break;
+            case "rabbit":
+                playerPosition = {x: 13, y: 13};
+                playerFigure = "rabbit";
+                break;
+            default:
+                break;
+        }
+        let user = new User(socket.id.trim(), userCount, "Player " + playerFigure, playerPosition, playerFigure, false);
+        if (room.users.length % 4 === 0) {
+            roomCount++;
+            roomName = 'Room #' + roomCount;
+            room = new Room(roomName);
+            roomList.addRoom(room);
+        }
+        socket.join(room.name, () => {
+            room.addUser(user);
+            let rooms = Object.keys(socket.rooms);
+            user.assignToRoom(room.name);
+            socket.emit('passIdentity', user);
+            socket.emit('updatePlayer', room);
+            let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
+            let botMessage = user.name + ' joined the party!';
+            if (room.users.length === 4) {
+                io.in(room.name).emit('startGame', "");
+            }
+            socket.to(user.room).emit('botMessage', botMessage);
+            console.log(message);
+        });
+        //io.in(player.room).emit('updatePlayer', player);
     });
 
     socket.on('disconnecting', function (socket) {
@@ -98,6 +102,7 @@ function onConnect(socket) {
         let message = 'User ' + user.name + ' left ' + room.name + 'Total user count: ' + room.users.length;
         io.in(room.name).emit('botMessage', message);
         console.log(message);
+
     });
 
     socket.on('requestField', function (msg) {
@@ -151,6 +156,5 @@ function onConnect(socket) {
         console.log(JSON.stringify(player));
         io.in(player.room).emit('updatePlayer', player);
     });
-
 }
 

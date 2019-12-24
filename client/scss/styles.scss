@@ -7,7 +7,7 @@ $bg-ice: url("../assets/bg/bg_ice48x48.png");
 $bg-cat: url("../assets/player/cat/cat_000_50x50.png");
 $bg-gorilla: url("../assets/player/gorilla/gorilla_000_50x50.png");
 $bg-penguin: url("../assets/player/penguin/penguin_000_50x50.png");
-$bg-rabbit: url("../assets/player/rabbit_000_50x50.png");
+$bg-rabbit: url("../assets/player/rabbit/rabbit_000_50x50.png");
 $bg-vulcano: url("../assets/bg/vulcano_stone_48x48.png");
 $bg-bomb: url("../assets/bombEffects/bomb_000_45x45.png");
 $bg-explosion: url("../assets/bombEffects/explosion_000_50x50.png");
@@ -19,6 +19,10 @@ $bg-strideTail: url("../assets/bombEffects/strideCenter_50x50.png");
 $bg-site: url("../assets/bg/bg2.svg");
 $music-on: url("../assets/icons/sound_on_32x32.png");
 $music-off: url("../assets/icons/sound_off_32x32.png");
+$bg-catSelection: url("../assets/player/cat/cat_selection.png");
+$bg-gorillaSelection: url("../assets/player/gorilla/gorilla_selection.png");
+$bg-penguinSelection: url("../assets/player/penguin/penguin_selection.png");
+$bg-rabbitSelection: url("../assets/player/rabbit/rabbit_selection.png");
 
 :root {
   --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -409,27 +413,32 @@ li:hover {
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
+  // display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 400; /* Sit on top */
+  z-index: 2000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+  place-items: center;
 }
 
 /* Modal Content/Box */
-.modal-content {
-  color: white;
+#modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  place-items: center;
+  z-index: 2000;
+  color: black;
   font-family: Open Sans;
-  background-color: black;
-  margin: 10% auto; /* 15% from the top and centered */
-  opacity: 0.8;
+  background-image: url("../assets/ui/slice89_89.png");
+  margin: 12% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
-  width: 60%; /* Could be more or less, depending on screen size */
-  height: 50%;
+  //border: 1px solid #888;
+  width: 753px; /* Could be more or less, depending on screen size */
+  height: 568px;
 }
 
 /* The Close Button */
@@ -445,4 +454,45 @@ li:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+#catCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: $bg-catSelection;
+}
+
+#gorillaCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: $bg-gorillaSelection;
+}
+
+#penguinCharacter {
+  width: 160px;
+  height: 160px;
+  content: '';
+  place-items: center;
+  background-image: $bg-penguinSelection;
+}
+
+#rabbitCharacter {
+  width: 160px;
+  height: 160px;
+  place-items: center;
+  background-image: $bg-rabbitSelection;
+}
+
+.charOverview {
+  cursor: pointer;
+  border: brown 1px solid;
+  border-radius: 25px;
+  margin: 60px 4px 0 4px;
+  -webkit-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.35);
 }
