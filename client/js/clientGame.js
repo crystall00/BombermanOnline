@@ -145,6 +145,8 @@ function explode(bombX, bombY) {
     let topFieldSub = $("#" + (bombY - 1) + "_" + bombX + "_sub");
     let bottomFieldSub = $("#" + (bombY + 1) + "_" + bombX + "_sub");
 
+    console.log(bombX);
+
     if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block"))) {
         $(leftFieldSub).addClass("strideLeft").stop().animate(
             {opacity: 0},
@@ -160,15 +162,17 @@ function explode(bombX, bombY) {
                                 }
                             }
                         );
-                        fieldUpdate(bombY, bombX - 1);
+                        fieldUpdate(bombY, (bombX - 1));
                     }
                     if ($(leftFieldSub).hasClass("bomb")) {
-                        detonate($(leftFieldSub), (bombX - 1), bombY);
+                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
+                        $(leftFieldSub).stop();
+                        detonate(leftFieldSub, (bombX - 1), bombY);
                     }
                 },
                 duration: 1000,
                 complete: function () {
-                    $(leftFieldSub).removeClass().removeAttr("class").removeAttr("style");
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
@@ -191,12 +195,14 @@ function explode(bombX, bombY) {
                         fieldUpdate(bombY, (bombX + 1));
                     }
                     if ($(rightFieldSub).hasClass("bomb")) {
-                        detonate($(rightFieldSub), (bombX + 1), bombY);
+                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
+                        $(rightFieldSub).stop();
+                        detonate(rightFieldSub, (bombX + 1), bombY);
                     }
                 },
                 duration: 1000,
                 complete: function () {
-                    $(rightFieldSub).removeClass().removeAttr("class").removeAttr("style");
+                    $(this).removeClass().removeAttr("class").removeAttr("style");
                 }
             }
         )
@@ -218,8 +224,10 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY - 1), bombX);
                     }
-                    if ($(this).hasClass("bomb")) {
-                        detonate($(this), bombX, (bombY - 1));
+                    if ($(topFieldSub).hasClass("bomb")) {
+                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
+                        $(topFieldSub).stop();
+                        detonate(topFieldSub, bombX, (bombY - 1));
                     }
                 },
                 duration: 1000,
@@ -246,8 +254,9 @@ function explode(bombX, bombY) {
                         );
                         fieldUpdate((bombY + 1), bombX);
                     }
-                    if ($(this).hasClass("bomb")) {
-                        detonate($(this), bombX, (bombY + 1));
+                    if ($(bottomFieldSub).hasClass("bomb")) {
+                        $(bottomFieldSub).stop();
+                        detonate(bottomFieldSub, bombX, (bombY + 1));
                     }
                 },
                 duration: 1000,
@@ -618,8 +627,7 @@ function layBomb(position) {
 
 function detonate(bomb, bombX, bombY) {
     explosionSound.play();
-    console.log("Removing chain bomb from field: " + $(bomb).id);
-    $("#" + bombY + "_" + bombX + "_sub").addClass("strideTail").stop().animate(
+    $(bomb).removeClass("bomb").addClass("strideTail").animate(
         {opacity: 0},
         {
             start: function () {
@@ -627,7 +635,7 @@ function detonate(bomb, bombX, bombY) {
             },
             duration: 1000,
             complete: function () {
-                $(this).removeClass().removeAttr("class").removeAttr("style");
+                $(this).removeClass().removeAttr("style");
             }
         }
     )
