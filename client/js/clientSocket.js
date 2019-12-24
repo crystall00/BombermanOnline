@@ -44,8 +44,11 @@ $(function () {
         loseAnimation(player.figure);
     });
 
+    websocketGame.socket.on('availableCharacters', function (availableCharacters) {
+        loadCharacterSelection(availableCharacters);
+    });
 
-    websocketGame.socket.on('startGame', function (player) {
+    websocketGame.socket.on('startGame', function () {
         startGame();
     });
 

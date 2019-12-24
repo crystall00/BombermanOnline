@@ -15,6 +15,7 @@ var roomList = new RoomList();
 var room = new Room("");
 var userCount = 0;
 var roomCount = 0;
+var availableCharacters = [1, 1, 1, 1];
 
 app.use(express.static(parentDir + '/client'));
 /*
@@ -29,10 +30,11 @@ http.listen(3002, function () {
 io.on('connect', onConnect);
 
 function onConnect(socket) {
+    socket.emit('availableCharacters', availableCharacters);
     let playerPosition;
     let playerFigure;
     let roomName;
-    //userCount++;
+    userCount++;
     //socket.emit('botMessage', welcomeMessage);
 
     socket.on('charSelection', function (figure) {
@@ -40,16 +42,20 @@ function onConnect(socket) {
             case "cat":
                 playerPosition = {x: 1, y: 1};
                 playerFigure = "cat";
+                availableCharacters[0] = 0;
                 break;
             case "gorilla":
                 playerPosition = {x: 13, y: 1};
                 playerFigure = "gorilla";
+                availableCharacters[1] = 0;
                 break;
             case "penguin":
                 playerPosition = {x: 1, y: 13};
                 playerFigure = "penguin";
+                availableCharacters[2] = 0;
                 break;
             case "rabbit":
+                availableCharacters[3] = 0;
                 playerPosition = {x: 13, y: 13};
                 playerFigure = "rabbit";
                 break;
@@ -70,11 +76,12 @@ function onConnect(socket) {
             socket.emit('passIdentity', user);
             socket.emit('updatePlayer', room);
             let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
-            let botMessage = user.name + ' joined the party!';
             if (room.users.length === 4) {
+                availableCharacters = [1, 1, 1, 1];
                 io.in(room.name).emit('startGame', "");
             }
-            socket.to(user.room).emit('botMessage', botMessage);
+            console.log("Available characters: " + availableCharacters);
+            io.in(room.name).emit('availableCharacters', availableCharacters);
             console.log(message);
         });
         //io.in(player.room).emit('updatePlayer', player);

@@ -86,7 +86,6 @@ function waitForElement() {
 
 function canMove(me, direction) {
     if (!me.alive) {
-        console.log("you are dead :/");
         return false;
     }
     let x = me.position.x;
@@ -116,34 +115,32 @@ function canMove(me, direction) {
 }
 
 $(document).ready(function () { // When the DOM is Ready, then bind the click
+
+
     $("#catCharacter").click(function () {
         if (!charChosen) {
-            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
-            $(this).css("opacity", "0.5");
+            $(this).addClass("disabled");
             sendSelection("cat");
             charChosen = true;
         }
     });
     $("#gorillaCharacter").click(function () {
         if (!charChosen) {
-            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
-            $(this).css("opacity", "0.5");
+            $(this).addClass("disabled");
             sendSelection("gorilla");
             charChosen = true;
         }
     });
     $("#penguinCharacter").click(function () {
         if (!charChosen) {
-            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
-            $(this).css("opacity", "0.5");
+            $(this).addClass("disabled");
             sendSelection("penguin");
             charChosen = true;
         }
     });
     $("#rabbitCharacter").click(function () {
         if (!charChosen) {
-            $(this).css("box-shadow", "inset 0 0 6px 3px rgba(0, 0, 0, 0.35)");
-            $(this).css("opacity", "0.5");
+            $(this).addClass("disabled");
             sendSelection("rabbit");
             charChosen = true;
         }
@@ -179,8 +176,6 @@ function explode(bombX, bombY) {
     let topFieldSub = $("#" + (bombY - 1) + "_" + bombX + "_sub");
     let bottomFieldSub = $("#" + (bombY + 1) + "_" + bombX + "_sub");
 
-    console.log(bombX);
-
     if (!($(leftField).hasClass("wall") || $(leftField).hasClass("wallVertical") || $(leftField).hasClass("block"))) {
         $(leftFieldSub).addClass("strideLeft").stop().animate(
             {opacity: 0},
@@ -199,7 +194,6 @@ function explode(bombX, bombY) {
                         fieldUpdate(bombY, (bombX - 1));
                     }
                     if ($(leftFieldSub).hasClass("bomb")) {
-                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
                         $(leftFieldSub).stop();
                         detonate(leftFieldSub, (bombX - 1), bombY);
                     }
@@ -229,7 +223,6 @@ function explode(bombX, bombY) {
                         fieldUpdate(bombY, (bombX + 1));
                     }
                     if ($(rightFieldSub).hasClass("bomb")) {
-                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
                         $(rightFieldSub).stop();
                         detonate(rightFieldSub, (bombX + 1), bombY);
                     }
@@ -259,7 +252,7 @@ function explode(bombX, bombY) {
                         fieldUpdate((bombY - 1), bombX);
                     }
                     if ($(topFieldSub).hasClass("bomb")) {
-                        console.log("stopping top field: " + $(topFieldSub).attr("id"));
+                        // console.log("stopping top field: " + $(topFieldSub).attr("id"));
                         $(topFieldSub).stop();
                         detonate(topFieldSub, bombX, (bombY - 1));
                     }
@@ -344,7 +337,6 @@ var counter = 1;
 
 $(document).on('keydown', function (e) {
     if (counter > 0) {
-        console.log("Start X: " + myself.position.x + " Start Y :" + myself.position.y);
         if (e.target.nodeName.toLowerCase() !== 'input') {
             switch (e.which) {
                 //move left
@@ -394,8 +386,6 @@ $(document).on('keydown', function (e) {
                     break;
             }
         }
-    } else {
-        console.log("counter is 0 :/");
     }
     if (e.target.nodeName.toLowerCase() !== 'input' && e.which === 32) {
         e.preventDefault();
@@ -424,11 +414,9 @@ function move(player, direction) {
                 start: function () {
                     $("#" + player.figure).css("transform", "rotateY(180deg)");
                     let i = 0;
-                    console.log("Starting animation.... for: " + player.figure);
                     id = setInterval(function () {
                         switch (player.figure) {
                             case "cat":
-                                console.log("Cat animation starting now...");
                                 if (i < 10) {
                                     $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
                                     i++;
@@ -476,11 +464,9 @@ function move(player, direction) {
                 start: function () {
                     $("#" + player.figure).css("transform", "rotateY(0deg)");
                     let i = 0;
-                    console.log("Starting animation.... for: " + player.figure);
                     id = setInterval(function () {
                         switch (player.figure) {
                             case "cat":
-                                console.log("Cat animation starting now...");
                                 if (i < 10) {
                                     $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
                                     i++;
@@ -527,11 +513,9 @@ function move(player, direction) {
                 duration: 360,
                 start: function () {
                     let i = 0;
-                    console.log("Starting animation.... for: " + player.figure);
                     id = setInterval(function () {
                         switch (player.figure) {
                             case "cat":
-                                console.log("Cat animation starting now...");
                                 if (i < 10) {
                                     $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
                                     i++;
@@ -578,11 +562,9 @@ function move(player, direction) {
                 duration: 360,
                 start: function () {
                     let i = 0;
-                    console.log("Starting animation.... for: " + player.figure);
                     id = setInterval(function () {
                         switch (player.figure) {
                             case "cat":
-                                console.log("Cat animation starting now...");
                                 if (i < 10) {
                                     $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
                                     i++;
@@ -677,12 +659,10 @@ function detonate(bomb, bombX, bombY) {
 
 
 function loadField(field) {
-    console.log(JSON.stringify(field));
     for (let i = 0; i < field.length; i++) {
         for (let j = 0; j < field[0].length; j++) {
             if (field[i][j] === 1) {
                 let searchID = "#" + i + "_" + j;
-                console.log("adding ice to: " + searchID);
                 $(searchID).addClass('ice');
             }
         }
@@ -691,7 +671,6 @@ function loadField(field) {
 
 function loseAnimation(figure) {
     let id;
-    console.log("Starting die animation for: " + figure);
     $("#" + figure).animate(
         {opacity: 0},
         {
@@ -750,4 +729,19 @@ function loseAnimation(figure) {
 function startGame() {
     myself.alive = true;
     $("#myModal").hide();
+}
+
+function loadCharacterSelection(availableCharacters) {
+    if (availableCharacters[0] === 0) {
+        $("#catCharacter").addClass("disabled");
+    }
+    if (availableCharacters[1] === 0) {
+        $("#gorillaCharacter").addClass("disabled");
+    }
+    if (availableCharacters[2] === 0) {
+        $("#penguinCharacter").addClass("disabled");
+    }
+    if (availableCharacters[3] === 0) {
+        $("#penguinCharacter").addClass("disabled");
+    }
 }

@@ -6,9 +6,7 @@ function resetGame() {
             let divElement = document.createElement('div');
             divElement.id = i.toString() + "_" + j.toString();
             let divElementSub = document.createElement('div');
-            console.log("######################### PARENT: " + divElement.id);
             divElementSub.id = divElement.id + "_sub";
-            console.log("######################### CHILD: " + divElementSub.id);
             $(divElementSub).appendTo(divElement);
             if (i === 0 || i === 14) {
                 $(divElement).addClass('wall').appendTo($("#game"));
