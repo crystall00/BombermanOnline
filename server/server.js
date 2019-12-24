@@ -5,6 +5,7 @@ const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
 const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
+const cacheTime = 86400000 * 30;
 
 var User = require('./game').User;
 var Room = require('./game').Room;
@@ -15,7 +16,11 @@ var room = new Room("");
 var userCount = 0;
 var roomCount = 0;
 
-app.use(express.static(parentDir + '/client'));
+//app.use(express.static(parentDir + '/client'));
+
+app.use(express.static(path.join(parentDir, 'client'), {
+    maxAge: cacheTime
+}));
 
 http.listen(3002, function () {
     console.log('listening on *:3002');
