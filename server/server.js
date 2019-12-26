@@ -4,7 +4,7 @@ const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
 const parentDir = path.normalize(__dirname + "/..");
-const welcomeMessage = "Hi, welcome to Bomberman Online! Please follow the chat rules! 😄";
+const welcomeMessage = "Hi, welcome to Bomberman Online 😄 ! Please follow the chat rules!";
 const cacheTime = 86400000 * 30;
 
 var User = require('./game').User;
@@ -35,7 +35,7 @@ function onConnect(socket) {
     let playerFigure;
     let roomName;
     userCount++;
-    //socket.emit('botMessage', welcomeMessage);
+    socket.emit('botMessage', welcomeMessage);
 
     socket.on('charSelection', function (figure) {
         switch (figure) {

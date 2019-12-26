@@ -405,7 +405,6 @@ $(document).on('keydown', function (e) {
 
 function move(player, direction) {
     let figure = $("#" + player.figure);
-    let i = 0;
     let id;
     switch (direction) {
         case "left":
@@ -413,42 +412,10 @@ function move(player, direction) {
                 duration: 360,
                 start: function () {
                     $("#" + player.figure).css("transform", "rotateY(180deg)");
-                    let i = 0;
+                    let step = 0;
                     id = setInterval(function () {
-                        switch (player.figure) {
-                            case "cat":
-                                if (i < 10) {
-                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "gorilla":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "penguin":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else if (i > 9 && i < 12) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "rabbit":
-                                break;
-                            default:
-                                break;
-                        }
-
+                        walkingAnimation(id, player.figure, step);
+                        step++;
                     }, 40)
                 },
                 complete: function () {
@@ -459,46 +426,14 @@ function move(player, direction) {
             });
             break;
         case "right":
-            $(figure).stop().animate({left: "+=50px"}, {
+            $(figure).animate({left: "+=50px"}, {
                 duration: 360,
                 start: function () {
                     $("#" + player.figure).css("transform", "rotateY(0deg)");
-                    let i = 0;
+                    let step = 0;
                     id = setInterval(function () {
-                        switch (player.figure) {
-                            case "cat":
-                                if (i < 10) {
-                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "gorilla":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "penguin":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else if (i > 9 && i < 12) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "rabbit":
-                                break;
-                            default:
-                                break;
-                        }
-
+                        walkingAnimation(id, player.figure, step);
+                        step++;
                     }, 40)
                 },
                 complete: function () {
@@ -509,45 +444,13 @@ function move(player, direction) {
             });
             break;
         case "up":
-            $(figure).stop().animate({top: "-=50px"}, {
+            $(figure).animate({top: "-=50px"}, {
                 duration: 360,
                 start: function () {
-                    let i = 0;
+                    let step = 0;
                     id = setInterval(function () {
-                        switch (player.figure) {
-                            case "cat":
-                                if (i < 10) {
-                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "gorilla":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "penguin":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else if (i > 9 && i < 12) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "rabbit":
-                                break;
-                            default:
-                                break;
-                        }
-
+                        walkingAnimation(id, player.figure, step);
+                        step++;
                     }, 40)
                 },
                 complete: function () {
@@ -558,45 +461,13 @@ function move(player, direction) {
             });
             break;
         case "down":
-            $(figure).stop().animate({top: "+=50px"}, {
+            $(figure).animate({top: "+=50px"}, {
                 duration: 360,
                 start: function () {
-                    let i = 0;
+                    let step = 0;
                     id = setInterval(function () {
-                        switch (player.figure) {
-                            case "cat":
-                                if (i < 10) {
-                                    $("#" + player.figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_walk_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "gorilla":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "penguin":
-                                if (i < 10) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else if (i > 9 && i < 12) {
-                                    $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
-                                    i++;
-                                } else {
-                                    clearInterval(id);
-                                }
-                                break;
-                            case "rabbit":
-                                break;
-                            default:
-                                break;
-                        }
-
+                        walkingAnimation(id, player.figure, step);
+                        step++;
                     }, 40)
                 },
                 complete: function () {
@@ -608,6 +479,14 @@ function move(player, direction) {
             break;
         default:
             break;
+    }
+}
+
+function walkingAnimation(id, figure, step) {
+    if (step < 10) {
+        $("#" + figure).css("background-image", "url(../assets/player/" + figure + "/" + figure + "_00" + step + "_walk_50x50.png)");
+    } else {
+        clearInterval(id);
     }
 }
 
@@ -676,46 +555,18 @@ function loseAnimation(figure) {
         {
             duration: 5000,
             start: function () {
-                let i = 0;
+                let step = 0;
                 crySound.play();
                 id = setInterval(function () {
-                    switch (figure) {
-                        case "cat":
-                            if (i < 10) {
-                                $("#" + figure).css("background-image", "url(../assets/player/cat/cat_00" + i + "_dead_50x50.png)");
-                                i++;
-                            } else if (i > 9 && i < 12) {
-                                $("#" + figure).css("background-image", "url(../assets/player/cat/cat_0" + i + "_dead_50x50.png)");
-                                i++;
+                    if (step < 10) {
+                        $("#" + figure).css("background-image", "url(../assets/player/" + figure + "/" + figure + "_00" + step + "_dead_50x50.png)");
+                        step++;
+                    } else if (step > 9 && step < 12) {
+                        $("#" + figure).css("background-image", "url(../assets/player/" + figure + "/" + figure + "_0" + step + "_dead_50x50.png)");
+                        step++;
                             } else {
                                 clearInterval(id);
                             }
-                            break;
-                        case "gorilla":
-                            if (i < 10) {
-                                $("#" + figure).css("background-image", "url(../assets/player/gorilla/gorilla_00" + i + "_dead_50x50.png)");
-                                i++;
-                            } else {
-                                clearInterval(id);
-                            }
-                            break;
-                        case "penguin":
-                            if (i < 10) {
-                                $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_00" + i + "_dead_50x50.png)");
-                                i++;
-                            } else if (i > 9 && i < 12) {
-                                $("#" + figure).css("background-image", "url(../assets/player/penguin/penguin_0" + i + "_dead_50x50.png)");
-                                i++;
-                            } else {
-                                clearInterval(id);
-                            }
-                            break;
-                        case "rabbit":
-                            break;
-                        default:
-                            break;
-                    }
-
                 }, 25)
             },
             complete: function () {
