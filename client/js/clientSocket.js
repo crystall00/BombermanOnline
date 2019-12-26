@@ -14,10 +14,10 @@ $(function () {
     });
 
     websocketGame.socket.on('broadcast', function (msg) {
-        if (msg.from.id === myself.id) {
-            appendMessage('Player ' + myself.id, myself.imgPath, "right", msg.message);
+        if (msg.from.figure === myself.figure) {
+            appendMessage(myself.figure, myself.imgPath, "right", msg.message);
         } else {
-            appendMessage('Player ' + msg.from.id, msg.from.imgPath, "left", msg.message);
+            appendMessage(msg.from.figure, msg.from.imgPath, "left", msg.message);
         }
     });
 
