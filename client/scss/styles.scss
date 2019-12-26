@@ -509,6 +509,11 @@ li:hover {
   backface-visibility: hidden;
 }
 
+body::after {
+  content: url(../assets/player/rabbit/rabbit_000_walk_50x50.png) url(../assets/player/rabbit/rabbit_001_walk_50x50.png) url(../assets/player/rabbit/rabbit_002_walk_50x50.png) url(../assets/player/rabbit/rabbit_003_walk_50x50.png) url(../assets/player/rabbit/rabbit_004_walk_50x50.png) url(../assets/player/rabbit/rabbit_005_walk_50x50.png) url(../assets/player/rabbit/rabbit_006_walk_50x50.png) url(../assets/player/rabbit/rabbit_007_walk_50x50.png) url(../assets/player/rabbit/rabbit_008_walk_50x50.png) url(../assets/player/rabbit/rabbit_009_walk_50x50.png) url(../assets/player/cat/cat_001_walk_50x50.png) url(../assets/player/cat/cat_002_walk_50x50.png) url(../assets/player/cat/cat_003_walk_50x50.png) url(../assets/player/cat/cat_004_walk_50x50.png) url(../assets/player/cat/cat_005_walk_50x50.png) url(../assets/player/cat/cat_006_walk_50x50.png) url(../assets/player/cat/cat_007_walk_50x50.png) url(../assets/player/cat/cat_008_walk_50x50.png) url(../assets/player/cat/cat_009_walk_50x50.png);
+  display: none;
+}
+
 .charOverview {
   cursor: pointer;
   border: brown 1px solid;
