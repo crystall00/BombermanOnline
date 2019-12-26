@@ -408,7 +408,7 @@ function move(player, direction) {
     let id;
     switch (direction) {
         case "left":
-            $(figure).stop().animate({left: "-=50px"}, {
+            $(figure).animate({left: "-=50px"}, {
                 duration: 360,
                 start: function () {
                     $("#" + player.figure).css("transform", "rotateY(180deg)");
@@ -421,6 +421,7 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
+                    $(this).removeAttr();
                     counter++;
                 }
             });
