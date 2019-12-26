@@ -333,7 +333,7 @@ function playerHit(player) {
     );
 }
 
-var counter = 20;
+var counter = 3;
 
 $(document).on('keydown', function (e) {
     if (counter > 0) {
@@ -440,6 +440,7 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({left: "0px"});
+                    $(this).removeAttr();
                     counter++;
                 }
             });
@@ -457,6 +458,7 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
+                    $(this).removeAttr();
                     counter++;
                 }
             });
@@ -474,6 +476,7 @@ function move(player, direction) {
                 complete: function () {
                     $(this).appendTo($("#" + player.position.y + "_" + player.position.x));
                     $(this).css({top: "0px"});
+                    $(this).removeAttr();
                     counter++;
                 }
             });
