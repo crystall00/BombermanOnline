@@ -333,7 +333,7 @@ function playerHit(player) {
     );
 }
 
-var counter = 1;
+var counter = 100;
 
 $(document).on('keydown', function (e) {
     if (counter > 0) {
