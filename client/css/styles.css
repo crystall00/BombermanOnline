@@ -386,27 +386,43 @@ li:hover {
   height: 160px;
   content: '';
   place-items: center;
-  background-image: url("../assets/player/cat/cat_selection.png"); }
+  background-image: url("../assets/player/cat/cat_selection.png");
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 #gorillaCharacter {
   width: 160px;
   height: 160px;
   content: '';
   place-items: center;
-  background-image: url("../assets/player/gorilla/gorilla_selection.png"); }
+  background-image: url("../assets/player/gorilla/gorilla_selection.png");
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 #penguinCharacter {
   width: 160px;
   height: 160px;
   content: '';
   place-items: center;
-  background-image: url("../assets/player/penguin/penguin_selection.png"); }
+  background-image: url("../assets/player/penguin/penguin_selection.png");
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 #rabbitCharacter {
   width: 160px;
   height: 160px;
   place-items: center;
-  background-image: url("../assets/player/rabbit/rabbit_selection.png"); }
+  background-image: url("../assets/player/rabbit/rabbit_selection.png");
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden; }
 
 .charOverview {
   cursor: pointer;

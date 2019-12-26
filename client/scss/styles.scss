@@ -468,6 +468,10 @@ li:hover {
   content: '';
   place-items: center;
   background-image: $bg-catSelection;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 #gorillaCharacter {
@@ -476,6 +480,10 @@ li:hover {
   content: '';
   place-items: center;
   background-image: $bg-gorillaSelection;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 #penguinCharacter {
@@ -484,6 +492,10 @@ li:hover {
   content: '';
   place-items: center;
   background-image: $bg-penguinSelection;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 #rabbitCharacter {
@@ -491,6 +503,10 @@ li:hover {
   height: 160px;
   place-items: center;
   background-image: $bg-rabbitSelection;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .charOverview {
