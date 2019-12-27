@@ -584,6 +584,7 @@ function loseAnimation(figure) {
 function startGame() {
     myself.alive = true;
     $("#myModal").hide();
+    showTime();
 }
 
 function loadCharacterSelection(availableCharacters) {
@@ -599,4 +600,30 @@ function loadCharacterSelection(availableCharacters) {
     if (availableCharacters[3] === 0) {
         $("#penguinCharacter").addClass("disabled");
     }
+}
+
+function showTime(){
+    let s = 0;
+    let m = 0;
+    let ss = 0;
+    let mm = 0;
+    setInterval(function(){
+        if(s > 59){
+            m++;
+            s = 0;
+            ss = 0;
+        }
+        if(s > 9){
+            ss = '';
+        }
+        if(m > 9){
+            ss = '';
+            mm = '';
+        }
+        let time = mm + m + ":" + ss + s;
+        $("#MyClockDisplay").text(time);
+        $("#MyClockDisplay").textContent = time;
+        s++;
+    }, 1000);
+
 }

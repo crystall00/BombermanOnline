@@ -440,3 +440,11 @@ body::after {
 .disabled {
   cursor: default;
   opacity: 0.4; }
+
+.clock {
+  height: 100px;
+  width: 100%;
+  color: #17D4FE;
+  font-size: 60px;
+  font-family: Orbitron;
+  letter-spacing: 7px; }
