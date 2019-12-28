@@ -500,6 +500,7 @@ li:hover {
 
 #rabbitCharacter {
   width: 160px;
+
   height: 160px;
   place-items: center;
   background-image: $bg-rabbitSelection;
@@ -510,7 +511,7 @@ li:hover {
 }
 
 body::after {
-  content: url(../assets/player/rabbit/rabbit_000_walk_50x50.png) url(../assets/player/rabbit/rabbit_001_walk_50x50.png) url(../assets/player/rabbit/rabbit_002_walk_50x50.png) url(../assets/player/rabbit/rabbit_003_walk_50x50.png) url(../assets/player/rabbit/rabbit_004_walk_50x50.png) url(../assets/player/rabbit/rabbit_005_walk_50x50.png) url(../assets/player/rabbit/rabbit_006_walk_50x50.png) url(../assets/player/rabbit/rabbit_007_walk_50x50.png) url(../assets/player/rabbit/rabbit_008_walk_50x50.png) url(../assets/player/rabbit/rabbit_009_walk_50x50.png) url(../assets/player/cat/cat_001_walk_50x50.png) url(../assets/player/cat/cat_002_walk_50x50.png) url(../assets/player/cat/cat_003_walk_50x50.png) url(../assets/player/cat/cat_004_walk_50x50.png) url(../assets/player/cat/cat_005_walk_50x50.png) url(../assets/player/cat/cat_006_walk_50x50.png) url(../assets/player/cat/cat_007_walk_50x50.png) url(../assets/player/cat/cat_008_walk_50x50.png) url(../assets/player/cat/cat_009_walk_50x50.png);
+  content: url(../assets/player/rabbit/rabbit_001_walk_50x50.png) url(../assets/player/rabbit/rabbit_002_walk_50x50.png) url(../assets/player/rabbit/rabbit_003_walk_50x50.png) url(../assets/player/rabbit/rabbit_004_walk_50x50.png) url(../assets/player/rabbit/rabbit_005_walk_50x50.png) url(../assets/player/rabbit/rabbit_006_walk_50x50.png) url(../assets/player/rabbit/rabbit_007_walk_50x50.png) url(../assets/player/rabbit/rabbit_008_walk_50x50.png) url(../assets/player/rabbit/rabbit_009_walk_50x50.png) url(../assets/player/cat/cat_001_walk_50x50.png) url(../assets/player/cat/cat_002_walk_50x50.png) url(../assets/player/cat/cat_003_walk_50x50.png) url(../assets/player/cat/cat_004_walk_50x50.png) url(../assets/player/cat/cat_005_walk_50x50.png) url(../assets/player/cat/cat_006_walk_50x50.png) url(../assets/player/cat/cat_007_walk_50x50.png) url(../assets/player/cat/cat_008_walk_50x50.png) url(../assets/player/cat/cat_009_walk_50x50.png) url(../assets/player/gorilla/gorilla_001_walk_50x50.png) url(../assets/player/gorilla/gorilla_002_walk_50x50.png) url(../assets/player/gorilla/gorilla_003_walk_50x50.png) url(../assets/player/gorilla/gorilla_004_walk_50x50.png) url(../assets/player/gorilla/gorilla_005_walk_50x50.png) url(../assets/player/gorilla/gorilla_006_walk_50x50.png) url(../assets/player/gorilla/gorilla_007_walk_50x50.png) url(../assets/player/gorilla/gorilla_008_walk_50x50.png) url(../assets/player/gorilla/gorilla_009_walk_50x50.png) url(../assets/player/penguin/penguin_001_walk_50x50.png) url(../assets/player/penguin/penguin_002_walk_50x50.png) url(../assets/player/penguin/penguin_003_walk_50x50.png) url(../assets/player/penguin/penguin_004_walk_50x50.png) url(../assets/player/penguin/penguin_005_walk_50x50.png) url(../assets/player/penguin/penguin_006_walk_50x50.png) url(../assets/player/penguin/penguin_007_walk_50x50.png) url(../assets/player/penguin/penguin_008_walk_50x50.png) url(../assets/player/penguin/penguin_009_walk_50x50.png);
   display: none;
 }
 
