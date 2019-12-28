@@ -17,12 +17,12 @@ var userCount = 0;
 var roomCount = 0;
 var availableCharacters = [1, 1, 1, 1];
 
-//app.use(express.static(parentDir + '/client'));
-
+app.use(express.static(parentDir + '/client'));
+/*
 app.use(express.static(path.join(parentDir, 'client'), {
     maxAge: cacheTime
 }));
-
+*/
 http.listen(3002, function () {
     console.log('listening on *:3002');
 });

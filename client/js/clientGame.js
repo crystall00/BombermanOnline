@@ -305,34 +305,6 @@ function gotHit() {
     }
 }
 
-
-function playerHit(player) {
-    $("#" + myself.figure).animate(
-        {display: "none"},
-        {
-            start: function () {
-                switch ($(this).attr('id')) {
-                    case "cat":
-                        $(this).attr("src", "../assets/player/cat_000_dead_50x50.png");
-                        break;
-                    case "gorilla":
-                        $(this).attr("src", "../assets/player/gorilla_000_dead_50x50.png");
-                        break;
-                    case "penguin":
-                        $(this).attr("src", "../assets/player/penguin_000_dead_50x50.png");
-                        break;
-                    case "rabbit":
-                        $(this).attr("src", "../assets/player/rabbit_000_dead_50x50.png");
-                        break;
-                    default:
-                        break;
-                }
-            },
-            duration: 1000
-        }
-    );
-}
-
 var counter = 3;
 
 $(document).on('keydown', function (e) {
@@ -607,6 +579,9 @@ function showTime(){
     let m = 0;
     let ss = 0;
     let mm = 0;
+    let seconds = ss.toString() + s.toString();
+    let minutes = mm.toString() + m.toString();
+    let clock = $("#MyClockDisplay");
     setInterval(function(){
         if(s > 59){
             m++;
@@ -616,14 +591,31 @@ function showTime(){
         if(s > 9){
             ss = '';
         }
+        if (m === 3) {
+            clock.css("background-image", "url(../assets/ui/clock_bg_medium.png)");
+            levelMedium();
+        }
+        if (m === 6) {
+            clock.css("background-image", "url(../assets/ui/clock_bg_hard.png)");
+            levelHard();
+        }
         if(m > 9){
             ss = '';
             mm = '';
         }
-        let time = mm + m + ":" + ss + s;
-        $("#MyClockDisplay").text(time);
-        $("#MyClockDisplay").textContent = time;
+
+        minutes = mm.toString() + m.toString();
+        seconds = ss.toString() + s.toString();
+        let time = minutes + ":" + seconds;
+        clock.text(time).textContent = time;
         s++;
     }, 1000);
+}
+
+function levelMedium() {
+
+}
+
+function levelHard() {
 
 }

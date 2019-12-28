@@ -530,12 +530,24 @@ body::after {
   opacity: 0.4;
 }
 
-.clock {
-  height: 100px;
+#clockContainer {
   width: 100%;
-  color: #17D4FE;
-  font-size: 60px;
+  place-items: center;
+}
+
+.clock {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  height: 50px;
+  width: 100px;
+  color: black;
+  padding-left: 1px;
+  font-size: 20px;
+  margin: 0 auto;
   font-family: Orbitron;
-  //  font-family: Open Sans;
+  //font-family: Open Sans;
+  background-repeat: no-repeat;
+  background-image: url("../assets/ui/clock_bg_easy.png");
   letter-spacing: 7px;
 }
