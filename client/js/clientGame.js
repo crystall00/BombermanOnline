@@ -72,6 +72,11 @@ function resetPlayers() {
     $(rabbitImg).appendTo($(startPositionD));
 }
 
+function mediumReset(player) {
+    console.log("Adding player to position " + player.position.x + "_" + player.position.y);
+    $("#" + player.figure).appendTo($("#" + player.position.x + "_" + player.position.y));
+}
+
 var myFigure;
 
 $(waitForElement());
@@ -540,9 +545,9 @@ function loseAnimation(figure) {
                     } else if (step > 9 && step < 12) {
                         $("#" + figure).css("background-image", "url(../assets/player/" + figure + "/" + figure + "_0" + step + "_dead_50x50.png)");
                         step++;
-                            } else {
-                                clearInterval(id);
-                            }
+                    } else {
+                        clearInterval(id);
+                    }
                 }, 25)
             },
             complete: function () {
@@ -574,7 +579,7 @@ function loadCharacterSelection(availableCharacters) {
     }
 }
 
-function showTime(){
+function showTime() {
     let s = 0;
     let m = 0;
     let ss = 0;
@@ -582,16 +587,16 @@ function showTime(){
     let seconds = ss.toString() + s.toString();
     let minutes = mm.toString() + m.toString();
     let clock = $("#MyClockDisplay");
-    setInterval(function(){
-        if(s > 59){
+    setInterval(function () {
+        if (s > 59) {
             m++;
             s = 0;
             ss = 0;
         }
-        if(s > 9){
+        if (s > 9) {
             ss = '';
         }
-        if (m === 3) {
+        if (m === 1) {
             clock.css("background-image", "url(../assets/ui/clock_bg_medium.png)");
             levelMedium();
         }
@@ -599,7 +604,7 @@ function showTime(){
             clock.css("background-image", "url(../assets/ui/clock_bg_hard.png)");
             levelHard();
         }
-        if(m > 9){
+        if (m > 9) {
             ss = '';
             mm = '';
         }
@@ -613,7 +618,43 @@ function showTime(){
 }
 
 function levelMedium() {
-
+    for (let x = 1; x < 14; x++) {
+        if (x < 3) {
+            for (let y = 1; y < 14; y++) {
+                $("#" + x + "_" + y).removeClass().addClass("block");
+            }
+        } else if (x > 11) {
+            for (let y = 1; y < 14; y++) {
+                $("#" + x + "_" + y).removeClass().addClass("block");
+            }
+        }
+    }
+    for (let y = 1; y < 14; y++) {
+        if (y < 3) {
+            for (let x = 1; x < 14; x++) {
+                $("#" + x + "_" + y).removeClass().addClass("block");
+            }
+        } else if (y > 11) {
+            for (let x = 1; x < 14; x++) {
+                $("#" + x + "_" + y).removeClass().addClass("block");
+            }
+        }
+    }
+    $("#3_4").removeClass();
+    $("#3_3").removeClass();
+    $("#4_3").removeClass();
+    $("#3_10").removeClass();
+    $("#3_11").removeClass();
+    $("#4_11").removeClass();
+    $("#10_11").removeClass();
+    $("#11_11").removeClass();
+    $("#11_10").removeClass();
+    $("#10_3").removeClass();
+    $("#11_3").removeClass();
+    $("#11_4").removeClass();
+    if (myself.alive) {
+        requestPlayerReset();
+    }
 }
 
 function levelHard() {
