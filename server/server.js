@@ -171,12 +171,12 @@ function onConnect(socket) {
                 player.position.y = 3;
                 break;
             case "gorilla":
-                player.position.x = 3;
-                player.position.y = 11;
-                break;
-            case "penguin":
                 player.position.x = 11;
                 player.position.y = 3;
+                break;
+            case "penguin":
+                player.position.x = 3;
+                player.position.y = 11;
                 break;
             case "rabbit":
                 player.position.x = 11;

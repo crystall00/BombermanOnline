@@ -55,9 +55,8 @@ $(function () {
     websocketGame.socket.on('mediumReset', function (player) {
         if (myself.figure === player.figure) {
             myself = player;
-            console.log("I am " + myself.figure + " and my new position is: " + myself.position.x + "_" + myself.position.y);
+            console.log(myself.figure + " new position is: " + myself.position.x + "_" + myself.position.y);
         }
-        console.log(player.figure + "is now at position" + player.position.x + "_" + player.position.y);
         mediumReset(player);
     });
 

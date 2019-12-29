@@ -74,7 +74,7 @@ function resetPlayers() {
 
 function mediumReset(player) {
     console.log("Adding player to position " + player.position.x + "_" + player.position.y);
-    $("#" + player.figure).appendTo($("#" + player.position.x + "_" + player.position.y));
+    $("#" + player.figure).appendTo($("#" + player.position.y + "_" + player.position.x));
 }
 
 var myFigure;
@@ -580,6 +580,7 @@ function loadCharacterSelection(availableCharacters) {
 }
 
 function showTime() {
+    let isMedium = false;
     let s = 0;
     let m = 0;
     let ss = 0;
@@ -596,8 +597,9 @@ function showTime() {
         if (s > 9) {
             ss = '';
         }
-        if (m === 1) {
+        if (m === 1 && !isMedium) {
             clock.css("background-image", "url(../assets/ui/clock_bg_medium.png)");
+            isMedium = true;
             levelMedium();
         }
         if (m === 6) {
