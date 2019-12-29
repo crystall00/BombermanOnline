@@ -52,6 +52,13 @@ $(function () {
         startGame();
     });
 
+    websocketGame.socket.on('playerWon', function (player) {
+        if (myself.figure === player) {
+            myself.alive = false;
+        }
+        playerWon(player);
+    });
+
     websocketGame.socket.on('mediumReset', function (player) {
         if (myself.figure === player.figure) {
             myself = player;

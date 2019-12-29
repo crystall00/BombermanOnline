@@ -17,11 +17,11 @@ var userCount = 0;
 var roomCount = 0;
 var availableCharacters = [1, 1, 1, 1];
 
-//app.use(express.static(parentDir + '/client'));
+app.use(express.static(parentDir + '/client'));
 
-app.use(express.static(path.join(parentDir, 'client'), {
+/*app.use(express.static(path.join(parentDir, 'client'), {
     maxAge: cacheTime
-}));
+}));*/
 
 http.listen(3002, function () {
     console.log('listening on *:3002');
@@ -79,6 +79,9 @@ function onConnect(socket) {
             if (room.users.length === 4) {
                 availableCharacters = [1, 1, 1, 1];
                 io.in(room.name).emit('startGame', "");
+                for (let i = 0; i < room.users.length; i++) {
+                    room.users[i].alive = true;
+                }
             }
             console.log("Available characters: " + availableCharacters);
             io.in(room.name).emit('availableCharacters', availableCharacters);
@@ -159,8 +162,38 @@ function onConnect(socket) {
         room.field[msg.X][msg.Y] = 0;
     });
     socket.on('updatePlayer', function (player) {
-        console.log(JSON.stringify(player) + " lost the game!");
+        let self = this;
+        let rooms = Object.keys(self.rooms);
+        let roomName = rooms[1];
+        console.log("############## Room Name: " + roomName);
+        let room = roomList.getRoom(roomName);
+        let user = room.users.find(function (element) {
+            return element.socketId === self.id.trim();
+        });
+        console.log("Player '" + user.name + "' is no more alive.");
+        user.alive = false;
+        let position = room.users.indexOf(user);
+        console.log("The position is: " + position);
+        room.users[position].alive = false;
+        console.log(JSON.stringify(user) + " lost the game!");
         io.in(player.room).emit('updatePlayer', player);
+        let usersAlive = 0;
+        let userAlive = '';
+        for (let i = 0; i < room.users.length; i++) {
+            console.log(room.users[i].alive);
+            if (room.users[i].alive) {
+                usersAlive++;
+                userAlive = room.users[i].figure;
+            }
+        }
+        console.log("Currently alive: " + usersAlive);
+
+        if (usersAlive === 1) {
+            let message = userAlive + " has won the game!";
+            io.in(player.room).emit('botMessage', message);
+            io.in(player.room).emit('playerWon', userAlive);
+        }
+
     });
 
     socket.on('playerReset', function (player) {

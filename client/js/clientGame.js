@@ -665,3 +665,31 @@ function levelHard() {
     clockSound.setAttribute('src', '../assets/soundEffects/clock_fast.mp3');
     IGNITION_TIME = 1000;
 }
+
+function playerWon(player) {
+    console.log(player + " won !!!!");
+    myself.alive = false;
+    $("#modal-content").css("background-image", "url(\"../assets/ui/slice89_89_gameover.png");
+    $("#myModal").show();
+    $('.charOverview').each(function () {
+        $(this).hide();
+    });
+    let text = player + " has won the game !";
+    $("h2").text(text).textContent = text;
+    switch (player) {
+        case "cat":
+            $("#catCharacter").removeClass().removeAttr("class").removeAttr("style").addClass("winner");
+            break;
+        case "gorilla":
+            $("#gorillaCharacter").removeClass().removeAttr("class").removeAttr("style").addClass("winner");
+            break;
+        case "penguin":
+            $("#penguinCharacter").removeClass().removeAttr("class").removeAttr("style").addClass("winner");
+            break;
+        case "rabbit":
+            $("#rabbitCharacter").removeClass().removeAttr("class").removeAttr("style").addClass("winner");
+            break;
+        default:
+            break;
+    }
+}
