@@ -1,5 +1,7 @@
 var explosionSound = document.createElement('audio');
 explosionSound.setAttribute('src', '../assets/soundEffects/EXPLOSION Bang Rumbling Long Deep 02.ogg');
+var alarmSound = document.createElement('audio');
+alarmSound.setAttribute('src', '../assets/soundEffects/ALARM Alert Ringer Bell 07.ogg');
 var clockSound = document.createElement('audio');
 clockSound.setAttribute('src', '../assets/soundEffects/clock.mp3');
 var dropSound = document.createElement('audio');
@@ -622,6 +624,7 @@ function showTime() {
 }
 
 function levelMedium() {
+    alarmSound.play();
     for (let x = 1; x < 14; x++) {
         if (x < 3) {
             for (let y = 1; y < 14; y++) {
@@ -662,6 +665,7 @@ function levelMedium() {
 }
 
 function levelHard() {
+    alarmSound.play();
     clockSound.setAttribute('src', '../assets/soundEffects/clock_fast.mp3');
     IGNITION_TIME = 1000;
 }
