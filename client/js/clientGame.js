@@ -624,6 +624,10 @@ function showTime() {
 }
 
 function levelMedium() {
+    $('audio').each(function () {
+        this.pause(); // Stop playing
+        this.currentTime = 0; // Reset time
+    });
     alarmSound.play();
     for (let x = 1; x < 14; x++) {
         if (x < 3) {
@@ -665,6 +669,10 @@ function levelMedium() {
 }
 
 function levelHard() {
+    $('audio').each(function () {
+        this.pause(); // Stop playing
+        this.currentTime = 0; // Reset time
+    });
     alarmSound.play();
     clockSound.setAttribute('src', '../assets/soundEffects/clock_fast.mp3');
     IGNITION_TIME = 1000;
