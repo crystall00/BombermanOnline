@@ -40,7 +40,7 @@ $(function () {
     });
 
     websocketGame.socket.on('updatePlayer', function (player) {
-        console.log(player.figure + " lost! Removing the player from field.");
+        console.log(player.figure + " lost!");
         loseAnimation(player.figure);
     });
 

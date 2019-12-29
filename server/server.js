@@ -74,7 +74,7 @@ function onConnect(socket) {
             let rooms = Object.keys(socket.rooms);
             user.assignToRoom(room.name);
             socket.emit('passIdentity', user);
-            socket.emit('updatePlayer', room);
+            //socket.emit('updatePlayer', room);
             let message = user.name + ' joined ' + user.room + '. Total user count: ' + room.users.length;
             if (room.users.length === 4) {
                 availableCharacters = [1, 1, 1, 1];
@@ -93,23 +93,22 @@ function onConnect(socket) {
         let roomName = rooms[1];
 
         let room = roomList.getRoom(roomName);
+        if (typeof room !== "undefined") {
+            let user = room.users.find(function (element) {
+                return element.socketId === self.id.trim();
+            });
 
-        let user = room.users.find(function (element) {
-            return element.socketId === self.id.trim();
-        });
-        console.log(user.name + " left " + room.name);
-        room.removeUser(user);
-        userCount--;
-
-        if (room.users.length === 0) {
-            roomList.removeRoom(room);
-            roomCount--;
+            console.log(user.name + " left " + room.name);
+            room.removeUser(user);
+            userCount--;
+            let message = 'User ' + user.name + ' left ' + room.name + 'Total user count: ' + room.users.length;
+            io.in(room.name).emit('botMessage', message);
+            console.log(message);
+            if (room.users.length === 0) {
+                roomList.removeRoom(room);
+                roomCount--;
+            }
         }
-
-        let message = 'User ' + user.name + ' left ' + room.name + 'Total user count: ' + room.users.length;
-        io.in(room.name).emit('botMessage', message);
-        console.log(message);
-
     });
 
     socket.on('requestField', function (msg) {
@@ -126,7 +125,6 @@ function onConnect(socket) {
     });
 
     socket.on('requestPosition', function (msg) {
-        console.log(msg.from.figure + " wants to move " + msg.message);
 
         switch (msg.message) {
             case "left":
@@ -144,11 +142,12 @@ function onConnect(socket) {
             default:
                 break;
         }
+        console.log(msg.from.figure + " moving " + msg.message + " to position: #" + msg.from.position.x + "_" + msg.from.position.y);
         io.in(msg.from.room).emit('confirmPosition', msg);
     });
 
     socket.on('requestBombDrop', function (msg) {
-        console.log(msg.from.figure + "Dropping bomb at " + msg.from.position.x + "/" + msg.from.position.y);
+        console.log(msg.from.figure + " dropping bomb at #" + msg.from.position.x + "_" + msg.from.position.y);
         io.in(msg.from.room).emit('confirmBombDrop', msg);
     });
 
@@ -160,7 +159,7 @@ function onConnect(socket) {
         room.field[msg.X][msg.Y] = 0;
     });
     socket.on('updatePlayer', function (player) {
-        console.log(JSON.stringify(player));
+        console.log(JSON.stringify(player) + " lost the game!");
         io.in(player.room).emit('updatePlayer', player);
     });
 

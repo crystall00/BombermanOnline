@@ -8,6 +8,8 @@ var crySound = document.createElement('audio');
 crySound.setAttribute('src', '../assets/soundEffects/VOCAL CUTE Call Angry 01.ogg');
 var backgroundMusic = document.createElement('audio');
 
+var IGNITION_TIME = 4000;
+
 var catImg = document.createElement("div");
 $(catImg).attr("id", "cat");
 //$(catImg).attr("src", "../assets/player/cat_000_50x50.png");
@@ -150,11 +152,6 @@ $(document).ready(function () { // When the DOM is Ready, then bind the click
             charChosen = true;
         }
     });
-
-    interval.make(function () {
-        gotHit();
-    }, 250);
-
 
     $("#playMusic").click(function () {
         if (backgroundMusic.paused === true) {
@@ -370,7 +367,7 @@ $(document).on('keydown', function (e) {
             return false;
         }
 
-        let currentField = $("#" + myself.position.y + "_" + myself.position.x);
+        let currentField = $("#" + myself.position.y + "_" + myself.position.x + "_sub");
 
         if (!$(currentField).hasClass("bomb")) {
             //dropSound.play();
@@ -480,7 +477,7 @@ function layBomb(position) {
             start: function () {
                 clockSound.play();
             },
-            duration: 4000,
+            duration: IGNITION_TIME,
             complete: function () {
                 explosionSound.play();
                 $(this).removeClass("bomb").stop().animate(
@@ -561,6 +558,9 @@ function loseAnimation(figure) {
 function startGame() {
     myself.alive = true;
     $("#myModal").hide();
+    interval.make(function () {
+        gotHit();
+    }, 100);
     showTime();
 }
 
@@ -581,6 +581,7 @@ function loadCharacterSelection(availableCharacters) {
 
 function showTime() {
     let isMedium = false;
+    let isHard = false;
     let s = 0;
     let m = 0;
     let ss = 0;
@@ -602,8 +603,9 @@ function showTime() {
             isMedium = true;
             levelMedium();
         }
-        if (m === 6) {
+        if (m === 2 && !isHard) {
             clock.css("background-image", "url(../assets/ui/clock_bg_hard.png)");
+            isHard = true;
             levelHard();
         }
         if (m > 9) {
@@ -660,5 +662,6 @@ function levelMedium() {
 }
 
 function levelHard() {
-
+    clockSound.setAttribute('src', '../assets/soundEffects/clock_fast.mp3');
+    IGNITION_TIME = 1000;
 }
